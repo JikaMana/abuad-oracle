@@ -116,7 +116,11 @@ export async function authenticatedUser(req, required = true) {
     const { auth } = await firebaseServices();
     return await auth.verifyIdToken(match[1]);
   } catch (error) {
-    if (!required) throw error;
+    const code = String(error?.code || "");
+    const message = String(error?.message || "");
+    if (!code.startsWith("auth/") || /credential|access token|initializeApp/i.test(message)) {
+      error.config = true;
+    }
     throw error;
   }
 }
@@ -228,19 +232,22 @@ export async function recordPaidUsage(user, course, questionCount) {
   }
   const { db, FieldValue } = await firebaseBundle();
   const day = lagosDay();
-  await db.collection("oracleUsers").doc(user.uid).set(
-    {
-      email: user.email || null,
-      usage: {
-        paidQuestionsTotal: FieldValue.increment(questionCount),
-        paidQuestionsByDay: { [day]: FieldValue.increment(questionCount) },
-        paidQuestionsByCourse: { [course]: FieldValue.increment(questionCount) },
-        lastPaidPracticeAt: FieldValue.serverTimestamp(),
+  await db
+    .collection("oracleUsers")
+    .doc(user.uid)
+    .set(
+      {
+        email: user.email || null,
+        usage: {
+          paidQuestionsTotal: FieldValue.increment(questionCount),
+          paidQuestionsByDay: { [day]: FieldValue.increment(questionCount) },
+          paidQuestionsByCourse: { [course]: FieldValue.increment(questionCount) },
+          lastPaidPracticeAt: FieldValue.serverTimestamp(),
+        },
+        updatedAt: FieldValue.serverTimestamp(),
       },
-      updatedAt: FieldValue.serverTimestamp(),
-    },
-    { merge: true },
-  );
+      { merge: true },
+    );
 }
 
 export async function readSeen(uid) {
@@ -257,7 +264,10 @@ export async function readSeen(uid) {
 export async function writeSeen(uid, prompts) {
   const next = [];
   for (const prompt of prompts || []) {
-    const text = String(prompt || "").replace(/\s+/g, " ").trim().slice(0, 140);
+    const text = String(prompt || "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 140);
     if (text && !next.includes(text)) next.push(text);
   }
   if (!next.length || !uid) return;

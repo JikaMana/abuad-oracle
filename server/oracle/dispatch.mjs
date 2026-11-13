@@ -87,7 +87,10 @@ async function history(req, user) {
       topic: cleanString(answer.topic, 80),
       prompt: cleanString(answer.prompt, 2000),
       options: Array.isArray(answer.options)
-        ? answer.options.filter((option) => typeof option === "string").slice(0, 4).map((option) => option.slice(0, 500))
+        ? answer.options
+            .filter((option) => typeof option === "string")
+            .slice(0, 4)
+            .map((option) => option.slice(0, 500))
         : [],
       selected: Math.max(0, Math.min(Number(answer.selected) || 0, 3)),
       correctAnswer: Math.max(0, Math.min(Number(answer.correctAnswer) || 0, 3)),
@@ -150,10 +153,24 @@ export async function dispatchOracle(name, req) {
     if (req.headers.has("authorization")) {
       try {
         user = await authenticatedUser(req, false);
-      } catch {
+      } catch (error) {
+        const code = String(error?.code || "");
+        console.error(
+          "Sign-in verification failed",
+          code,
+          String(error?.message || "").slice(0, 300),
+        );
+        if (error?.config) {
+          return json(503, {
+            code: "config",
+            error: "Account verification is not set up correctly on the server.",
+          });
+        }
         return json(401, {
           code: "auth_required",
-          error: "Your sign-in has expired. Please sign in again.",
+          error: code.includes("id-token-expired")
+            ? "Your sign-in has expired. Please sign in again."
+            : "Your sign-in could not be verified. Please sign in again.",
         });
       }
     }

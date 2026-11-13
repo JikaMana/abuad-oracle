@@ -216,9 +216,26 @@
   }
 
   /* ---------- server ---------- */
+  function tokenStale(token) {
+    try {
+      var part = String(token || "").split(".")[1];
+      if (!part) return true;
+      var payload = JSON.parse(atob(part.replace(/-/g, "+").replace(/_/g, "/")));
+      return !payload.exp || payload.exp * 1000 < Date.now() + 5 * 60 * 1000;
+    } catch (error) {
+      return true;
+    }
+  }
+  async function idToken(force) {
+    if (!app.user || !app.user.getIdToken) return "";
+    var token = await app.user.getIdToken(false);
+    if (force || tokenStale(token)) token = await app.user.getIdToken(true);
+    return token;
+  }
   async function headers(extra) {
     var h = { "Content-Type": "application/json" };
-    if (app.user) h.Authorization = "Bearer " + (await app.user.getIdToken());
+    var token = await idToken(false);
+    if (token) h.Authorization = "Bearer " + token;
     return Object.assign(h, extra || {});
   }
   async function loadConfig() {
@@ -323,6 +340,7 @@
 
   async function fetchBatch(s, size, batchNo) {
     var attempt = 0;
+    var tokenRefreshed = false;
     while (attempt < 4) {
       if (s.cancelled) throw new Error("cancelled");
       attempt++;
@@ -359,6 +377,21 @@
           app.subjectsUsed = body.subjectsUsed || app.subjectsUsed;
         }
         return body.questions;
+      }
+      if (res && res.status === 401 && body.code === "auth_required") {
+        if (!tokenRefreshed && app.user && app.user.getIdToken) {
+          tokenRefreshed = true;
+          try {
+            await app.user.getIdToken(true);
+            continue;
+          } catch (refreshError) {
+            /* The refresh token is gone. Ask them to sign in again. */
+          }
+        }
+        openAccount();
+        var authErr = new Error(body.error || "Your sign-in has expired. Please sign in again.");
+        authErr.fatal = true;
+        throw authErr;
       }
       if (res && body.code === "subject_limit") {
         app.subjectsUsed = body.subjectsUsed || app.freeCoursesDaily;
@@ -1512,6 +1545,9 @@
           auth.onAuthStateChanged(function (user) {
             app.user = user;
             Promise.resolve()
+              .then(function () {
+                if (user && user.getIdToken) return user.getIdToken(true);
+              })
               .then(refreshAccount)
               .then(verifyPaymentReturn)
               .then(function () {
