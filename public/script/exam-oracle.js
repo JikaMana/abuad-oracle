@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var ENDPOINT = "/.netlify/functions/generate-questions";
+  var ENDPOINT = "/api/generate-questions";
   var HISTORY_CACHE_TTL = 2 * 60 * 1000;
   var CHUNK = 3; // questions per request (must match server CHUNK_MAX)
   var CONCURRENCY = 2; // parallel requests; keeps us under Gemini's free-tier rate limits
@@ -119,8 +119,7 @@
   }
   function store(key, value) {
     try {
-      if (value === undefined)
-        return JSON.parse(localStorage.getItem(key) || "null");
+      if (value === undefined) return JSON.parse(localStorage.getItem(key) || "null");
       if (value === null) localStorage.removeItem(key);
       else localStorage.setItem(key, JSON.stringify(value));
     } catch (e) {
@@ -133,9 +132,7 @@
   function readHistoryCache() {
     if (!app.user) return null;
     try {
-      var cached = JSON.parse(
-        sessionStorage.getItem(historyCacheKey()) || "null",
-      );
+      var cached = JSON.parse(sessionStorage.getItem(historyCacheKey()) || "null");
       if (cached && Array.isArray(cached.tests)) return cached;
       return readDurableHistory();
     } catch (error) {
@@ -187,8 +184,7 @@
   function notify(message, opts) {
     opts = opts || {};
     el.notice.hidden = false;
-    el.notice.className =
-      "oracle-notice" + (opts.tone ? " is-" + opts.tone : "");
+    el.notice.className = "oracle-notice" + (opts.tone ? " is-" + opts.tone : "");
     el.notice.innerHTML =
       "<span>" +
       esc(message) +
@@ -196,8 +192,7 @@
       (opts.register
         ? ' <a href="/exam-oracle.html#upgrade">Upgrade to paid access <span aria-hidden="true">→</span></a>'
         : "");
-    if (!opts.quiet)
-      el.notice.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (!opts.quiet) el.notice.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
   function clearNotice() {
     el.notice.hidden = true;
@@ -215,12 +210,9 @@
     return app.paid ? MAX_PAID : Math.min(app.freeDaily, remaining(courseId));
   }
   function chosenTopics() {
-    return Array.prototype.map.call(
-      el.topics.querySelectorAll("input:checked"),
-      function (i) {
-        return i.value;
-      },
-    );
+    return Array.prototype.map.call(el.topics.querySelectorAll("input:checked"), function (i) {
+      return i.value;
+    });
   }
 
   /* ---------- server ---------- */
@@ -252,13 +244,7 @@
     el.course.innerHTML = app.courses
       .map(function (c) {
         return (
-          '<option value="' +
-          esc(c.id) +
-          '">' +
-          esc(c.label) +
-          " · " +
-          esc(c.name) +
-          "</option>"
+          '<option value="' + esc(c.id) + '">' + esc(c.label) + " · " + esc(c.name) + "</option>"
         );
       })
       .join("");
@@ -292,16 +278,13 @@
     var topics = chosenTopics().length;
     $("sum-course").textContent = c.label + " · " + c.name;
     $("sum-topics").textContent = topics + " of " + c.topics.length;
-    $("sum-count").textContent =
-      Math.min(Number(el.count.value) || 0, Math.max(max, 0)) || "0";
+    $("sum-count").textContent = Math.min(Number(el.count.value) || 0, Math.max(max, 0)) || "0";
     var meter = $("quota-meter");
     var note = $("question-limit-note");
     var courseLimitReached = false;
     if (app.paid) {
       meter.hidden = true;
-      $("plan-badge").textContent = app.sitewidePremium
-        ? "Free through 20 Nov"
-        : "Full access";
+      $("plan-badge").textContent = app.sitewidePremium ? "Free through 20 Nov" : "Full access";
       note.textContent = app.sitewidePremium
         ? promoSentence() + " Up to " + MAX_PAID + " questions per test."
         : "Up to " + MAX_PAID + " questions per test, any day.";
@@ -310,20 +293,11 @@
       $("plan-badge").textContent = "Free plan";
       var used = app.freeDaily - left;
       $("quota-text").textContent =
-        left +
-        " of " +
-        app.freeDaily +
-        " free " +
-        c.label +
-        " questions left today";
+        left + " of " + app.freeDaily + " free " + c.label + " questions left today";
       meter
         .querySelector("i")
-        .style.setProperty(
-          "--score",
-          Math.round((used / app.freeDaily) * 100) + "%",
-        );
-      courseLimitReached =
-        !(app.used[c.id] > 0) && app.subjectsUsed >= app.freeCoursesDaily;
+        .style.setProperty("--score", Math.round((used / app.freeDaily) * 100) + "%");
+      courseLimitReached = !(app.used[c.id] > 0) && app.subjectsUsed >= app.freeCoursesDaily;
       note.textContent = courseLimitReached
         ? "You've used all " +
           app.freeCoursesDaily +
@@ -400,10 +374,7 @@
         err.quota = true;
         throw err;
       }
-      if (
-        res &&
-        (res.status === 403 || (res.status === 503 && body.code === "config"))
-      ) {
+      if (res && (res.status === 403 || (res.status === 503 && body.code === "config"))) {
         var fatal = new Error(
           res.status === 503 && body.code === "config"
             ? "Exam Oracle isn't configured yet."
@@ -424,9 +395,7 @@
         var retryDelay = Math.min(8000, 1200 * Math.pow(2, attempt - 1));
         await sleep(retryDelay + Math.floor(Math.random() * 500));
       } else if (!transient) {
-        var requestErr = new Error(
-          body.error || "The request could not be completed.",
-        );
+        var requestErr = new Error(body.error || "The request could not be completed.");
         requestErr.fatal = true;
         throw requestErr;
       }
@@ -438,7 +407,7 @@
     test.activityQueue = (test.activityQueue || Promise.resolve())
       .catch(function () {})
       .then(async function () {
-        var res = await fetch("/.netlify/functions/test-history", {
+        var res = await fetch("/api/test-history", {
           method: "POST",
           headers: await headers(),
           body: JSON.stringify(
@@ -521,10 +490,7 @@
     if (!app.user) {
       app.pendingTest = false;
       openAccount();
-      accountStatus(
-        "Create an account or sign in before starting a test.",
-        "bad",
-      );
+      accountStatus("Create an account or sign in before starting a test.", "bad");
       return;
     }
     var c = currentCourse();
@@ -540,11 +506,7 @@
       return notify("Enter a question count of at least 1.", { tone: "warn" });
 
     var left = remaining(c.id);
-    if (
-      !app.paid &&
-      !(app.used[c.id] > 0) &&
-      app.subjectsUsed >= app.freeCoursesDaily
-    ) {
+    if (!app.paid && !(app.used[c.id] > 0) && app.subjectsUsed >= app.freeCoursesDaily) {
       return notify(
         "You've used all " +
           app.freeCoursesDaily +
@@ -662,16 +624,12 @@
     $("step-solution").hidden = true;
     $("step-solution").innerHTML = "";
     $("next-question").disabled = true;
-    $("next-label").textContent =
-      s.index + 1 >= s.total ? "See my report" : "Next question";
-    Array.prototype.forEach.call(
-      document.querySelectorAll(".oracle-answer-option"),
-      function (b) {
-        b.addEventListener("click", function () {
-          answerQuestion(Number(b.dataset.answer));
-        });
-      },
-    );
+    $("next-label").textContent = s.index + 1 >= s.total ? "See my report" : "Next question";
+    Array.prototype.forEach.call(document.querySelectorAll(".oracle-answer-option"), function (b) {
+      b.addEventListener("click", function () {
+        answerQuestion(Number(b.dataset.answer));
+      });
+    });
     $("question-prompt").focus({ preventScroll: true });
   }
 
@@ -695,19 +653,15 @@
     }).catch(function (error) {
       console.warn("Could not save answer activity", error?.message);
     });
-    Array.prototype.forEach.call(
-      document.querySelectorAll(".oracle-answer-option"),
-      function (b) {
-        b.disabled = true;
-        var v = Number(b.dataset.answer);
-        if (v === q.answer) b.classList.add("is-correct");
-        if (v === selected && !correct) b.classList.add("is-wrong");
-      },
-    );
+    Array.prototype.forEach.call(document.querySelectorAll(".oracle-answer-option"), function (b) {
+      b.disabled = true;
+      var v = Number(b.dataset.answer);
+      if (v === q.answer) b.classList.add("is-correct");
+      if (v === selected && !correct) b.classList.add("is-wrong");
+    });
     var fb = $("answer-feedback");
     fb.hidden = false;
-    fb.className =
-      "oracle-answer-feedback " + (correct ? "is-correct" : "is-wrong");
+    fb.className = "oracle-answer-feedback " + (correct ? "is-correct" : "is-wrong");
     fb.textContent = correct
       ? "Correct. Nice work."
       : "Not quite. The correct answer is " +
@@ -741,8 +695,7 @@
     }).catch(function (error) {
       console.warn("Could not save solution activity", error?.message);
     });
-    if (!session.paid && session.solutionsViewed === 2)
-      setTimeout(showRegister, 250);
+    if (!session.paid && session.solutionsViewed === 2) setTimeout(showRegister, 250);
   }
   function showRegister() {
     $("register-prompt").hidden = false;
@@ -778,11 +731,9 @@
     if (session) {
       session.cancelled = true;
       if (!session.completed) {
-        queueTestActivity(session, { action: "abandon" }).catch(
-          function (error) {
-            console.warn("Could not save test abandonment", error?.message);
-          },
-        );
+        queueTestActivity(session, { action: "abandon" }).catch(function (error) {
+          console.warn("Could not save test abandonment", error?.message);
+        });
       }
     }
     el.test.hidden = true;
@@ -906,12 +857,9 @@
     if (rw)
       rw.addEventListener("click", function () {
         endSession();
-        Array.prototype.forEach.call(
-          el.topics.querySelectorAll("input"),
-          function (i) {
-            i.checked = weak.indexOf(i.value) !== -1;
-          },
-        );
+        Array.prototype.forEach.call(el.topics.querySelectorAll("input"), function (i) {
+          i.checked = weak.indexOf(i.value) !== -1;
+        });
         refreshSummary();
       });
     el.results.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -955,19 +903,14 @@
       .slice(0, 6)
       .map(function (test) {
         var dateValue = test.completedAt || test.date;
-        var timestamp =
-          dateValue && (dateValue._seconds || dateValue.seconds || dateValue);
+        var timestamp = dateValue && (dateValue._seconds || dateValue.seconds || dateValue);
         var dateNumber = Number(timestamp);
-        var date = timestamp
-          ? new Date(dateNumber < 1e12 ? dateNumber * 1000 : dateNumber)
-          : null;
+        var date = timestamp ? new Date(dateNumber < 1e12 ? dateNumber * 1000 : dateNumber) : null;
         return (
           '<article class="oracle-recent-item"><strong>' +
           esc(test.course) +
           "</strong><span>" +
-          (date && !Number.isNaN(date.getTime())
-            ? date.toLocaleDateString()
-            : "Just completed") +
+          (date && !Number.isNaN(date.getTime()) ? date.toLocaleDateString() : "Just completed") +
           " · " +
           Number(test.correct || 0) +
           "/" +
@@ -989,9 +932,7 @@
     var totals = {};
     app.history.forEach(function (test) {
       (test.topicResults || []).forEach(function (result) {
-        var item =
-          totals[result.name] ||
-          (totals[result.name] = { correct: 0, total: 0 });
+        var item = totals[result.name] || (totals[result.name] = { correct: 0, total: 0 });
         item.correct += Number(result.correct) || 0;
         item.total += Number(result.total) || 0;
       });
@@ -1082,7 +1023,7 @@
       if (cacheFresh) return;
     }
     try {
-      var res = await fetch("/.netlify/functions/test-history", {
+      var res = await fetch("/api/test-history", {
         headers: await headers(),
       });
       var data = await res.json();
@@ -1108,9 +1049,7 @@
   }
   function updateProfileHistory(data) {
     var until = data.premiumUntil ? new Date(data.premiumUntil) : null;
-    $("profile-premium-expiry").textContent = until
-      ? "Until " + until.toLocaleDateString()
-      : "";
+    $("profile-premium-expiry").textContent = until ? "Until " + until.toLocaleDateString() : "";
     var today = new Date(Date.now() + 3600 * 1000).toISOString().slice(0, 10);
     var usage = data.usage || {};
     var todayUsage = usage.paidQuestionsByDay || {};
@@ -1161,7 +1100,7 @@
           console.warn("Some test activity did not sync", error?.message);
         });
       }
-      var res = await fetch("/.netlify/functions/test-history", {
+      var res = await fetch("/api/test-history", {
         method: "POST",
         headers: await headers(),
         body: JSON.stringify({
@@ -1200,9 +1139,7 @@
       renderTestHistory();
       var saveStatus = $("history-save-status");
       if (saveStatus) {
-        saveStatus.textContent = app.localMode
-          ? "Saved on this device."
-          : "Saved to your account.";
+        saveStatus.textContent = app.localMode ? "Saved on this device." : "Saved to your account.";
       }
       var retrySave = $("retry-history-save");
       if (retrySave) retrySave.hidden = true;
@@ -1219,9 +1156,7 @@
     $("account-trigger-label").textContent = app.user
       ? app.user.displayName || app.user.email || "Profile"
       : "Sign in";
-    $("account-email").textContent = app.user
-      ? app.user.email || "Signed in"
-      : "";
+    $("account-email").textContent = app.user ? app.user.email || "Signed in" : "";
     $("account-auth-view").hidden = !!app.user;
     $("account-profile-view").hidden = !app.user;
     var hideCommerce = app.paid && !app.sitewidePremium;
@@ -1273,25 +1208,19 @@
     }
     accountStatus(createAccount ? "Creating account…" : "Signing in…");
     try {
-      if (createAccount)
-        await auth.createUserWithEmailAndPassword(email, password);
+      if (createAccount) await auth.createUserWithEmailAndPassword(email, password);
       else await auth.signInWithEmailAndPassword(email, password);
       accountStatus(createAccount ? "Account created." : "Signed in.", "ok");
       $("account-dialog").close();
     } catch (error) {
       var messages = {
-        "auth/email-already-in-use":
-          "An account already uses this email. Sign in instead.",
+        "auth/email-already-in-use": "An account already uses this email. Sign in instead.",
         "auth/invalid-email": "Enter a valid email address.",
         "auth/weak-password": "Choose a password with at least 6 characters.",
         "auth/invalid-credential": "Email or password is incorrect.",
-        "auth/operation-not-allowed":
-          "Email sign-in is not enabled in Firebase yet.",
+        "auth/operation-not-allowed": "Email sign-in is not enabled in Firebase yet.",
       };
-      accountStatus(
-        messages[error.code] || "Couldn't complete sign-in. Please try again.",
-        "bad",
-      );
+      accountStatus(messages[error.code] || "Couldn't complete sign-in. Please try again.", "bad");
     }
   }
   async function beginPayment() {
@@ -1313,14 +1242,13 @@
           topics: chosenTopics(),
         }),
       );
-      var res = await fetch("/.netlify/functions/paystack-initialize", {
+      var res = await fetch("/api/paystack-initialize", {
         method: "POST",
         headers: await headers(),
         body: JSON.stringify({}),
       });
       var data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Payment couldn't be started.");
+      if (!res.ok) throw new Error(data.error || "Payment couldn't be started.");
       window.location.assign(data.authorizationUrl);
     } catch (error) {
       sessionStorage.removeItem("oracle_checkout_return");
@@ -1330,9 +1258,7 @@
   function restoreCheckoutReturn() {
     var saved;
     try {
-      saved = JSON.parse(
-        sessionStorage.getItem("oracle_checkout_return") || "null",
-      );
+      saved = JSON.parse(sessionStorage.getItem("oracle_checkout_return") || "null");
     } catch (error) {
       saved = null;
     }
@@ -1346,12 +1272,9 @@
     ) {
       el.course.value = saved.course;
       renderTopics();
-      Array.prototype.forEach.call(
-        el.topics.querySelectorAll("input"),
-        function (input) {
-          input.checked = (saved.topics || []).indexOf(input.value) !== -1;
-        },
-      );
+      Array.prototype.forEach.call(el.topics.querySelectorAll("input"), function (input) {
+        input.checked = (saved.topics || []).indexOf(input.value) !== -1;
+      });
       if (saved.count) el.count.value = saved.count;
       refreshSummary();
     }
@@ -1372,22 +1295,17 @@
     }
     accountStatus("Verifying your Paystack payment…");
     try {
-      var res = await fetch("/.netlify/functions/paystack-verify", {
+      var res = await fetch("/api/paystack-verify", {
         method: "POST",
         headers: await headers(),
         body: JSON.stringify({ reference: reference }),
       });
       var data = await res.json();
-      if (!res.ok)
-        throw new Error(data.error || "Payment verification failed.");
+      if (!res.ok) throw new Error(data.error || "Payment verification failed.");
       var cached = readHistoryCache() || { tests: [], usage: {} };
       cached.premiumUntil = data.premiumUntil;
       writeHistoryCache(cached);
-      window.history.replaceState(
-        {},
-        "",
-        window.location.pathname + window.location.hash,
-      );
+      window.history.replaceState({}, "", window.location.pathname + window.location.hash);
       await refreshAccount();
       accountStatus(
         "Payment confirmed. Premium access is active until " +
@@ -1396,10 +1314,7 @@
         "ok",
       );
     } catch (error) {
-      accountStatus(
-        error.message || "Payment verification failed. Please retry.",
-        "bad",
-      );
+      accountStatus(error.message || "Payment verification failed. Please retry.", "bad");
     }
   }
 
@@ -1428,21 +1343,15 @@
   el.count.addEventListener("input", refreshSummary);
   el.topics.addEventListener("change", refreshSummary);
   $("topics-all").addEventListener("click", function () {
-    Array.prototype.forEach.call(
-      el.topics.querySelectorAll("input"),
-      function (i) {
-        i.checked = true;
-      },
-    );
+    Array.prototype.forEach.call(el.topics.querySelectorAll("input"), function (i) {
+      i.checked = true;
+    });
     refreshSummary();
   });
   $("topics-none").addEventListener("click", function () {
-    Array.prototype.forEach.call(
-      el.topics.querySelectorAll("input"),
-      function (i) {
-        i.checked = false;
-      },
-    );
+    Array.prototype.forEach.call(el.topics.querySelectorAll("input"), function (i) {
+      i.checked = false;
+    });
     refreshSummary();
   });
   el.start.addEventListener("click", function () {
@@ -1534,8 +1443,7 @@
   });
   // CBT-style keyboard: A-D answer, Enter / right arrow next
   document.addEventListener("keydown", function (e) {
-    if (!session || el.test.hidden || e.ctrlKey || e.metaKey || e.altKey)
-      return;
+    if (!session || el.test.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
     var tag = (e.target.tagName || "").toLowerCase();
     if (tag === "input" || tag === "textarea") return;
     var k = e.key.toLowerCase();
@@ -1560,10 +1468,7 @@
         upgradeLink.href = "#setup";
         upgradeLink.removeAttribute("target");
         upgradeLink.removeAttribute("rel");
-        upgradeLink.setAttribute(
-          "aria-label",
-          "Full access is free through 20 November 2026",
-        );
+        upgradeLink.setAttribute("aria-label", "Full access is free through 20 November 2026");
       }
       var premiumLabel = $("nav-premium-label");
       if (premiumLabel) premiumLabel.textContent = "Free through 20 Nov";
@@ -1600,10 +1505,7 @@
         try {
           await auth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
         } catch (error) {
-          console.warn(
-            "Firebase auth persistence could not be set",
-            error?.message,
-          );
+          console.warn("Firebase auth persistence could not be set", error?.message);
         }
         await new Promise(function (resolve) {
           var firstAuthState = true;
@@ -1625,10 +1527,7 @@
                 }
               })
               .catch(function () {
-                accountStatus(
-                  "Account access could not be loaded. Refresh and try again.",
-                  "bad",
-                );
+                accountStatus("Account access could not be loaded. Refresh and try again.", "bad");
                 if (firstAuthState) {
                   firstAuthState = false;
                   resolve();
@@ -1639,10 +1538,10 @@
         finishBootChrome();
       }
     } catch (e) {
-      notify(
-        "Exam Oracle couldn't load its courses. Check your connection and refresh the page.",
-        { tone: "warn", quiet: true },
-      );
+      notify("Exam Oracle couldn't load its courses. Check your connection and refresh the page.", {
+        tone: "warn",
+        quiet: true,
+      });
     }
     icons();
     if (
