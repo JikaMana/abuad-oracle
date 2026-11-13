@@ -163,7 +163,8 @@ export async function dispatchOracle(name, req) {
         if (error?.config) {
           return json(503, {
             code: "config",
-            error: "Account verification is not set up correctly on the server.",
+            error:
+              error.publicMessage || "Account verification is not set up correctly on the server.",
           });
         }
         return json(401, {

@@ -74,6 +74,60 @@ function memoryUser(uid) {
   return memory.get(uid);
 }
 
+function parseServiceAccount(raw) {
+  let text = String(raw || "")
+    .trim()
+    .replace(/^\uFEFF/, "");
+  if (!text) {
+    const error = new Error("FIREBASE_SERVICE_ACCOUNT is empty.");
+    error.config = true;
+    error.publicMessage = "FIREBASE_SERVICE_ACCOUNT is empty on the server.";
+    throw error;
+  }
+  const candidates = [text];
+  if (
+    (text.startsWith('"') && text.endsWith('"')) ||
+    (text.startsWith("'") && text.endsWith("'"))
+  ) {
+    candidates.push(text.slice(1, -1));
+  }
+  if (/[\r\n]/.test(text)) candidates.push(text.replace(/\r?\n/g, "\\n"));
+
+  let parsed;
+  for (const candidate of candidates) {
+    try {
+      let value = JSON.parse(candidate);
+      if (typeof value === "string") value = JSON.parse(value);
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        parsed = value;
+        break;
+      }
+    } catch {
+      parsed = undefined;
+    }
+  }
+  if (!parsed) {
+    const error = new Error("FIREBASE_SERVICE_ACCOUNT is not valid JSON.");
+    error.config = true;
+    error.publicMessage =
+      "FIREBASE_SERVICE_ACCOUNT is not valid JSON. Paste the downloaded key as one line, with no extra quotes around it.";
+    throw error;
+  }
+  const privateKey = String(parsed.private_key || "").replace(/\\n/g, "\n");
+  if (!parsed.project_id || !parsed.client_email || !privateKey.includes("BEGIN PRIVATE KEY")) {
+    const error = new Error("FIREBASE_SERVICE_ACCOUNT is missing required fields.");
+    error.config = true;
+    error.publicMessage =
+      "The service account is missing project_id, client_email, or the private key. Paste the whole downloaded file, not only the key text.";
+    throw error;
+  }
+  return {
+    projectId: parsed.project_id,
+    clientEmail: parsed.client_email,
+    privateKey,
+  };
+}
+
 let firebasePromise;
 async function firebaseServices() {
   if (!firebasePromise) {
@@ -82,18 +136,28 @@ async function firebaseServices() {
       const { getAuth } = await import("firebase-admin/auth");
       const { getFirestore } = await import("firebase-admin/firestore");
       if (!getApps().length) {
-        const raw = process.env.FIREBASE_SERVICE_ACCOUNT;
-        if (!raw) throw new Error("FIREBASE_SERVICE_ACCOUNT is not configured.");
-        const serviceAccount = JSON.parse(raw);
-        initializeApp({
-          credential: cert({
-            ...serviceAccount,
-            privateKey: serviceAccount.private_key?.replace(/\\n/g, "\n"),
-          }),
-        });
+        const account = parseServiceAccount(process.env.FIREBASE_SERVICE_ACCOUNT);
+        try {
+          initializeApp({ credential: cert(account) });
+        } catch (error) {
+          console.error(
+            "Firebase admin init failed",
+            String(error?.message || "")
+              .replace(/-----BEGIN[\s\S]*-----END PRIVATE KEY-----/g, "[key]")
+              .slice(0, 180),
+          );
+          const wrapped = new Error("Firebase rejected the service account.");
+          wrapped.config = true;
+          wrapped.publicMessage =
+            "Firebase could not read the private key. Download a new key from project burhan-tutors-website and paste that whole file as one line.";
+          throw wrapped;
+        }
       }
       return { auth: getAuth(), db: getFirestore() };
-    })();
+    })().catch((error) => {
+      firebasePromise = undefined;
+      throw error;
+    });
   }
   return firebasePromise;
 }

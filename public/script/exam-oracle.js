@@ -240,6 +240,11 @@
   }
   async function loadConfig() {
     var res = await fetch(ENDPOINT, { headers: await headers() });
+    if (!res.ok && app.user) {
+      res = await fetch(ENDPOINT, {
+        headers: { "Content-Type": "application/json" },
+      });
+    }
     if (!res.ok) throw new Error("config " + res.status);
     var data = await res.json();
     app.courses = data.courses;
@@ -1184,14 +1189,25 @@
       $("retry-history-save").hidden = false;
     }
   }
-  async function refreshAccount() {
-    await loadConfig();
+  function paintAccount() {
     $("account-trigger-label").textContent = app.user
       ? app.user.displayName || app.user.email || "Profile"
       : "Sign in";
     $("account-email").textContent = app.user ? app.user.email || "Signed in" : "";
     $("account-auth-view").hidden = !!app.user;
     $("account-profile-view").hidden = !app.user;
+  }
+  async function refreshAccount() {
+    paintAccount();
+    try {
+      await loadConfig();
+    } catch (error) {
+      notify("You are signed in, but the server could not verify the account yet.", {
+        tone: "warn",
+        quiet: true,
+      });
+    }
+    paintAccount();
     var hideCommerce = app.paid && !app.sitewidePremium;
     $("profile-plan-label").textContent = app.sitewidePremium
       ? "Free through 20 Nov"
@@ -1243,6 +1259,8 @@
     try {
       if (createAccount) await auth.createUserWithEmailAndPassword(email, password);
       else await auth.signInWithEmailAndPassword(email, password);
+      app.user = auth.currentUser;
+      paintAccount();
       accountStatus(createAccount ? "Account created." : "Signed in.", "ok");
       $("account-dialog").close();
     } catch (error) {
@@ -1425,6 +1443,8 @@
     try {
       var provider = new window.firebase.auth.GoogleAuthProvider();
       await window.firebase.auth().signInWithPopup(provider);
+      app.user = window.firebase.auth().currentUser;
+      paintAccount();
       accountStatus("Signed in.", "ok");
       $("account-dialog").close();
     } catch (error) {
@@ -1544,6 +1564,7 @@
           var firstAuthState = true;
           auth.onAuthStateChanged(function (user) {
             app.user = user;
+            paintAccount();
             Promise.resolve()
               .then(function () {
                 if (user && user.getIdToken) return user.getIdToken(true);
