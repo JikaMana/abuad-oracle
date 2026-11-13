@@ -113,6 +113,6 @@ Do not claim a newly invented question is a verbatim past question.`,
 };
 
 export const FREE_DAILY = 10;
-export const FREE_COURSES_DAILY = 3;
-export const CHUNK_MAX = 3;
+export const FREE_COURSES_DAILY = 2;
+export const CHUNK_MAX = 5;
 export const PAID_TEST_MAX = 60;

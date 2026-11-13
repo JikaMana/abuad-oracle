@@ -3,8 +3,8 @@
 
   var ENDPOINT = "/api/generate-questions";
   var HISTORY_CACHE_TTL = 2 * 60 * 1000;
-  var CHUNK = 3; // questions per request (must match server CHUNK_MAX)
-  var CONCURRENCY = 2; // parallel requests; keeps us under Gemini's free-tier rate limits
+  var CHUNK = 5; // questions per request (must match server CHUNK_MAX)
+  var CONCURRENCY = 2; // parallel requests;
   var MAX_PAID = 60;
 
   var app = {
