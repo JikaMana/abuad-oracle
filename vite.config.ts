@@ -172,6 +172,8 @@ export default defineConfig(({ command, isPreview }) => ({
           nitro({
             preset: "netlify",
             serverDir: "./server",
+            // Keep these as real node_modules packages instead of bundling them
+            traceDeps: ["firebase-admin", "@opentelemetry/api"],
           }),
         ]
       : []),
