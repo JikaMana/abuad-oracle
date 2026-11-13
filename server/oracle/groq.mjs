@@ -1,5 +1,5 @@
 // @ts-nocheck
-import OpenAI from "openai";
+import Groq from "groq-sdk";
 
 const RESPONSE_HINT = `Return JSON only, with this shape:
 {"questions":[{"topic":"","prompt":"","options":["","","",""],"answer":0,"steps":["",""]}]}`;
@@ -7,7 +7,9 @@ const RESPONSE_HINT = `Return JSON only, with this shape:
 const KEY_SLOTS = 10;
 
 export function groqModel() {
-  return (process.env.GROQ_MODEL || "openai/gpt-oss-20b").split(",")[0].trim() || "openai/gpt-oss-20b";
+  return (
+    (process.env.GROQ_MODEL || "openai/gpt-oss-120b").split(",")[0].trim() || "openai/gpt-oss-120b"
+  );
 }
 
 export function groqKeys() {
@@ -65,12 +67,7 @@ function parseModelJson(text) {
 }
 
 function groqClient(apiKey) {
-  return new OpenAI({
-    apiKey,
-    baseURL: "https://api.groq.com/openai/v1",
-    timeout: 12000,
-    maxRetries: 0,
-  });
+  return new Groq({ apiKey });
 }
 
 function failure(error) {
