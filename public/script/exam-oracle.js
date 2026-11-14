@@ -1439,7 +1439,8 @@
     } catch (error) {
       paintClaim("desk-weekly", {
         title: "Weekly prize",
-        reward: "₦3,000 cash",
+        // reward: "₦3,000 cash",
+        reward: "",
         locked: true,
       });
       paintClaim("desk-monthly", {
