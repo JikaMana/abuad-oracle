@@ -579,7 +579,7 @@ export function siteOrigin(req) {
   return new URL(req.url).origin;
 }
 
-const PRICE_KOBO = 150000;
+const PRICE_KOBO = 120000;
 
 export async function grantPremium({ uid, email, reference, amount, currency }) {
   if (!firebaseConfigured() || String(uid).startsWith("local_")) {
