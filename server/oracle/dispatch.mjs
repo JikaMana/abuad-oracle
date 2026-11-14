@@ -10,6 +10,7 @@ import {
   verifyPayment,
 } from "./account.mjs";
 import { handleGenerate } from "./generate.mjs";
+import { leaderboardFor } from "./leaderboard.mjs";
 
 function cleanString(value, max) {
   return typeof value === "string" ? value.slice(0, max) : "";
@@ -134,6 +135,7 @@ async function history(req, user) {
     topic: activity.topic,
     topicResults: activity.topicResults,
     answers: activity.answers,
+    name: cleanString(input.name, 40),
   });
   return json(saved.status, { saved: true, id: saved.id });
 }
@@ -146,6 +148,24 @@ export async function dispatchOracle(name, req) {
 
   if (req.method !== "GET" && !originAllowed(req)) {
     return json(403, { error: "Request origin is not allowed." });
+  }
+
+  if (name === "leaderboard") {
+    if (req.method !== "GET") return json(405, { error: "Use GET." });
+    let viewer = null;
+    if (req.headers.has("authorization")) {
+      try {
+        viewer = await authenticatedUser(req, false);
+      } catch {
+        viewer = null;
+      }
+    }
+    try {
+      return json(200, await leaderboardFor(viewer?.uid || null));
+    } catch (error) {
+      console.error("Leaderboard failed", error?.message);
+      return json(503, { error: "The leaderboard could not be loaded." });
+    }
   }
 
   if (name === "generate-questions") {

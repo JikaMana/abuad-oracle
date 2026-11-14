@@ -916,22 +916,9 @@
   isolation: isolate;
   background-color: var(--ink);
   background-image:
-    radial-gradient(
-      60% 80% at 88% 10%,
-      rgba(193, 95, 60, 0.28),
-      transparent 60%
-    ),
-    radial-gradient(
-      50% 60% at 0% 100%,
-      rgba(115, 131, 107, 0.18),
-      transparent 70%
-    ),
-    linear-gradient(
-      90deg,
-      rgba(8, 20, 35, 0.96),
-      rgba(8, 20, 35, 0.88) 55%,
-      rgba(8, 20, 35, 0.7)
-    ),
+    radial-gradient(60% 80% at 88% 10%, rgba(193, 95, 60, 0.28), transparent 60%),
+    radial-gradient(50% 60% at 0% 100%, rgba(115, 131, 107, 0.18), transparent 70%),
+    linear-gradient(90deg, rgba(8, 20, 35, 0.96), rgba(8, 20, 35, 0.88) 55%, rgba(8, 20, 35, 0.7)),
     url("../images/hero.jpeg");
   background-position: center;
   background-size: auto, auto, auto, cover;
@@ -963,11 +950,7 @@
   padding: 1.75rem;
   border: 1px solid rgba(247, 246, 243, 0.16);
   border-radius: var(--r-lg);
-  background: linear-gradient(
-    160deg,
-    rgba(18, 40, 63, 0.82),
-    rgba(8, 20, 35, 0.82)
-  );
+  background: linear-gradient(160deg, rgba(18, 40, 63, 0.82), rgba(8, 20, 35, 0.82));
   box-shadow:
     0 1px 0 rgba(247, 246, 243, 0.08) inset,
     0 30px 60px rgba(0, 0, 0, 0.35);
@@ -1029,11 +1012,7 @@
   padding: 1.4rem 1.5rem;
   border: 1px solid rgba(193, 95, 60, 0.45);
   border-radius: var(--r-lg);
-  background: linear-gradient(
-    160deg,
-    rgba(193, 95, 60, 0.14),
-    rgba(193, 95, 60, 0.04)
-  );
+  background: linear-gradient(160deg, rgba(193, 95, 60, 0.14), rgba(193, 95, 60, 0.04));
 }
 .oracle-upgrade-inner > div:first-child > p:last-child {
   color: rgba(247, 246, 243, 0.72);
@@ -1204,28 +1183,11 @@ select.oracle-select {
   font-size: 0.78rem;
 }
 .oracle-topic-tag {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.45rem;
   padding: 0.4rem 0.75rem;
   border-radius: 999px;
   background: rgba(193, 95, 60, 0.12);
   color: var(--clay-deep);
   font-size: 0.78rem;
-}
-.oracle-origin-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.12rem 0.45rem;
-  border-radius: 999px;
-  background: var(--ink);
-  color: #fff;
-  font: 600 0.68rem "JetBrains Mono", monospace;
-  letter-spacing: 0.04em;
-}
-.oracle-origin-badge.is-pq {
-  background: var(--clay-deep);
 }
 #question-prompt {
   font-size: clamp(1.45rem, 3vw, 2rem);
@@ -1339,11 +1301,7 @@ select.oracle-select {
 .oracle-register-inline {
   border: 1px solid rgba(193, 95, 60, 0.35);
   border-radius: var(--r-lg);
-  background: linear-gradient(
-    160deg,
-    rgba(193, 95, 60, 0.1),
-    rgba(193, 95, 60, 0.03)
-  );
+  background: linear-gradient(160deg, rgba(193, 95, 60, 0.1), rgba(193, 95, 60, 0.03));
 }
 .oracle-welcome,
 .oracle-register-panel {
@@ -1486,5 +1444,197 @@ select.oracle-select {
   }
   .oracle-answer-option:hover {
     transform: none;
+  }
+}
+
+.oracle-board-tabs {
+  display: flex;
+  gap: 0.5rem;
+  width: fit-content;
+  padding: 0.3rem;
+  border: 1px solid var(--line-dark);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.oracle-board-tabs button {
+  min-height: 40px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font:
+    700 0.82rem Manrope,
+    sans-serif;
+  cursor: pointer;
+}
+.oracle-board-tabs button.is-active {
+  background: var(--clay);
+  color: #fff;
+}
+.oracle-board-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+  align-items: start;
+}
+.oracle-podium {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+  align-items: end;
+}
+.oracle-podium-card {
+  padding: 0.9rem;
+  border: 1px solid var(--line-dark);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.oracle-podium-card b {
+  display: block;
+  color: var(--clay-hi);
+  font:
+    700 0.75rem "JetBrains Mono",
+    monospace;
+}
+.oracle-podium-card strong {
+  display: block;
+  margin: 0.35rem 0 0.2rem;
+  color: #fff;
+}
+.oracle-podium-card span {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.85rem;
+}
+.oracle-podium-card.is-rank-1 {
+  min-height: 128px;
+  background: rgba(193, 95, 60, 0.18);
+}
+.oracle-podium-card.is-you,
+.oracle-table tr.is-you td {
+  outline: 1px solid rgba(193, 95, 60, 0.7);
+}
+.oracle-you-tag,
+.oracle-winner-tag {
+  margin-left: 0.45rem;
+}
+.oracle-board-empty {
+  grid-column: 1 / -1;
+  color: rgba(255, 255, 255, 0.6);
+}
+.oracle-board-side {
+  display: grid;
+  gap: 0.8rem;
+}
+.oracle-chart-card,
+.oracle-claim,
+.oracle-prize-desk-inner {
+  border: 1px solid var(--line-dark);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.oracle-chart-card,
+.oracle-claim {
+  padding: 1rem;
+}
+.oracle-chart {
+  display: flex;
+  align-items: end;
+  gap: 0.45rem;
+  height: 160px;
+  margin-top: 1rem;
+}
+.oracle-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  height: 100%;
+  min-width: 0;
+}
+.oracle-bar i {
+  display: block;
+  width: 100%;
+  max-width: 28px;
+  border-radius: 7px 7px 2px 2px;
+  background: linear-gradient(180deg, var(--clay-hi), var(--clay));
+}
+.oracle-bar b,
+.oracle-bar span {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.68rem;
+}
+.oracle-bar b {
+  margin-top: 0.3rem;
+}
+.oracle-claim h3 {
+  margin: 0.25rem 0 0.7rem;
+  color: #fff;
+  font-size: 1.15rem;
+}
+.oracle-claim p {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.86rem;
+}
+.oracle-claim.is-locked {
+  opacity: 0.78;
+}
+.oracle-claim-lock {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.45rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 700;
+}
+.oracle-claim-code {
+  margin: 0.2rem 0 0.55rem;
+  padding: 0.75rem 0.8rem;
+  border-radius: 8px;
+  background: #081423;
+  color: #fff;
+  font:
+    700 1.05rem "JetBrains Mono",
+    monospace;
+  letter-spacing: 0.04em;
+}
+.oracle-claim-help {
+  margin-bottom: 0.8rem;
+}
+.oracle-prize-desk {
+  margin: 0 auto 2rem;
+  max-width: 80rem;
+  padding: 0 1rem;
+}
+.oracle-prize-desk-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap: 0.8rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: #101c2e;
+}
+.oracle-prize-desk h2,
+.oracle-prize-desk h3,
+.oracle-prize-desk .oracle-claim h3 {
+  color: #fff;
+}
+.oracle-welcome-board {
+  display: block;
+  margin-top: 0.8rem;
+  color: var(--clay-deep);
+  font-weight: 700;
+  text-align: center;
+}
+@media (max-width: 900px) {
+  .oracle-board-grid,
+  .oracle-prize-desk-inner {
+    grid-template-columns: 1fr;
+  }
+  .oracle-podium {
+    grid-template-columns: 1fr;
   }
 }

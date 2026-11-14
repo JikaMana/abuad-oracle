@@ -129,7 +129,7 @@ function parseServiceAccount(raw) {
 }
 
 let firebasePromise;
-async function firebaseServices() {
+export async function firebaseServices() {
   if (!firebasePromise) {
     firebasePromise = (async () => {
       const { cert, getApps, initializeApp } = await import("firebase-admin/app");
@@ -429,6 +429,22 @@ function saveActivityMemory(user, input) {
   test.status = "completed";
   test.completedAt = now;
   test.date = Date.now();
+  import("./leaderboard.mjs")
+    .then(({ recordScore }) =>
+      recordScore(
+        { uid: user.uid, email: user.email, name: user.name },
+        {
+          id: input.id,
+          name: input.name,
+          course: input.course,
+          total: input.total,
+          correct: input.correct,
+        },
+      ),
+    )
+    .catch((error) => {
+      console.error("Could not add the score to the leaderboard", error?.message);
+    });
   return { saved: true, id, status: 201 };
 }
 
@@ -563,6 +579,20 @@ async function saveActivityFirebase(user, input) {
     });
     return true;
   });
+  if (saved) {
+    try {
+      const { recordScore } = await import("./leaderboard.mjs");
+      await recordScore(user, {
+        id: input.id,
+        name: input.name,
+        course,
+        total,
+        correct,
+      });
+    } catch (error) {
+      console.error("Could not add the score to the leaderboard", error?.message);
+    }
+  }
   return { saved: true, id: testRef.id, status: saved ? 201 : 200 };
 }
 
