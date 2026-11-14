@@ -48,7 +48,10 @@ Rules:
 - This is set #${batch + 1}. Use fresh numbers and situations. Do not reuse a stem with only a number changed if the method is identical to an avoided question.
 - Solve every question yourself and verify the answer before returning it.
 - Plain text only. No LaTeX, no markdown, no $ signs. Write maths as x^2, sqrt(x), a/b, 3 + 4i.
-- "steps": 2 to 4 short strings showing the working.
+- "steps" is the explanation shown after the student answers. Write it for someone who got the question wrong.
+- A one-fact recall question needs 2 or 3 full sentences.
+- A calculation, derivation, or law question needs 4 to 6 steps. Give the formula, substitute the values, state the result with units, and say why the most tempting wrong option fails.
+- Each step is one or two complete sentences. Do not use fragments such as "F = ma" or "so the answer is X" as a whole step.
 - "topic" must be copied exactly from the topic list above.
 ${avoidBlock}
 SOURCE MATERIAL:
@@ -72,7 +75,7 @@ function groqClient(apiKey) {
   return new OpenAI({
     apiKey,
     baseURL: "https://api.groq.com/openai/v1",
-    timeout: 12000,
+    timeout: 20000,
     maxRetries: 0,
   });
 }
@@ -116,7 +119,7 @@ export async function callGroq(prompt) {
           ],
           response_format: { type: "json_object" },
           temperature: 0.7,
-          max_completion_tokens: 2500,
+          max_completion_tokens: 4000,
           ...extras,
         });
         const text = response.choices?.[0]?.message?.content || "";
