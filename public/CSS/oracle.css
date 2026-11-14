@@ -1601,11 +1601,12 @@ select.oracle-select {
     monospace;
   letter-spacing: 0.04em;
 }
-.oracle-claim-help {
-  margin-bottom: 0.8rem;
+.oracle-claim .btn {
+  margin-top: 0.35rem;
+  padding: 0.7rem 1.5rem;
 }
 .oracle-prize-desk {
-  margin: 2rem auto 2rem;
+  margin: 0 auto 2rem;
   max-width: 80rem;
   padding: 0 1rem;
 }

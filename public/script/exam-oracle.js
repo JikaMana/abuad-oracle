@@ -3,8 +3,8 @@
 
   var ENDPOINT = "/api/generate-questions";
   var HISTORY_CACHE_TTL = 2 * 60 * 1000;
-  var CHUNK = 5; // questions per request (must match server CHUNK_MAX)
-  var CONCURRENCY = 2; // parallel requests;
+  var CHUNK = 3; // questions per request (must match server CHUNK_MAX)
+  var CONCURRENCY = 2; // parallel requests; keeps us under Gemini's free-tier rate limits
   var MAX_PAID = 60;
 
   var app = {
@@ -47,7 +47,7 @@
     "Choose a course, then pick the topics you want to practise.",
     "Each question is marked PQ or Oracle Question. Review the explanation after your choice.",
     "Your report shows strong areas and what to work on next.",
-    "Weekly and monthly prizes go to the top student. If you win, a claim code appears on this dashboard. For everyone else it stays locked.",
+    "Weekly and monthly prizes go to the top student. The weekly code stays locked until Monday 00:00, even for the current leader, then opens for the winner of the finished week.",
   ];
 
   /* ---------- utilities ---------- */
@@ -1413,7 +1413,9 @@
         esc(prize.reward) +
         '</h3><p class="oracle-claim-code">' +
         esc(prize.code) +
-        '</p><p class="oracle-claim-help">Message the admin with this code to confirm you won.</p><a class="btn btn-clay" target="_blank" rel="noopener" href="https://wa.me/' +
+        '</p><p class="oracle-claim-help">' +
+        esc(prize.note || "Message the admin with this code to confirm you won.") +
+        '</p><a class="btn btn-clay" target="_blank" rel="noopener" href="https://wa.me/' +
         encodeURIComponent(whatsapp || "2348165689362") +
         "?text=" +
         encodeURIComponent("Exam Oracle prize claim. My code is " + prize.code + ".") +
@@ -1422,7 +1424,9 @@
         esc(prize.title) +
         "</p><h3>" +
         esc(prize.reward) +
-        '</h3><div class="oracle-claim-lock"><i data-lucide="lock"></i><span>Locked</span></div><p>This code is disabled because you are not the winner.</p>';
+        '</h3><div class="oracle-claim-lock"><i data-lucide="lock"></i><span>Locked</span></div><p>' +
+        esc(prize.note || "This code is locked.") +
+        "</p>";
   }
   async function loadPrizeDesk() {
     try {

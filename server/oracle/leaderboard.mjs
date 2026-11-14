@@ -186,6 +186,19 @@ function prizeView(leader, periodId, viewerUid) {
   };
 }
 
+function weeklyPrize(rows, viewerUid, now) {
+  const weekStart = startOfLagosWeek(now);
+  const finishedFrom = weekStart - 7 * DAY;
+  const winner = rankWindow(rows, finishedFrom, weekStart)[0] || null;
+  const view = prizeView(winner, weekId(finishedFrom), viewerUid);
+  const note = view.yours
+    ? "You won the finished week. Message the admin with this code."
+    : winner
+      ? `Locked. ${winner.name} won the finished week. The code opens only for that student, from Monday 00:00.`
+      : "Locked until Monday 00:00. Even this week's leader cannot claim until the week has ended.";
+  return { ...view, note };
+}
+
 export function assembleBoard(rows, viewerUid, now = Date.now()) {
   const dayStart = startOfLagosDay(now);
   const weekStart = startOfLagosWeek(now);
@@ -249,14 +262,17 @@ export function assembleBoard(rows, viewerUid, now = Date.now()) {
     prizes: {
       weekly: {
         title: "Weekly prize",
-        // reward: "₦Xk cash",
-        reward: "",
-        ...prizeView(periods.weekly.rows[0], weekId(now), viewerUid),
+        reward: "₦3,000 cash",
+        ...weeklyPrize(rows, viewerUid, now),
       },
       monthly: {
         title: "Monthly prize",
         reward: "Next month free",
         ...prizeView(periods.monthly.rows[0], monthId(now), viewerUid),
+        note:
+          periods.monthly.rows[0] && viewerUid === periods.monthly.rows[0].uid
+            ? "Message the admin with this code to confirm you won."
+            : "This code stays locked because you are not the winner.",
       },
     },
     whatsapp: "2348165689362",

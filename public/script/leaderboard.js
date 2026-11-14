@@ -1,5 +1,3 @@
-if (window.lucide) window.lucide.createIcons();
-
 (function () {
   "use strict";
 
@@ -49,7 +47,9 @@ if (window.lucide) window.lucide.createIcons();
       ? '<p class="oracle-claim-code">' +
         esc(prize.code) +
         "</p>" +
-        '<p class="oracle-claim-help">Message the admin with this code to confirm the prize. It stays yours while you lead this period.</p>' +
+        '<p class="oracle-claim-help">' +
+        esc(prize.note || "Message the admin with this code to confirm the prize.") +
+        "</p>" +
         '<a class="btn btn-clay" target="_blank" rel="noopener" href="https://wa.me/' +
         esc(board.whatsapp) +
         "?text=" +
@@ -57,9 +57,7 @@ if (window.lucide) window.lucide.createIcons();
         '">Message admin</a>'
       : '<div class="oracle-claim-lock"><i data-lucide="lock"></i><span>Locked</span></div>' +
         "<p>" +
-        (prize.leaderName
-          ? esc(prize.leaderName) + " is leading. The claim code opens only for the winner."
-          : "No winner yet. Finish a signed-in test to open this prize.") +
+        esc(prize.note || "This prize is locked.") +
         "</p>";
     box.innerHTML =
       '<p class="eyebrow text-clay">' +
