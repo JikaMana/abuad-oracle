@@ -249,7 +249,8 @@ export function assembleBoard(rows, viewerUid, now = Date.now()) {
     prizes: {
       weekly: {
         title: "Weekly prize",
-        reward: "₦3,000 cash",
+        // reward: "₦Xk cash",
+        reward: "",
         ...prizeView(periods.weekly.rows[0], weekId(now), viewerUid),
       },
       monthly: {

@@ -4,7 +4,7 @@
   var ENDPOINT = "/api/generate-questions";
   var HISTORY_CACHE_TTL = 2 * 60 * 1000;
   var CHUNK = 5; // questions per request (must match server CHUNK_MAX)
-  var CONCURRENCY = 2; // parallel requests; keeps us under Gemini's free-tier rate limits
+  var CONCURRENCY = 2; // parallel requests;
   var MAX_PAID = 60;
 
   var app = {
@@ -1218,10 +1218,10 @@
         : "Free plan";
     $("buy-premium-label").textContent = app.paid
       ? "Premium access active"
-      : "Get paid access · ₦1,200";
+      : "Get paid access · ₦1,000";
     $("profile-buy-premium").textContent = app.paid
       ? "Premium access active"
-      : "Get paid access · ₦1,200";
+      : "Get paid access · ₦1,000";
     $("profile-buy-premium").disabled = app.paid;
     $("profile-buy-premium").hidden = app.paid;
     var payNote = $("profile-pay-note");
@@ -1588,7 +1588,7 @@
       var line = promoSentence();
       upgradeCopy.textContent = line
         ? line +
-          " After that, the free plan is 10 questions per course across up to 3 courses a day. Paid access stays ₦1,200 for six months."
+          " After that, the free plan is 10 questions per course across up to 3 courses a day. Paid access stays ₦1,000 for six months."
         : "Free access gives you 10 questions per course across up to 3 courses each day. Paid access unlocks up to 60 questions per test.";
     }
     renderCourses();
