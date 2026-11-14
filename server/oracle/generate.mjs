@@ -14,7 +14,13 @@ import {
 } from "./account.mjs";
 import { CHUNK_MAX, COURSES, FREE_COURSES_DAILY, FREE_DAILY, PAID_TEST_MAX } from "./courses.mjs";
 import { buildPrompt, callGroq, groqConfigured } from "./groq.mjs";
-import { isFresh, labelQuestion, pickLocalQuestions, similarPrompt } from "./questions.mjs";
+import {
+  isFresh,
+  labelQuestion,
+  pickLocalQuestions,
+  similarPrompt,
+  explanationAgrees,
+} from "./questions.mjs";
 
 function shuffleOptions(question) {
   const order = question.options.map((_, index) => index);
@@ -39,6 +45,12 @@ function acceptQuestions(parsed, topics, avoid, limit) {
     if (!question.options.every((option) => typeof option === "string" && option.trim())) continue;
     if (new Set(question.options.map((option) => option.trim().toLowerCase())).size !== 4) continue;
     if (!Number.isInteger(question.answer) || question.answer < 0 || question.answer > 3) continue;
+    if (typeof question.correct === "string" && question.correct.trim()) {
+      const marked = question.options.findIndex(
+        (option) => option.trim().toLowerCase() === question.correct.trim().toLowerCase(),
+      );
+      if (marked !== question.answer) continue;
+    }
     if (
       !Array.isArray(question.steps) ||
       question.steps.length < 1 ||
@@ -46,7 +58,9 @@ function acceptQuestions(parsed, topics, avoid, limit) {
     ) {
       continue;
     }
-    if (!isFresh(question.prompt, avoid) || seen.has(question.prompt.trim().toLowerCase())) continue;
+    if (!explanationAgrees(question)) continue;
+    if (!isFresh(question.prompt, avoid) || seen.has(question.prompt.trim().toLowerCase()))
+      continue;
     if ((avoid || []).some((item) => similarPrompt(question.prompt, item))) continue;
     seen.add(question.prompt.trim().toLowerCase());
     accepted.push(
@@ -159,7 +173,10 @@ export async function handleGenerate(req, user) {
   }
 
   const clientAvoid = Array.isArray(input.avoid)
-    ? input.avoid.filter((item) => typeof item === "string").slice(0, 24).map((item) => item.slice(0, 140))
+    ? input.avoid
+        .filter((item) => typeof item === "string")
+        .slice(0, 24)
+        .map((item) => item.slice(0, 140))
     : [];
   const remembered = await readSeen(user.uid);
   const avoid = [...clientAvoid, ...remembered].slice(-40);

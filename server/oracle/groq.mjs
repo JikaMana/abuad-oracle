@@ -2,7 +2,7 @@
 import OpenAI from "openai";
 
 const RESPONSE_HINT = `Return JSON only, with this shape:
-{"questions":[{"topic":"","prompt":"","options":["","","",""],"answer":0,"steps":["",""]}]}`;
+{"questions":[{"topic":"","prompt":"","options":["","","",""],"answer":0,"correct":"","steps":["",""]}]}`;
 
 export function groqModel() {
   return (
@@ -42,16 +42,19 @@ export function buildPrompt({ course, cfg, topics, count, avoid, batch }) {
 
 Write exactly ${count} multiple-choice questions on these topics only: ${topics.join("; ")}.
 Rules:
-- Exactly 4 options. Exactly one is correct. "answer" is the zero-based index (0 to 3) of the correct option.
+- Exactly 4 options. Exactly one is correct. "answer" is the zero-based index (0 to 3) of the correct option. "correct" is that same option copied exactly.
 - Wrong options must be plausible (typical student mistakes), never silly.
 - Match the difficulty of ABUAD 100-level CBT papers: short stems, one idea each, a mix of recall and short working.
 - This is set #${batch + 1}. Use fresh numbers and situations. Do not reuse a stem with only a number changed if the method is identical to an avoided question.
-- Solve every question yourself and verify the answer before returning it.
+- Solve the question first and finish the arithmetic before you choose an option. The correct option must be that exact result. If the exact result is not in the options, throw the question away and write another.
+- "steps" is shown to the student word for word. It must reach the same result as "correct". Never change your mind inside the steps.
+- Do not think out loud. Never write "wait", "recalculate", "actually", "correction", "option index", "none match", or "most plausible".
 - Plain text only. No LaTeX, no markdown, no $ signs. Write maths as x^2, sqrt(x), a/b, 3 + 4i.
 - "steps" is the explanation shown after the student answers. Write it for someone who got the question wrong.
 - A one-fact recall question needs 2 or 3 full sentences.
 - A calculation, derivation, or law question needs 4 to 6 steps. Give the formula, substitute the values, state the result with units, and say why the most tempting wrong option fails.
 - Each step is one or two complete sentences. Do not use fragments such as "F = ma" or "so the answer is X" as a whole step.
+- The last step must state the correct option in the same words as "correct".
 - "topic" must be copied exactly from the topic list above.
 ${avoidBlock}
 SOURCE MATERIAL:
@@ -118,7 +121,7 @@ export async function callGroq(prompt) {
             { role: "user", content: prompt },
           ],
           response_format: { type: "json_object" },
-          temperature: 0.7,
+          temperature: 0.4,
           max_completion_tokens: 4000,
           ...extras,
         });

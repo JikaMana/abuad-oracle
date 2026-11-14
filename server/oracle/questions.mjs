@@ -2471,6 +2471,44 @@ export function pickLocalQuestions({ course, topics, count, avoid, batch = 0, sa
   return picked.slice(0, count);
 }
 
+const DOUBT =
+  /\b(wait|re-?calc\w*|option index|answer index|we listed|none match|none of the options|most plausible|correction)\b|\bactually\b/i;
+
+function resultNumber(claim) {
+  const eq = claim.lastIndexOf("=");
+  const slice = eq >= 0 ? claim.slice(eq + 1) : claim;
+  const nums = [...slice.matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
+  if (!nums.length) return null;
+  return eq >= 0 ? nums[nums.length - 1] : nums[0];
+}
+
+function claimMatches(claim, option) {
+  const result = resultNumber(claim);
+  const optionNums = [...String(option).matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
+  if (result != null) return optionNums.includes(result);
+  const text = claim
+    .toLowerCase()
+    .replace(/[^a-z0-9+^/\s.-]+/g, " ")
+    .trim();
+  return text.length > 2 && String(option).toLowerCase().includes(text.slice(0, 40));
+}
+
+/** Groq sometimes marks one option and then argues for a different one. Drop those. */
+export function explanationAgrees(question) {
+  const steps = Array.isArray(question?.steps) ? question.steps : [];
+  const option = question?.options?.[question.answer];
+  if (typeof option !== "string") return false;
+  const joined = steps.join("\n");
+  if (DOUBT.test(joined)) return false;
+  const claims = [
+    ...joined.matchAll(
+      /(?:the correct(?:\s+[a-z0-9/^]+){0,5}\s+is|the result is)\s+(?!not\b)([^.]{1,80})/gi,
+    ),
+  ].map((match) => match[1]);
+  if (!claims.length) return true;
+  return claims.every((claim) => claimMatches(claim, option));
+}
+
 export function labelQuestion(question) {
   const origin = question.origin === "pq" ? "pq" : "oracle";
   return {
