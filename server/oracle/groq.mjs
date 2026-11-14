@@ -1,24 +1,26 @@
 // @ts-nocheck
-import Groq from "groq-sdk";
+import OpenAI from "openai";
 
 const RESPONSE_HINT = `Return JSON only, with this shape:
 {"questions":[{"topic":"","prompt":"","options":["","","",""],"answer":0,"steps":["",""]}]}`;
 
-const KEY_SLOTS = 10;
-
 export function groqModel() {
   return (
-    (process.env.GROQ_MODEL || "openai/gpt-oss-120b").split(",")[0].trim() || "openai/gpt-oss-120b"
+    (process.env.GROQ_MODEL || "openai/gpt-oss-20b").split(",")[0].trim() || "openai/gpt-oss-20b"
   );
 }
 
 export function groqKeys() {
-  const numbered = [];
-  for (let slot = 1; slot <= KEY_SLOTS; slot++) {
-    const name = slot === 1 ? "GROQ_API_KEY" : `GROQ_API_KEY_${slot}`;
-    const value = String(process.env[name] || "").trim();
-    if (value) numbered.push(value);
+  const slots = new Map();
+  for (const [name, raw] of Object.entries(process.env)) {
+    if (name === "GROQ_API_KEY") slots.set(1, raw);
+    const match = /^GROQ_API_KEY_(\d+)$/.exec(name);
+    if (match) slots.set(Number(match[1]), raw);
   }
+  const numbered = [...slots.keys()]
+    .sort((a, b) => a - b)
+    .map((slot) => String(slots.get(slot) || "").trim())
+    .filter(Boolean);
   const listed = String(process.env.GROQ_API_KEYS || "")
     .split(/[\n,]/)
     .map((item) => item.trim())
@@ -67,7 +69,12 @@ function parseModelJson(text) {
 }
 
 function groqClient(apiKey) {
-  return new Groq({ apiKey });
+  return new OpenAI({
+    apiKey,
+    baseURL: "https://api.groq.com/openai/v1",
+    timeout: 12000,
+    maxRetries: 0,
+  });
 }
 
 function failure(error) {
