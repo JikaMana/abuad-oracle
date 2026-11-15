@@ -469,6 +469,64 @@
     return test.activityQueue;
   }
 
+  function sameNumber(left, right) {
+    var a = Number(left);
+    var b = Number(right);
+    return isFinite(a) && isFinite(b) && a === b;
+  }
+  function optionForNumber(options, number) {
+    var hits = [];
+    options.forEach(function (option, index) {
+      var values = String(option).match(/\d+(?:\.\d+)?/g) || [];
+      if (
+        values.some(function (value) {
+          return sameNumber(value, number);
+        })
+      )
+        hits.push(index);
+    });
+    return hits.length === 1 ? hits[0] : -1;
+  }
+  function optionForClaim(options, claim) {
+    var number = (String(claim)
+      .split("=")
+      .pop()
+      .match(/\d+(?:\.\d+)?/) || [])[0];
+    if (number) return optionForNumber(options, number);
+    var text = String(claim).toLowerCase().replace(/\s+/g, " ").trim();
+    var hits = [];
+    options.forEach(function (option, index) {
+      var value = String(option).toLowerCase().replace(/\s+/g, " ").trim();
+      if (!value) return;
+      if (text === value) hits.push(index);
+      else if (text.indexOf(value) === 0) {
+        var next = text.charAt(value.length);
+        var digit = /\d/.test(value.slice(-1));
+        if (!(digit && /[\d.]/.test(next))) hits.push(index);
+      }
+    });
+    return hits.length === 1 ? hits[0] : -1;
+  }
+  function lockAnswerToExplanation(question) {
+    if (!question || !Array.isArray(question.options) || question.options.length !== 4)
+      return question;
+    var text = Array.isArray(question.steps) ? question.steps.join("\n") : "";
+    var lead =
+      /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is)\s+(?!not\b)/gi;
+    var claims = [];
+    var match;
+    while ((match = lead.exec(text))) {
+      var rest = text.slice(match.index + match[0].length);
+      var end = rest.search(/\.(?!\d)/);
+      var claim = (end === -1 ? rest : rest.slice(0, end)).trim();
+      if (claim) claims.push(claim);
+    }
+    if (!claims.length) return question;
+    var index = optionForClaim(question.options, claims[claims.length - 1]);
+    if (index >= 0) question.answer = index;
+    return question;
+  }
+
   async function runLoader(s) {
     var requests = 0;
     var maxRequests = Math.ceil(s.total / CHUNK) + 6;
@@ -482,7 +540,7 @@
         try {
           var qs = await fetchBatch(s, size, batchNo);
           qs.forEach(function (q) {
-            s.questions.push(q);
+            s.questions.push(lockAnswerToExplanation(q));
           });
           onQuestionsArrived();
         } catch (e) {
@@ -634,7 +692,7 @@
 
   function renderQuestion() {
     var s = session;
-    var q = s.questions[s.index];
+    var q = lockAnswerToExplanation(s.questions[s.index]);
     showLoading(false);
     updateProgress();
     $("question-topic").innerHTML =
@@ -642,7 +700,7 @@
       (originLabel(q) === "PQ" ? " is-pq" : "") +
       '">' +
       esc(originLabel(q)) +
-      "</span>" +
+      "</span> · " +
       esc(q.topic);
     $("question-prompt").textContent = q.prompt;
     $("answer-options").innerHTML = q.options
@@ -674,7 +732,7 @@
 
   function answerQuestion(selected) {
     var s = session;
-    var q = s.questions[s.index];
+    var q = lockAnswerToExplanation(s.questions[s.index]);
     if (s.answers.length > s.index) return; // already answered
     var correct = selected === q.answer;
     s.answers.push({ question: q, selected: selected, correct: correct });

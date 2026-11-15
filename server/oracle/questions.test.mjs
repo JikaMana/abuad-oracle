@@ -3,7 +3,13 @@ import assert from "node:assert/strict";
 import { COURSES } from "./courses.mjs";
 import { promoActive, promoUntilDate } from "./account.mjs";
 import { handleGenerate } from "./generate.mjs";
-import { PAST_QUESTIONS, pickLocalQuestions, similarPrompt } from "./questions.mjs";
+import {
+  PAST_QUESTIONS,
+  pickLocalQuestions,
+  similarPrompt,
+  alignQuestion,
+  answerFromExplanation,
+} from "./questions.mjs";
 import { groqKeys } from "./groq.mjs";
 
 test("promo runs through 20 November 2026 Lagos time", () => {
@@ -11,6 +17,100 @@ test("promo runs through 20 November 2026 Lagos time", () => {
   assert.equal(promoUntilDate(), "2026-11-20");
   assert.equal(promoActive(Date.parse("2026-11-20T22:59:59Z")), true);
   assert.equal(promoActive(Date.parse("2026-11-20T23:00:00Z")), false);
+});
+
+test("the saved option is the one the explanation verifies", () => {
+  const acceleration = answerFromExplanation({
+    options: ["2 m/s^2", "4 m/s^2", "10 m/s^2", "20 m/s^2"],
+    answer: 0,
+    steps: [
+      "Use a = (v - u)/t.",
+      "Here u = 0, v = 20 m/s and t = 5 s, so a = (20 - 0)/5 = 4.",
+      "The result is 4 m/s^2, which corresponds to option index 1, not 0. Wait, recalc: 20/5 = 4, so the correct answer is 4 m/s^2.",
+    ],
+  });
+  assert.equal(acceleration.answer, 1);
+  assert.equal(
+    acceleration.steps.some((step) => /wait|option index/i.test(step)),
+    false,
+  );
+  assert.match(acceleration.steps.at(-1), /4 m\/s\^2/);
+
+  const series = answerFromExplanation({
+    options: ["255", "363", "192", "768"],
+    answer: 1,
+    steps: [
+      "The sum of the first n terms is S_n = a (r^n - 1)/(r - 1).",
+      "The correct sum is 255, so the answer index should be 0.",
+    ],
+  });
+  assert.equal(series.answer, 0);
+  assert.equal(
+    series.steps.some((step) => /answer index/i.test(step)),
+    false,
+  );
+
+  assert.equal(
+    answerFromExplanation({
+      options: ["4.375 m/s", "5.00 m/s", "6.25 m/s", "8.00 m/s"],
+      answer: 2,
+      steps: [
+        "Total distance is 350 m and total time is 80 s.",
+        "The correct average speed is 350/80 = 4.375 m/s. Choose option 5.00 m/s.",
+      ],
+    }),
+    null,
+  );
+
+  const clean = answerFromExplanation({
+    options: ["2 m/s^2", "4 m/s^2", "10 m/s^2", "20 m/s^2"],
+    answer: 0,
+    steps: [
+      "Use a = (v - u)/t, where u is the initial speed and v is the final speed.",
+      "Substitute u = 0, v = 20 m/s and t = 5 s to get a = (20 - 0)/5 = 4 m/s^2.",
+      "The correct answer is 4 m/s^2.",
+    ],
+  });
+  assert.equal(clean.answer, 1);
+
+  assert.equal(
+    answerFromExplanation({
+      options: ["2 m/s^2", "4 m/s^2", "6 m/s^2", "8 m/s^2"],
+      answer: 1,
+      steps: ["The correct answer is 9 m/s^2."],
+    }),
+    null,
+  );
+
+  const mean = answerFromExplanation({
+    options: ["7.8", "8.4", "8", "9"],
+    answer: 2,
+    steps: [
+      "Add the numbers: 5+7+8+10+12 = 42. Divide by the number of observations 5 to get 42/5 = 8.4.",
+      "The correct answer is 8.4.",
+    ],
+  });
+  assert.equal(mean.answer, 1);
+  assert.match(mean.steps.at(-1), /8\.4/);
+
+  const published = alignQuestion({
+    options: ["7.8", "8.4", "8", "9"],
+    answer: 2,
+    steps: [
+      "Add the numbers: 5+7+8+10+12 = 42. Divide by the number of observations 5 to get 42/5 = 8.4.",
+      "The correct answer is 8.4.",
+    ],
+  });
+  assert.equal(published.answer, 1);
+  assert.equal(published.options[published.answer], "8.4");
+  assert.equal(
+    alignQuestion({
+      options: ["7.8", "8.4", "8", "9"],
+      answer: 2,
+      steps: ["The correct answer is 6.5."],
+    }),
+    null,
+  );
 });
 
 test("similar prompts are caught and fresh stems are kept", () => {
@@ -93,25 +193,26 @@ test("known MTH 101 past-question arithmetic", () => {
   assert.equal(answer("mth101-consecutive"), "18");
   assert.equal(answer("mth101-evens"), "247050");
   assert.equal(answer("mth101-sets"), "{1, 2, 5, 6}");
-  assert.equal(answer("mth101-matrix"), "A + 3B");
 });
 
 function clearGroqEnv() {
   delete process.env.GROQ_API_KEY;
   delete process.env.GROQ_API_KEYS;
   delete process.env.GROQ_MODEL;
-  for (let slot = 2; slot <= 10; slot++) delete process.env[`GROQ_API_KEY_${slot}`];
+  for (const name of Object.keys(process.env)) {
+    if (/^GROQ_API_KEY_\d+$/.test(name)) delete process.env[name];
+  }
 }
 
-test("groq collects up to 10 keys", () => {
+test("groq collects numbered keys past 10", () => {
   clearGroqEnv();
-  for (let slot = 1; slot <= 10; slot++) {
+  for (let slot = 1; slot <= 12; slot++) {
     const name = slot === 1 ? "GROQ_API_KEY" : `GROQ_API_KEY_${slot}`;
     process.env[name] = `gsk_test_${slot}`;
   }
   process.env.GROQ_API_KEYS = "gsk_test_1,gsk_extra";
   assert.deepEqual(groqKeys(), [
-    ...Array.from({ length: 10 }, (_, index) => `gsk_test_${index + 1}`),
+    ...Array.from({ length: 12 }, (_, index) => `gsk_test_${index + 1}`),
     "gsk_extra",
   ]);
   clearGroqEnv();

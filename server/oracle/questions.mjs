@@ -2474,9 +2474,6 @@ export function pickLocalQuestions({ course, topics, count, avoid, batch = 0, sa
 const DOUBT =
   /\b(wait|re-?calc\w*|option index|answer index|we listed|none match|none of the options|most plausible|correction)\b|\bactually\b/i;
 
-const CLAIM =
-  /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is|choose option|the most plausible answer is)\s+(?!not\b)([^.]{1,90})/gi;
-
 function resultNumber(claim) {
   const parts = String(claim).split("=");
   const tail = parts[parts.length - 1];
@@ -2506,9 +2503,35 @@ function claimMatches(claim, option) {
 }
 
 function claimsIn(text) {
-  return [...String(text).matchAll(CLAIM)].map((match) => match[1].trim());
+  const lead =
+    /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is|choose option|the most plausible answer is)\s+(?!not\b)/gi;
+  const claims = [];
+  for (const match of String(text).matchAll(lead)) {
+    const rest = String(text).slice(match.index + match[0].length);
+    const end = rest.search(/\.(?!\d)/);
+    const claim = rest.slice(0, end === -1 ? undefined : end).trim();
+    if (claim) claims.push(claim);
+  }
+  return claims;
 }
 
+function optionForNumber(options, number) {
+  const hits = [];
+  options.forEach((option, index) => {
+    const values = [...String(option).matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
+    if (values.some((value) => sameNumber(value, number))) hits.push(index);
+  });
+  return hits.length === 1 ? hits[0] : -1;
+}
+
+function lastSolvedOption(options, text) {
+  const matches = [...String(text).matchAll(/=\s*(-?\d+(?:\.\d+)?)/g)];
+  for (let i = matches.length - 1; i >= 0; i--) {
+    const index = optionForNumber(options, matches[i][1]);
+    if (index >= 0) return index;
+  }
+  return -1;
+}
 function optionForClaim(options, claim) {
   const hits = [];
   options.forEach((option, index) => {
@@ -2531,10 +2554,12 @@ function cleanSteps(steps, option) {
     if (safe.length) kept.push(safe.join(" "));
   }
   if (!kept.length) kept.push(`The correct answer is ${option}.`);
-  const last = kept[kept.length - 1].toLowerCase();
-  if (!last.includes(String(option).toLowerCase())) {
-    kept.push(`The correct answer is ${option}.`);
-  }
+  const last = kept[kept.length - 1];
+  const value = String(option);
+  const named = /^\d+(?:\.\d+)?$/.test(value)
+    ? new RegExp(`(?<![\\d.])${value.replace(/\./g, "\\.")}(?![\\d.])`).test(last)
+    : last.toLowerCase().includes(value.toLowerCase());
+  if (!named) kept.push(`The correct answer is ${option}.`);
   return kept;
 }
 
@@ -2563,9 +2588,36 @@ export function answerFromExplanation(question) {
     }
     indexes.push(index);
   }
+  const solved = lastSolvedOption(options, steps.join("\n"));
+  if (solved >= 0 && indexes.some((index) => index !== solved)) return null;
+  if (!indexes.length) {
+    if (solved < 0) return null;
+    indexes.push(solved);
+  }
   if (!indexes.length || new Set(indexes).size !== 1) return null;
   const answer = indexes[0];
   return { answer, steps: cleanSteps(steps, options[answer]) };
+}
+
+/**
+ * Every question that leaves the server uses the explanation's result.
+ * A stated result that is missing or disagrees with itself is dropped.
+ * A handwritten item that never names an option keeps its saved answer.
+ */
+export function alignQuestion(question) {
+  const verified = answerFromExplanation(question);
+  if (verified) return { ...question, answer: verified.answer, steps: verified.steps };
+  const options = Array.isArray(question?.options)
+    ? question.options.map((option) => String(option).trim())
+    : [];
+  const steps = Array.isArray(question?.steps)
+    ? question.steps.map((step) => String(step).trim()).filter(Boolean)
+    : [];
+  const text = steps.join("\n");
+  if (claimsIn(text).length) return null;
+  const solved = lastSolvedOption(options, text);
+  if (solved >= 0 && solved !== question?.answer) return null;
+  return question;
 }
 
 export function labelQuestion(question) {

@@ -15,6 +15,7 @@ import {
 import { CHUNK_MAX, COURSES, FREE_COURSES_DAILY, FREE_DAILY, PAID_TEST_MAX } from "./courses.mjs";
 import { buildPrompt, callGroq, groqConfigured } from "./groq.mjs";
 import {
+  alignQuestion,
   answerFromExplanation,
   isFresh,
   labelQuestion,
@@ -73,10 +74,16 @@ function acceptQuestions(parsed, topics, avoid, limit) {
 }
 
 function withSource(questions, course) {
-  return questions.map((question) => ({
-    ...shuffleOptions(labelQuestion(question)),
-    course,
-  }));
+  const published = [];
+  for (const question of questions) {
+    const aligned = alignQuestion(question);
+    if (!aligned) continue;
+    published.push({
+      ...shuffleOptions(labelQuestion(aligned)),
+      course,
+    });
+  }
+  return published;
 }
 
 export async function handleGenerate(req, user) {
@@ -197,17 +204,35 @@ export async function handleGenerate(req, user) {
     fallback = true;
   }
 
+  const usedPrompts = () => [...avoid, ...questions.map((question) => question.prompt)];
   if (questions.length < allowed) {
     fallback = questions.length === 0 || fallback;
     const local = pickLocalQuestions({
       course: input.course,
       topics,
       count: allowed - questions.length,
-      avoid: [...avoid, ...questions.map((question) => question.prompt)],
+      avoid: usedPrompts(),
       batch,
       salt: `${user.uid}:${Date.now()}`,
     });
     questions = questions.concat(local);
+  }
+
+  questions = withSource(questions, input.course).slice(0, allowed);
+  let fill = 0;
+  while (questions.length < allowed && fill < 3) {
+    fill += 1;
+    const local = pickLocalQuestions({
+      course: input.course,
+      topics,
+      count: allowed - questions.length,
+      avoid: [...avoid, ...questions.map((question) => question.prompt)],
+      batch: batch + fill,
+      salt: `${user.uid}:${Date.now()}:${fill}`,
+    });
+    const extra = withSource(local, input.course);
+    if (!extra.length) break;
+    questions = questions.concat(extra).slice(0, allowed);
   }
 
   if (!questions.length) {
@@ -217,7 +242,6 @@ export async function handleGenerate(req, user) {
     });
   }
 
-  questions = withSource(questions.slice(0, allowed), input.course);
   await writeSeen(
     user.uid,
     questions.map((question) => question.prompt),
