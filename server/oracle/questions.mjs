@@ -2474,39 +2474,98 @@ export function pickLocalQuestions({ course, topics, count, avoid, batch = 0, sa
 const DOUBT =
   /\b(wait|re-?calc\w*|option index|answer index|we listed|none match|none of the options|most plausible|correction)\b|\bactually\b/i;
 
+const CLAIM =
+  /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is|choose option|the most plausible answer is)\s+(?!not\b)([^.]{1,90})/gi;
+
 function resultNumber(claim) {
-  const eq = claim.lastIndexOf("=");
-  const slice = eq >= 0 ? claim.slice(eq + 1) : claim;
-  const nums = [...slice.matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
-  if (!nums.length) return null;
-  return eq >= 0 ? nums[nums.length - 1] : nums[0];
+  const parts = String(claim).split("=");
+  const tail = parts[parts.length - 1];
+  const nums = [...tail.matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
+  if (parts.length > 1 && nums.length) return nums[0];
+  return nums[0] || null;
+}
+
+function sameNumber(left, right) {
+  const a = Number(left);
+  const b = Number(right);
+  return Number.isFinite(a) && Number.isFinite(b) && a === b;
 }
 
 function claimMatches(claim, option) {
   const result = resultNumber(claim);
-  const optionNums = [...String(option).matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
-  if (result != null) return optionNums.includes(result);
+  if (result != null) {
+    const optionNums = [...String(option).matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
+    return optionNums.some((value) => sameNumber(value, result));
+  }
   const text = claim
     .toLowerCase()
     .replace(/[^a-z0-9+^/\s.-]+/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
   return text.length > 2 && String(option).toLowerCase().includes(text.slice(0, 40));
 }
 
-/** Groq sometimes marks one option and then argues for a different one. Drop those. */
-export function explanationAgrees(question) {
-  const steps = Array.isArray(question?.steps) ? question.steps : [];
-  const option = question?.options?.[question.answer];
-  if (typeof option !== "string") return false;
-  const joined = steps.join("\n");
-  if (DOUBT.test(joined)) return false;
-  const claims = [
-    ...joined.matchAll(
-      /(?:the correct(?:\s+[a-z0-9/^]+){0,5}\s+is|the result is)\s+(?!not\b)([^.]{1,80})/gi,
-    ),
-  ].map((match) => match[1]);
-  if (!claims.length) return true;
-  return claims.every((claim) => claimMatches(claim, option));
+function claimsIn(text) {
+  return [...String(text).matchAll(CLAIM)].map((match) => match[1].trim());
+}
+
+function optionForClaim(options, claim) {
+  const hits = [];
+  options.forEach((option, index) => {
+    if (claimMatches(claim, option)) hits.push(index);
+  });
+  return hits.length === 1 ? hits[0] : -1;
+}
+
+function cleanSteps(steps, option) {
+  const kept = [];
+  for (const step of steps) {
+    const sentences = step
+      .split(/(?<=[.?!])\s+/)
+      .map((sentence) => sentence.trim())
+      .filter(Boolean);
+    const safe = sentences.filter((sentence) => {
+      if (DOUBT.test(sentence)) return false;
+      return claimsIn(sentence).every((claim) => claimMatches(claim, option));
+    });
+    if (safe.length) kept.push(safe.join(" "));
+  }
+  if (!kept.length) kept.push(`The correct answer is ${option}.`);
+  const last = kept[kept.length - 1].toLowerCase();
+  if (!last.includes(String(option).toLowerCase())) {
+    kept.push(`The correct answer is ${option}.`);
+  }
+  return kept;
+}
+
+/**
+ * The explanation is the source of truth. The option saved is the one
+ * the working names, not the index the model chose first.
+ * Returns null when the working names nothing, or names two different options.
+ */
+export function answerFromExplanation(question) {
+  const options = Array.isArray(question?.options)
+    ? question.options.map((option) => String(option).trim())
+    : [];
+  if (options.length !== 4 || new Set(options.map((option) => option.toLowerCase())).size !== 4) {
+    return null;
+  }
+  const steps = Array.isArray(question?.steps)
+    ? question.steps.map((step) => String(step).trim()).filter(Boolean)
+    : [];
+  if (!steps.length) return null;
+  const indexes = [];
+  for (const claim of claimsIn(steps.join("\n"))) {
+    const index = optionForClaim(options, claim);
+    if (index < 0) {
+      if (resultNumber(claim) != null) return null;
+      continue;
+    }
+    indexes.push(index);
+  }
+  if (!indexes.length || new Set(indexes).size !== 1) return null;
+  const answer = indexes[0];
+  return { answer, steps: cleanSteps(steps, options[answer]) };
 }
 
 export function labelQuestion(question) {

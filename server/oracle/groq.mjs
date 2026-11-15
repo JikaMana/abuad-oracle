@@ -42,19 +42,19 @@ export function buildPrompt({ course, cfg, topics, count, avoid, batch }) {
 
 Write exactly ${count} multiple-choice questions on these topics only: ${topics.join("; ")}.
 Rules:
-- Exactly 4 options. Exactly one is correct. "answer" is the zero-based index (0 to 3) of the correct option. "correct" is that same option copied exactly.
-- Wrong options must be plausible (typical student mistakes), never silly.
+- Exactly 4 options. One of them must be the result you are about to calculate. The other three are typical mistakes.
 - Match the difficulty of ABUAD 100-level CBT papers: short stems, one idea each, a mix of recall and short working.
 - This is set #${batch + 1}. Use fresh numbers and situations. Do not reuse a stem with only a number changed if the method is identical to an avoided question.
-- Solve the question first and finish the arithmetic before you choose an option. The correct option must be that exact result. If the exact result is not in the options, throw the question away and write another.
-- "steps" is shown to the student word for word. It must reach the same result as "correct". Never change your mind inside the steps.
-- Do not think out loud. Never write "wait", "recalculate", "actually", "correction", "option index", "none match", or "most plausible".
+- Do not choose "answer" first. Solve the question in "steps", then copy the option that matches the result.
+- End "steps" with one sentence in this exact form: The correct answer is <option text>.
+- That final sentence is what gets saved. If it names an option, that option is marked correct even when "answer" is wrong.
+- If the steps name two different results, the question is thrown away. Finish the arithmetic before you write the final sentence.
+- "steps" is shown to the student word for word. Never write "wait", "recalculate", "actually", "correction", "option index", "none match", or "most plausible".
 - Plain text only. No LaTeX, no markdown, no $ signs. Write maths as x^2, sqrt(x), a/b, 3 + 4i.
-- "steps" is the explanation shown after the student answers. Write it for someone who got the question wrong.
-- A one-fact recall question needs 2 or 3 full sentences.
-- A calculation, derivation, or law question needs 4 to 6 steps. Give the formula, substitute the values, state the result with units, and say why the most tempting wrong option fails.
-- Each step is one or two complete sentences. Do not use fragments such as "F = ma" or "so the answer is X" as a whole step.
-- The last step must state the correct option in the same words as "correct".
+- A one-fact recall question needs 2 or 3 full sentences, then the final answer sentence.
+- A calculation, derivation, or law question needs the formula, the substitution, the result with units, why the most tempting wrong option fails, then the final answer sentence.
+- Each step is one or two complete sentences.
+- "answer" must still be the index of the option named in the final sentence. "correct" must be that option copied exactly.
 - "topic" must be copied exactly from the topic list above.
 ${avoidBlock}
 SOURCE MATERIAL:

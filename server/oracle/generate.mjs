@@ -15,11 +15,11 @@ import {
 import { CHUNK_MAX, COURSES, FREE_COURSES_DAILY, FREE_DAILY, PAID_TEST_MAX } from "./courses.mjs";
 import { buildPrompt, callGroq, groqConfigured } from "./groq.mjs";
 import {
+  answerFromExplanation,
   isFresh,
   labelQuestion,
   pickLocalQuestions,
   similarPrompt,
-  explanationAgrees,
 } from "./questions.mjs";
 
 function shuffleOptions(question) {
@@ -44,13 +44,6 @@ function acceptQuestions(parsed, topics, avoid, limit) {
     if (!Array.isArray(question.options) || question.options.length !== 4) continue;
     if (!question.options.every((option) => typeof option === "string" && option.trim())) continue;
     if (new Set(question.options.map((option) => option.trim().toLowerCase())).size !== 4) continue;
-    if (!Number.isInteger(question.answer) || question.answer < 0 || question.answer > 3) continue;
-    if (typeof question.correct === "string" && question.correct.trim()) {
-      const marked = question.options.findIndex(
-        (option) => option.trim().toLowerCase() === question.correct.trim().toLowerCase(),
-      );
-      if (marked !== question.answer) continue;
-    }
     if (
       !Array.isArray(question.steps) ||
       question.steps.length < 1 ||
@@ -58,7 +51,8 @@ function acceptQuestions(parsed, topics, avoid, limit) {
     ) {
       continue;
     }
-    if (!explanationAgrees(question)) continue;
+    const verified = answerFromExplanation(question);
+    if (!verified) continue;
     if (!isFresh(question.prompt, avoid) || seen.has(question.prompt.trim().toLowerCase()))
       continue;
     if ((avoid || []).some((item) => similarPrompt(question.prompt, item))) continue;
@@ -68,8 +62,8 @@ function acceptQuestions(parsed, topics, avoid, limit) {
         topic: question.topic,
         prompt: question.prompt.trim(),
         options: question.options.map((option) => option.trim()),
-        answer: question.answer,
-        steps: question.steps.map((step) => step.trim()),
+        answer: verified.answer,
+        steps: verified.steps,
         origin: "oracle",
       }),
     );
