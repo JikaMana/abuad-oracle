@@ -42,7 +42,7 @@ export function startOfLagosMonth(ms) {
   return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1) - LAGOS;
 }
 
-function weekId(ms) {
+export function weekId(ms) {
   const start = startOfLagosWeek(ms);
   const d = lagosStamp(start);
   const month = String(d.getUTCMonth() + 1).padStart(2, "0");
@@ -50,7 +50,7 @@ function weekId(ms) {
   return `W${d.getUTCFullYear()}${month}${day}`;
 }
 
-function monthId(ms) {
+export function monthId(ms) {
   const d = lagosStamp(startOfLagosMonth(ms));
   return `M${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
 }
@@ -262,7 +262,6 @@ export function assembleBoard(rows, viewerUid, now = Date.now()) {
     prizes: {
       weekly: {
         title: "Weekly prize",
-        // reward: "₦3,000 cash",
         reward: "",
         ...weeklyPrize(rows, viewerUid, now),
       },

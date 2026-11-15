@@ -1447,41 +1447,39 @@ select.oracle-select {
   }
 }
 
+.oracle-leaderboard-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
 .oracle-board-tabs {
   display: flex;
-  gap: 0.5rem;
-  width: fit-content;
-  padding: 0.3rem;
-  border: 1px solid var(--line-dark);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
+  gap: 0.45rem;
+  flex-wrap: wrap;
 }
 .oracle-board-tabs button {
   min-height: 40px;
-  padding: 0 1rem;
-  border: 0;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
+  color: rgba(255, 255, 255, 0.72);
   background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  font:
-    700 0.82rem Manrope,
-    sans-serif;
-  cursor: pointer;
 }
 .oracle-board-tabs button.is-active {
+  border-color: transparent;
   background: var(--clay);
   color: #fff;
 }
 .oracle-board-grid {
   display: grid;
   grid-template-columns: 1.4fr 0.8fr;
-  gap: 1.25rem;
-  margin-top: 1.25rem;
-  align-items: start;
+  gap: 1rem;
+  margin-top: 1.2rem;
 }
 .oracle-podium {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.7rem;
   margin-bottom: 0.9rem;
   align-items: end;
@@ -1489,32 +1487,22 @@ select.oracle-select {
 .oracle-podium-card {
   padding: 0.9rem;
   border: 1px solid var(--line-dark);
-  border-radius: 12px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.04);
+  color: #fff;
 }
 .oracle-podium-card b {
   display: block;
   color: var(--clay-hi);
-  font:
-    700 0.75rem "JetBrains Mono",
-    monospace;
+  font-size: 0.75rem;
 }
 .oracle-podium-card strong {
   display: block;
   margin: 0.35rem 0 0.2rem;
-  color: #fff;
-}
-.oracle-podium-card span {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.85rem;
 }
 .oracle-podium-card.is-rank-1 {
-  min-height: 128px;
-  background: rgba(193, 95, 60, 0.18);
-}
-.oracle-podium-card.is-you,
-.oracle-table tr.is-you td {
-  outline: 1px solid rgba(193, 95, 60, 0.7);
+  min-height: 8.5rem;
+  background: rgba(193, 95, 60, 0.16);
 }
 .oracle-you-tag,
 .oracle-winner-tag {
@@ -1630,11 +1618,98 @@ select.oracle-select {
   font-weight: 700;
   text-align: center;
 }
+.oracle-admin {
+  padding-bottom: 3rem;
+}
+.oracle-admin-stats,
+.oracle-admin-split {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+.oracle-admin-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.oracle-admin-split {
+  grid-template-columns: 0.9fr 1.1fr;
+}
+.oracle-admin-stat,
+.oracle-admin-panel {
+  border: 1px solid var(--line-dark);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.oracle-admin-stat {
+  padding: 1rem 1.05rem;
+}
+.oracle-admin-stat span,
+.oracle-admin-panel p,
+.oracle-admin-note {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.82rem;
+}
+.oracle-admin-stat b {
+  display: block;
+  margin-top: 0.35rem;
+  color: #fff;
+  font-size: 1.65rem;
+  letter-spacing: -0.03em;
+}
+.oracle-admin-panel {
+  padding: 1rem 1.05rem 1.15rem;
+}
+.oracle-admin-panel h2 {
+  margin: 0.2rem 0 0.8rem;
+  color: #fff;
+  font-size: 1.15rem;
+}
+.oracle-admin-code {
+  margin: 0.4rem 0 0.7rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 8px;
+  background: #081423;
+  color: #fff;
+  font:
+    700 1rem "JetBrains Mono",
+    monospace;
+  letter-spacing: 0.04em;
+}
+.oracle-admin-course {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr auto;
+  gap: 0.55rem;
+  align-items: center;
+  margin-top: 0.55rem;
+  color: #fff;
+  font-size: 0.86rem;
+}
+.oracle-admin-course i {
+  display: block;
+  height: 8px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--clay), var(--clay-hi));
+}
+.oracle-admin-gate {
+  max-width: 36rem;
+  margin: 4rem auto;
+  padding: 1.5rem;
+  border: 1px solid var(--line-dark);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.78);
+}
+.oracle-admin-gate h1 {
+  margin: 0.3rem 0 0.6rem;
+  color: #fff;
+}
+.oracle-admin .btn {
+  padding: 0.7rem 1.35rem;
+}
 @media (max-width: 900px) {
   .oracle-board-grid,
-  .oracle-prize-desk-inner {
-    grid-template-columns: 1fr;
-  }
+  .oracle-prize-desk-inner,
+  .oracle-admin-stats,
+  .oracle-admin-split,
   .oracle-podium {
     grid-template-columns: 1fr;
   }

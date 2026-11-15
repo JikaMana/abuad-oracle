@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminDothtmlRouteImport } from './routes/admin[.]html'
 import { Route as ExamOracleDothtmlRouteImport } from './routes/exam-oracle[.]html'
 import { Route as LeaderboardDothtmlRouteImport } from './routes/leaderboard[.]html'
 import { Route as ApiNameRouteImport } from './routes/api/$name'
@@ -18,6 +19,11 @@ import { Route as DotnetlifyFunctionsNameRouteImport } from './routes/[.]netlify
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDothtmlRoute = AdminDothtmlRouteImport.update({
+  id: '/admin.html',
+  path: '/admin.html',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExamOracleDothtmlRoute = ExamOracleDothtmlRouteImport.update({
@@ -43,6 +49,7 @@ const DotnetlifyFunctionsNameRoute = DotnetlifyFunctionsNameRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin.html': typeof AdminDothtmlRoute
   '/exam-oracle.html': typeof ExamOracleDothtmlRoute
   '/leaderboard.html': typeof LeaderboardDothtmlRoute
   '/api/$name': typeof ApiNameRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin.html': typeof AdminDothtmlRoute
   '/exam-oracle.html': typeof ExamOracleDothtmlRoute
   '/leaderboard.html': typeof LeaderboardDothtmlRoute
   '/api/$name': typeof ApiNameRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin.html': typeof AdminDothtmlRoute
   '/exam-oracle.html': typeof ExamOracleDothtmlRoute
   '/leaderboard.html': typeof LeaderboardDothtmlRoute
   '/api/$name': typeof ApiNameRoute
@@ -67,6 +76,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin.html'
     | '/exam-oracle.html'
     | '/leaderboard.html'
     | '/api/$name'
@@ -74,6 +84,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin.html'
     | '/exam-oracle.html'
     | '/leaderboard.html'
     | '/api/$name'
@@ -81,6 +92,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin.html'
     | '/exam-oracle.html'
     | '/leaderboard.html'
     | '/api/$name'
@@ -89,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminDothtmlRoute: typeof AdminDothtmlRoute
   ExamOracleDothtmlRoute: typeof ExamOracleDothtmlRoute
   LeaderboardDothtmlRoute: typeof LeaderboardDothtmlRoute
   ApiNameRoute: typeof ApiNameRoute
@@ -102,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin.html': {
+      id: '/admin.html'
+      path: '/admin.html'
+      fullPath: '/admin.html'
+      preLoaderRoute: typeof AdminDothtmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/exam-oracle.html': {
@@ -137,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminDothtmlRoute: AdminDothtmlRoute,
   ExamOracleDothtmlRoute: ExamOracleDothtmlRoute,
   LeaderboardDothtmlRoute: LeaderboardDothtmlRoute,
   ApiNameRoute: ApiNameRoute,

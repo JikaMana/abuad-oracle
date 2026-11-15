@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#081423" />
+    <title>Admin | Exam Oracle</title>
+    <link rel="icon" type="image/png" href="/images/burhan-dark.png" />
+    <link rel="stylesheet" href="CSS/style.css" />
+    <link rel="stylesheet" href="CSS/tailwind.css" />
+    <link rel="stylesheet" href="CSS/oracle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="theme-ink oracle-page">
+    <header class="nav-shell fixed top-0 left-0 w-full z-[65]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[76px] flex items-center justify-between"
+      >
+        <a href="/" class="site-brand" aria-label="Burhan Tutors home">
+          <span>BURHAN <b>TUTORS</b></span>
+        </a>
+        <nav class="flex items-center gap-5 text-[13px] text-white/70" aria-label="Main navigation">
+          <a href="/exam-oracle.html" class="hover:text-white">Exam Oracle</a>
+          <a href="/leaderboard.html" class="hover:text-white">Leaderboard</a>
+        </nav>
+        <a href="/exam-oracle.html" class="btn btn-clay oracle-nav-upgrade">Practice Oracle</a>
+      </div>
+    </header>
+
+    <main class="pt-[76px] oracle-admin">
+      <section id="admin-gate" class="oracle-admin-gate">
+        <p class="eyebrow text-clay">Exam Oracle</p>
+        <h1 class="font-display text-3xl font-bold">Checking your account</h1>
+        <p id="admin-gate-copy">Using the sign-in already saved in this browser.</p>
+      </section>
+
+      <section id="admin-app" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10" hidden>
+        <p class="eyebrow text-clay mb-3">Private</p>
+        <h1 class="font-display text-3xl sm:text-5xl font-bold text-white">Admin dashboard</h1>
+        <p id="admin-intro" class="text-white/55 text-sm mt-3 max-w-2xl">
+          Live counts from sign-ins, payments and completed tests. Times are Lagos.
+        </p>
+        <p id="admin-note" class="oracle-admin-note mt-3" hidden></p>
+
+        <div class="oracle-admin-stats">
+          <article class="oracle-admin-stat">
+            <span>Accounts</span><b id="stat-accounts">–</b>
+          </article>
+          <article class="oracle-admin-stat">
+            <span>Paid access now</span><b id="stat-paid">–</b>
+          </article>
+          <article class="oracle-admin-stat">
+            <span>Revenue</span><b id="stat-revenue">–</b>
+          </article>
+          <article class="oracle-admin-stat">
+            <span>Completed tests</span><b id="stat-tests">–</b>
+          </article>
+          <article class="oracle-admin-stat">
+            <span>Active today</span><b id="stat-active">–</b>
+          </article>
+          <article class="oracle-admin-stat">
+            <span>Tests today</span><b id="stat-today">–</b>
+          </article>
+          <article class="oracle-admin-stat">
+            <span>Tests this week</span><b id="stat-week">–</b>
+          </article>
+          <article class="oracle-admin-stat">
+            <span>Average score</span><b id="stat-average">–</b>
+          </article>
+        </div>
+
+        <div class="oracle-admin-split">
+          <article class="oracle-admin-panel">
+            <p class="eyebrow text-clay">Prizes</p>
+            <h2>Codes to confirm</h2>
+            <div id="admin-prizes"></div>
+          </article>
+          <article class="oracle-admin-panel">
+            <p class="eyebrow text-clay">Practice</p>
+            <h2>Tests by course</h2>
+            <div id="admin-courses"></div>
+          </article>
+        </div>
+
+        <div class="oracle-admin-split">
+          <article class="oracle-admin-panel">
+            <p class="eyebrow text-clay">Sign-ins</p>
+            <h2>Newest accounts</h2>
+            <div class="oracle-table-wrap">
+              <table class="oracle-table w-full">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Joined</th>
+                    <th>Access</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-accounts"></tbody>
+              </table>
+            </div>
+          </article>
+          <article class="oracle-admin-panel">
+            <p class="eyebrow text-clay">Paystack</p>
+            <h2>Recent payments</h2>
+            <div class="oracle-table-wrap">
+              <table class="oracle-table w-full">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-payments"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script defer src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+    <script defer src="script/admin.js"></script>
+  </body>
+</html>

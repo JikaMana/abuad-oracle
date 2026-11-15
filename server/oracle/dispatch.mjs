@@ -10,6 +10,7 @@ import {
   verifyPayment,
 } from "./account.mjs";
 import { handleGenerate } from "./generate.mjs";
+import { adminDashboard, isAdmin } from "./admin.mjs";
 import { leaderboardFor } from "./leaderboard.mjs";
 
 function cleanString(value, max) {
@@ -165,6 +166,26 @@ export async function dispatchOracle(name, req) {
     } catch (error) {
       console.error("Leaderboard failed", error?.message);
       return json(503, { error: "The leaderboard could not be loaded." });
+    }
+  }
+
+  if (name === "admin") {
+    if (req.method !== "GET") return json(405, { error: "Use GET." });
+    let adminUser = null;
+    try {
+      adminUser = await authenticatedUser(req);
+    } catch {
+      return json(401, { error: "Please sign in again." });
+    }
+    if (!adminUser) return json(401, { error: "Sign in to continue." });
+    if (!isAdmin(adminUser)) {
+      return json(403, { error: "This dashboard is only for the Exam Oracle admin." });
+    }
+    try {
+      return json(200, await adminDashboard());
+    } catch (error) {
+      console.error("Admin dashboard failed", error?.message);
+      return json(503, { error: "The admin dashboard could not be loaded." });
     }
   }
 

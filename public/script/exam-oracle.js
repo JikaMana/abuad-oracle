@@ -1198,6 +1198,14 @@
     $("account-email").textContent = app.user ? app.user.email || "Signed in" : "";
     $("account-auth-view").hidden = !!app.user;
     $("account-profile-view").hidden = !app.user;
+    var adminLink = $("admin-link");
+    if (adminLink) {
+      adminLink.hidden =
+        !app.user ||
+        String(app.user.email || "")
+          .trim()
+          .toLowerCase() !== "burhantutors@gmail.com";
+    }
   }
   async function refreshAccount() {
     paintAccount();
@@ -1406,12 +1414,13 @@
       return;
     }
     box.className = "oracle-claim" + (prize.locked ? " is-locked" : " is-open");
+    var reward = prize.reward ? "<h3>" + esc(prize.reward) + "</h3>" : "";
     box.innerHTML = prize.yours
       ? '<p class="eyebrow text-clay">' +
         esc(prize.title) +
-        "</p><h3>" +
-        esc(prize.reward) +
-        '</h3><p class="oracle-claim-code">' +
+        "</p>" +
+        reward +
+        '<p class="oracle-claim-code">' +
         esc(prize.code) +
         '</p><p class="oracle-claim-help">' +
         esc(prize.note || "Message the admin with this code to confirm you won.") +
@@ -1422,9 +1431,9 @@
         '">Message admin</a>'
       : '<p class="eyebrow text-clay">' +
         esc(prize.title) +
-        "</p><h3>" +
-        esc(prize.reward) +
-        '</h3><div class="oracle-claim-lock"><i data-lucide="lock"></i><span>Locked</span></div><p>' +
+        "</p>" +
+        reward +
+        '<div class="oracle-claim-lock"><i data-lucide="lock"></i><span>Locked</span></div><p>' +
         esc(prize.note || "This code is locked.") +
         "</p>";
   }
@@ -1439,7 +1448,6 @@
     } catch (error) {
       paintClaim("desk-weekly", {
         title: "Weekly prize",
-        // reward: "₦3,000 cash",
         reward: "",
         locked: true,
       });
