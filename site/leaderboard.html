@@ -70,7 +70,35 @@
             </span>
           </div>
 
-          <div class="oracle-board-tabs mt-8" role="tablist" aria-label="Ranking period">
+          <section class="oracle-board-rules" aria-label="How points are counted">
+            <p class="eyebrow text-clay">Scoring</p>
+            <h2>How your points are counted</h2>
+            <ul>
+              <li>Sign in and finish a test. The score saved is your percentage correct.</li>
+              <li>
+                Today starts at midnight. The week starts Monday 00:00. The month starts on the 1st.
+                Times are Lagos.
+              </li>
+              <li>
+                Only your first 3 tests each day count. A later test that day is saved, but it does
+                not change your rank.
+              </li>
+              <li><strong>Points = average × 10 + improvement × 4 + days × 15.</strong></li>
+              <li>Average is the mean of the tests that counted.</li>
+              <li>
+                Improvement is the later half of those tests minus the earlier half. It starts once
+                4 tests have counted. A drop does not take points away.
+              </li>
+              <li>Days is how many different days those counted tests fell on.</li>
+              <li>
+                If points are tied, the higher average is ahead, then the student with more counted
+                tests.
+              </li>
+              <li>The chart counts every finished test. The rank does not count past 3 a day.</li>
+            </ul>
+          </section>
+
+          <div class="oracle-board-tabs mt-6" role="tablist" aria-label="Ranking period">
             <button type="button" class="is-active" data-period="daily" role="tab">Today</button>
             <button type="button" data-period="weekly" role="tab">This week</button>
             <button type="button" data-period="monthly" role="tab">This month</button>
