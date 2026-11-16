@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@import "./styles/style.css";
+@import "./styles/abuad.css";
+@import "./styles/oracle.css";
+
+@theme {
+  --color-clay: #c15f3c;
+  --color-ink: #081423;
+  --font-display: "Manrope", sans-serif;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+.abuad-page,
+.oracle-page {
+  min-height: 100vh;
+}
+
