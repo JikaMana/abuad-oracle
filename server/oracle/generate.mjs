@@ -14,7 +14,14 @@ import {
 } from "./account.mjs";
 import { CHUNK_MAX, COURSES, FREE_COURSES_DAILY, FREE_DAILY, PAID_TEST_MAX } from "./courses.mjs";
 import { buildPrompt, callGroq, groqConfigured } from "./groq.mjs";
-import { alignQuestion, answerFromExplanation, isFresh, labelQuestion, pickLocalQuestions, similarPrompt } from "./questions.mjs";
+import {
+  alignQuestion,
+  answerFromExplanation,
+  isFresh,
+  labelQuestion,
+  pickLocalQuestions,
+  similarPrompt,
+} from "./questions.mjs";
 
 function shuffleOptions(question) {
   const order = question.options.map((_, index) => index);
@@ -47,14 +54,15 @@ function acceptQuestions(parsed, topics, avoid, limit) {
     }
     const verified = answerFromExplanation(question);
     if (!verified) continue;
-    if (!isFresh(question.prompt, avoid) || seen.has(question.prompt.trim().toLowerCase())) continue;
+    if (!isFresh(question.prompt, avoid) || seen.has(question.prompt.trim().toLowerCase()))
+      continue;
     if ((avoid || []).some((item) => similarPrompt(question.prompt, item))) continue;
     seen.add(question.prompt.trim().toLowerCase());
     accepted.push(
       labelQuestion({
         topic: question.topic,
         prompt: question.prompt.trim(),
-        options: question.options.map((option) => option.trim()),
+        options: verified.options,
         answer: verified.answer,
         steps: verified.steps,
         origin: "oracle",
@@ -166,7 +174,10 @@ export async function handleGenerate(req, user) {
   }
 
   const clientAvoid = Array.isArray(input.avoid)
-    ? input.avoid.filter((item) => typeof item === "string").slice(0, 24).map((item) => item.slice(0, 140))
+    ? input.avoid
+        .filter((item) => typeof item === "string")
+        .slice(0, 24)
+        .map((item) => item.slice(0, 140))
     : [];
   const remembered = await readSeen(user.uid);
   const avoid = [...clientAvoid, ...remembered].slice(-40);

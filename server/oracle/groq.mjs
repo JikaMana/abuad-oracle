@@ -5,7 +5,9 @@ const RESPONSE_HINT = `Return JSON only, with this shape:
 {"questions":[{"topic":"","prompt":"","options":["","","",""],"answer":0,"correct":"","steps":["",""]}]}`;
 
 export function groqModel() {
-  return (process.env.GROQ_MODEL || "openai/gpt-oss-20b").split(",")[0].trim() || "openai/gpt-oss-20b";
+  return (
+    (process.env.GROQ_MODEL || "openai/gpt-oss-20b").split(",")[0].trim() || "openai/gpt-oss-20b"
+  );
 }
 
 export function groqKeys() {
@@ -43,10 +45,12 @@ Rules:
 - Exactly 4 options. One of them must be the result you are about to calculate. The other three are typical mistakes.
 - Match the difficulty of ABUAD 100-level CBT papers: short stems, one idea each, a mix of recall and short working.
 - This is set #${batch + 1}. Use fresh numbers and situations. Do not reuse a stem with only a number changed if the method is identical to an avoided question.
-- Do not choose "answer" first. Solve the question in "steps", then copy the option that matches the result.
-- End "steps" with one sentence in this exact form: The correct answer is <option text>.
-- That final sentence is what gets saved. If it names an option, that option is marked correct even when "answer" is wrong.
-- If the steps name two different results, the question is thrown away. Finish the arithmetic before you write the final sentence.
+- Do not choose "answer" first. Solve the question in "steps" until you have one result.
+- One of the 4 options must be exactly that result. The other three are typical mistakes.
+- End "steps" with one sentence in this exact form: The correct answer is <the result you just calculated>.
+- That result is what gets saved. If it is not already one of the options, it replaces the option you were going to mark, and it becomes the correct option.
+- Never finish with a different value from the one the working reached. If the steps find 2 ± sqrt(10), the marked option is 2 ± sqrt(10), not another choice.
+- If the steps reach two different results, the question is thrown away. Finish the arithmetic before you write the final sentence.
 - "steps" is shown to the student word for word. Never write "wait", "recalculate", "actually", "correction", "option index", "none match", or "most plausible".
 - Plain text only. No LaTeX, no markdown, no $ signs. Write maths as x^2, sqrt(x), a/b, 3 + 4i.
 - A one-fact recall question needs 2 or 3 full sentences, then the final answer sentence.

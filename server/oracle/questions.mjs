@@ -8,8 +8,7 @@ export const PAST_QUESTIONS = {
     {
       id: "mth101-z-sum",
       topic: "Complex numbers",
-      prompt:
-        "If z1 = 7 + 3i and z2 = 4 - 2i, what is z1 + z2?",
+      prompt: "If z1 = 7 + 3i and z2 = 4 - 2i, what is z1 + z2?",
       options: ["11 + i", "11 + 5i", "3 + 5i", "11 - i"],
       answer: 0,
       steps: [
@@ -98,8 +97,7 @@ export const PAST_QUESTIONS = {
     {
       id: "mth101-sets",
       topic: "Sets",
-      prompt:
-        "If A = {1, 2, 3, 4} and B = {3, 4, 5, 6}, the symmetric difference A Δ B is",
+      prompt: "If A = {1, 2, 3, 4} and B = {3, 4, 5, 6}, the symmetric difference A Δ B is",
       options: ["{1, 2, 5, 6}", "{3, 4}", "{1, 2, 3, 4, 5, 6}", "{1, 2}"],
       answer: 0,
       steps: [
@@ -126,10 +124,7 @@ const CURATED = {
         "The graph of y = (x − 2)² + 1 has its vertex at",
         "(2, 1)",
         ["(−2, 1)", "(2, −1)", "(1, 2)"],
-        [
-          "y = (x − h)² + k has vertex (h, k).",
-          "Here h = 2 and k = 1.",
-        ],
+        ["y = (x − h)² + k has vertex (h, k).", "Here h = 2 and k = 1."],
       ),
     ],
     "Limits and continuity": [
@@ -178,10 +173,7 @@ const CURATED = {
         "The midpoint of (2, 4) and (8, 10) is",
         "(5, 7)",
         ["(6, 14)", "(3, 3)", "(10, 14)"],
-        [
-          "Midpoint = ((x1 + x2) / 2, (y1 + y2) / 2).",
-          "((2 + 8) / 2, (4 + 10) / 2) = (5, 7).",
-        ],
+        ["Midpoint = ((x1 + x2) / 2, (y1 + y2) / 2).", "((2 + 8) / 2, (4 + 10) / 2) = (5, 7)."],
       ),
     ],
   },
@@ -192,7 +184,10 @@ const CURATED = {
         "In mechanics, the three quantities chosen as fundamental are",
         "length, mass and time",
         ["force, energy and time", "speed, mass and length", "work, power and time"],
-        ["A fundamental quantity is not defined from other quantities.", "Mechanics uses length, mass and time."],
+        [
+          "A fundamental quantity is not defined from other quantities.",
+          "Mechanics uses length, mass and time.",
+        ],
       ),
     ],
     "Space and Time": [
@@ -236,8 +231,15 @@ const CURATED = {
         "Statics and Dynamics",
         "The normal force on a body resting on a surface acts",
         "perpendicular to the surface",
-        ["parallel to the surface", "always opposite the weight in size only", "along the direction of motion"],
-        ["The normal force is the support force from the surface.", "It is perpendicular to that surface."],
+        [
+          "parallel to the surface",
+          "always opposite the weight in size only",
+          "along the direction of motion",
+        ],
+        [
+          "The normal force is the support force from the surface.",
+          "It is perpendicular to that surface.",
+        ],
       ),
     ],
     "Work and Energy": [
@@ -265,7 +267,11 @@ const CURATED = {
         "Elasticity",
         "Hooke's law says that, within the elastic limit,",
         "extension is proportional to the applied force",
-        ["stress is always zero", "extension is proportional to the square of the force", "the material never returns to its original length"],
+        [
+          "stress is always zero",
+          "extension is proportional to the square of the force",
+          "the material never returns to its original length",
+        ],
         ["Hooke's law is F = ke.", "It holds only up to the elastic limit."],
       ),
     ],
@@ -275,7 +281,10 @@ const CURATED = {
         "Archimedes' principle says the upthrust on a body equals",
         "the weight of fluid displaced",
         ["the mass of the body", "the density of the body only", "the volume of the container"],
-        ["The fluid pushes up on the submerged body.", "That upthrust equals the weight of fluid displaced."],
+        [
+          "The fluid pushes up on the submerged body.",
+          "That upthrust equals the weight of fluid displaced.",
+        ],
       ),
     ],
     "Temperature and heat": [
@@ -293,7 +302,10 @@ const CURATED = {
         "Heat transfer by the movement of a hot fluid is called",
         "convection",
         ["conduction", "radiation", "diffraction"],
-        ["Conduction passes heat through a material without bulk flow.", "Convection needs the fluid itself to move."],
+        [
+          "Conduction passes heat through a material without bulk flow.",
+          "Convection needs the fluid itself to move.",
+        ],
       ),
     ],
     "Laws of thermodynamics": [
@@ -302,7 +314,10 @@ const CURATED = {
         "In these notes the first law is written",
         "ΔQ = ΔU + ΔW",
         ["ΔQ = 0 for every process", "ΔU = 0 for every process", "PV = nRT"],
-        ["Heat added goes into internal energy and work.", "At constant volume, ΔW = 0, so ΔQ = ΔU."],
+        [
+          "Heat added goes into internal energy and work.",
+          "At constant volume, ΔW = 0, so ΔQ = ΔU.",
+        ],
       ),
     ],
     "Kinetic theory of gases": [
@@ -310,7 +325,11 @@ const CURATED = {
         "Kinetic theory of gases",
         "Boyle's law says that, at constant temperature, pressure of a fixed mass of gas is",
         "inversely proportional to volume",
-        ["directly proportional to volume", "independent of volume", "proportional to the square of volume"],
+        [
+          "directly proportional to volume",
+          "independent of volume",
+          "proportional to the square of volume",
+        ],
         ["P1V1 = P2V2 when temperature is fixed.", "Halving the volume doubles the pressure."],
       ),
     ],
@@ -426,7 +445,7 @@ const CURATED = {
         ],
       ),
     ],
-    "Stoichiometry": [
+    Stoichiometry: [
       q(
         "Stoichiometry",
         "The number of moles in 44 g of CO₂ (molar mass 44 g/mol) is",
@@ -458,8 +477,15 @@ const CURATED = {
         "Chemical kinetics",
         "The order of a reaction with respect to a reactant is",
         "the power of that reactant's concentration in the rate law",
-        ["always the balancing coefficient in the equation", "the time taken for the reaction to finish", "the enthalpy change of the reaction"],
-        ["Order comes from the rate law, not from the balanced equation.", "It may be a whole number or a fraction."],
+        [
+          "always the balancing coefficient in the equation",
+          "the time taken for the reaction to finish",
+          "the enthalpy change of the reaction",
+        ],
+        [
+          "Order comes from the rate law, not from the balanced equation.",
+          "It may be a whole number or a fraction.",
+        ],
       ),
     ],
     "Atoms, molecules and ions": [
@@ -468,7 +494,10 @@ const CURATED = {
         "A molecule is",
         "two or more atoms chemically bonded",
         ["a single proton", "only a charged atom", "a mixture that can be filtered"],
-        ["An atom is the smallest particle of an element.", "A molecule contains atoms bonded together."],
+        [
+          "An atom is the smallest particle of an element.",
+          "A molecule contains atoms bonded together.",
+        ],
       ),
     ],
     Radioactivity: [
@@ -477,7 +506,10 @@ const CURATED = {
         "An alpha particle is",
         "a helium nucleus",
         ["a high-energy electron", "a neutron only", "electromagnetic radiation"],
-        ["An alpha particle has two protons and two neutrons.", "Beta is an electron and gamma is radiation."],
+        [
+          "An alpha particle has two protons and two neutrons.",
+          "Beta is an electron and gamma is radiation.",
+        ],
       ),
     ],
     Thermochemistry: [
@@ -497,10 +529,7 @@ const CURATED = {
         "Which structure controls what enters and leaves a cell?",
         "cell membrane",
         ["cell wall only", "ribosome", "nucleus only"],
-        [
-          "The cell membrane is selectively permeable.",
-          "It regulates the passage of substances.",
-        ],
+        ["The cell membrane is selectively permeable.", "It regulates the passage of substances."],
       ),
     ],
     Genetics: [
@@ -529,8 +558,15 @@ const CURATED = {
         "Cell division",
         "The four stages of mitosis, in order, are",
         "prophase, metaphase, anaphase, telophase",
-        ["metaphase, prophase, telophase, anaphase", "interphase, prophase, meiosis, telophase", "anaphase, telophase, metaphase, prophase"],
-        ["Interphase is not a stage of mitosis.", "The nucleus divides in that order, then the cytoplasm divides."],
+        [
+          "metaphase, prophase, telophase, anaphase",
+          "interphase, prophase, meiosis, telophase",
+          "anaphase, telophase, metaphase, prophase",
+        ],
+        [
+          "Interphase is not a stage of mitosis.",
+          "The nucleus divides in that order, then the cytoplasm divides.",
+        ],
       ),
     ],
     Tissues: [
@@ -538,8 +574,15 @@ const CURATED = {
         "Tissues",
         "The four basic tissue types in the body are",
         "epithelial, connective, muscle and nervous",
-        ["blood, bone, skin and hair", "xylem, phloem, cortex and pith", "enzyme, hormone, antibody and gene"],
-        ["A tissue is a group of similar cells with one function.", "Blood and bone are kinds of connective tissue, not separate basic types."],
+        [
+          "blood, bone, skin and hair",
+          "xylem, phloem, cortex and pith",
+          "enzyme, hormone, antibody and gene",
+        ],
+        [
+          "A tissue is a group of similar cells with one function.",
+          "Blood and bone are kinds of connective tissue, not separate basic types.",
+        ],
       ),
     ],
     Reproduction: [
@@ -548,7 +591,10 @@ const CURATED = {
         "Sperm are formed from diploid cells by",
         "meiosis",
         ["mitosis only", "binary fission", "budding"],
-        ["Spermatogonia first increase in number by mitosis.", "Meiosis then halves the chromosome number to form gametes."],
+        [
+          "Spermatogonia first increase in number by mitosis.",
+          "Meiosis then halves the chromosome number to form gametes.",
+        ],
       ),
     ],
   },
@@ -588,103 +634,341 @@ function withUnit(correct, unit, extras) {
 
 const ALT = {
   "MTH 103|Limits and continuity": [
-    q("Limits and continuity", "lim (x → 4) of 9 equals", "9", ["4", "0", "36"], ["The limit of a constant is the constant.", "The limit is 9."]),
-    q("Limits and continuity", "A function is continuous at x = a when", "the limit at a equals the function value at a", ["the function is a polynomial only", "the limit is always zero", "a is negative"], ["Continuity needs the limit and the function value to agree.", "They must be equal at x = a."]),
+    q(
+      "Limits and continuity",
+      "lim (x → 4) of 9 equals",
+      "9",
+      ["4", "0", "36"],
+      ["The limit of a constant is the constant.", "The limit is 9."],
+    ),
+    q(
+      "Limits and continuity",
+      "A function is continuous at x = a when",
+      "the limit at a equals the function value at a",
+      ["the function is a polynomial only", "the limit is always zero", "a is negative"],
+      [
+        "Continuity needs the limit and the function value to agree.",
+        "They must be equal at x = a.",
+      ],
+    ),
   ],
   "MTH 103|Differentiation": [
-    q("Differentiation", "The derivative of a constant is", "0", ["1", "the constant itself", "undefined"], ["A constant does not change.", "Its rate of change is 0."]),
-    q("Differentiation", "d/dx (x³) equals", "3x²", ["x²", "3x", "x³ / 3"], ["Use the power rule.", "Bring down 3 and reduce the power to 2."]),
+    q(
+      "Differentiation",
+      "The derivative of a constant is",
+      "0",
+      ["1", "the constant itself", "undefined"],
+      ["A constant does not change.", "Its rate of change is 0."],
+    ),
+    q(
+      "Differentiation",
+      "d/dx (x³) equals",
+      "3x²",
+      ["x²", "3x", "x³ / 3"],
+      ["Use the power rule.", "Bring down 3 and reduce the power to 2."],
+    ),
   ],
   "MTH 103|Integration": [
-    q("Integration", "∫ 6 dx equals", "6x + C", ["6 + C", "x + C", "6x² + C"], ["The antiderivative of a constant k is kx.", "Do not forget + C."]),
-    q("Integration", "∫ x² dx equals", "x³/3 + C", ["2x + C", "x³ + C", "x²/2 + C"], ["Increase the power by 1 and divide by the new power.", "∫ x² dx = x³/3 + C."]),
+    q(
+      "Integration",
+      "∫ 6 dx equals",
+      "6x + C",
+      ["6 + C", "x + C", "6x² + C"],
+      ["The antiderivative of a constant k is kx.", "Do not forget + C."],
+    ),
+    q(
+      "Integration",
+      "∫ x² dx equals",
+      "x³/3 + C",
+      ["2x + C", "x³ + C", "x²/2 + C"],
+      ["Increase the power by 1 and divide by the new power.", "∫ x² dx = x³/3 + C."],
+    ),
   ],
   "MTH 103|Coordinate geometry": [
-    q("Coordinate geometry", "The distance between (0, 0) and (3, 4) is", "5", ["7", "12", "1"], ["Distance = sqrt((x2 − x1)² + (y2 − y1)²).", "sqrt(9 + 16) = sqrt(25) = 5."]),
-    q("Coordinate geometry", "The gradient of the line through (1, 2) and (3, 8) is", "3", ["2", "6", "1/3"], ["Gradient = (y2 − y1) / (x2 − x1).", "(8 − 2) / (3 − 1) = 3."]),
+    q(
+      "Coordinate geometry",
+      "The distance between (0, 0) and (3, 4) is",
+      "5",
+      ["7", "12", "1"],
+      ["Distance = sqrt((x2 − x1)² + (y2 − y1)²).", "sqrt(9 + 16) = sqrt(25) = 5."],
+    ),
+    q(
+      "Coordinate geometry",
+      "The gradient of the line through (1, 2) and (3, 8) is",
+      "3",
+      ["2", "6", "1/3"],
+      ["Gradient = (y2 − y1) / (x2 − x1).", "(8 − 2) / (3 − 1) = 3."],
+    ),
   ],
   "PHY 101|Units and Dimension": [
-    q("Units and Dimension", "The SI unit of force is the", "newton", ["joule", "watt", "pascal"], ["Force is measured in newtons.", "1 N = 1 kg m/s²."]),
+    q(
+      "Units and Dimension",
+      "The SI unit of force is the",
+      "newton",
+      ["joule", "watt", "pascal"],
+      ["Force is measured in newtons.", "1 N = 1 kg m/s²."],
+    ),
   ],
   "PHY 101|Kinematics": [
-    q("Kinematics", "A car starts from rest and accelerates at 2 m/s² for 5 s. Its speed is", "10 m/s", ["2 m/s", "7 m/s", "25 m/s"], ["v = u + at and u = 0.", "v = 2 × 5 = 10 m/s."]),
+    q(
+      "Kinematics",
+      "A car starts from rest and accelerates at 2 m/s² for 5 s. Its speed is",
+      "10 m/s",
+      ["2 m/s", "7 m/s", "25 m/s"],
+      ["v = u + at and u = 0.", "v = 2 × 5 = 10 m/s."],
+    ),
   ],
   "PHY 101|Fundamental Laws of Mechanics": [
-    q("Fundamental Laws of Mechanics", "A 4 kg body is acted on by a resultant force of 20 N. Its acceleration is", "5 m/s²", ["80 m/s²", "16 m/s²", "4 m/s²"], ["a = F / m.", "a = 20 / 4 = 5 m/s²."]),
+    q(
+      "Fundamental Laws of Mechanics",
+      "A 4 kg body is acted on by a resultant force of 20 N. Its acceleration is",
+      "5 m/s²",
+      ["80 m/s²", "16 m/s²", "4 m/s²"],
+      ["a = F / m.", "a = 20 / 4 = 5 m/s²."],
+    ),
   ],
   "PHY 101|Work and Energy": [
-    q("Work and Energy", "A force of 10 N moves a body 3 m in the direction of the force. The work done is", "30 J", ["13 J", "3.3 J", "7 J"], ["W = Fd.", "W = 10 × 3 = 30 J."]),
+    q(
+      "Work and Energy",
+      "A force of 10 N moves a body 3 m in the direction of the force. The work done is",
+      "30 J",
+      ["13 J", "3.3 J", "7 J"],
+      ["W = Fd.", "W = 10 × 3 = 30 J."],
+    ),
   ],
   "PHY 101|Conservation laws": [
-    q("Conservation laws", "A 2 kg body moves at 4 m/s. Its momentum is", "8 kg m/s", ["6 kg m/s", "2 kg m/s", "16 kg m/s"], ["p = mv.", "p = 2 × 4 = 8 kg m/s."]),
+    q(
+      "Conservation laws",
+      "A 2 kg body moves at 4 m/s. Its momentum is",
+      "8 kg m/s",
+      ["6 kg m/s", "2 kg m/s", "16 kg m/s"],
+      ["p = mv.", "p = 2 × 4 = 8 kg m/s."],
+    ),
   ],
   "PHY 101|Circular motion and gravitation": [
-    q("Circular motion and gravitation", "Weight is best described as", "the gravitational force on a body", ["the mass of a body", "the volume of a body", "the speed of a body"], ["Weight is a force, mass is not.", "Near Earth, W = mg."]),
+    q(
+      "Circular motion and gravitation",
+      "Weight is best described as",
+      "the gravitational force on a body",
+      ["the mass of a body", "the volume of a body", "the speed of a body"],
+      ["Weight is a force, mass is not.", "Near Earth, W = mg."],
+    ),
   ],
   "PHY 103|Electric charge and fields": [
-    q("Electric charge and fields", "Like charges", "repel", ["attract", "cancel only in metals", "have no force"], ["Coulomb's law gives repulsion for the same sign.", "Unlike charges attract."]),
+    q(
+      "Electric charge and fields",
+      "Like charges",
+      "repel",
+      ["attract", "cancel only in metals", "have no force"],
+      ["Coulomb's law gives repulsion for the same sign.", "Unlike charges attract."],
+    ),
   ],
   "PHY 103|Electric potential": [
-    q("Electric potential", "Electric potential is measured in", "volts", ["ohms", "farads", "tesla"], ["Potential difference is energy per unit charge.", "The unit is the volt."]),
+    q(
+      "Electric potential",
+      "Electric potential is measured in",
+      "volts",
+      ["ohms", "farads", "tesla"],
+      ["Potential difference is energy per unit charge.", "The unit is the volt."],
+    ),
   ],
   "PHY 103|Capacitors": [
-    q("Capacitors", "Capacitance is the ratio", "charge / potential difference", ["potential difference / charge", "current / resistance", "force / charge"], ["C = Q / V.", "A larger capacitance stores more charge at the same voltage."]),
+    q(
+      "Capacitors",
+      "Capacitance is the ratio",
+      "charge / potential difference",
+      ["potential difference / charge", "current / resistance", "force / charge"],
+      ["C = Q / V.", "A larger capacitance stores more charge at the same voltage."],
+    ),
   ],
   "PHY 103|Current and resistance": [
-    q("Current and resistance", "A 12 V supply drives 2 A through a resistor. The resistance is", "6 Ω", ["24 Ω", "10 Ω", "2 Ω"], ["R = V / I.", "R = 12 / 2 = 6 Ω."]),
+    q(
+      "Current and resistance",
+      "A 12 V supply drives 2 A through a resistor. The resistance is",
+      "6 Ω",
+      ["24 Ω", "10 Ω", "2 Ω"],
+      ["R = V / I.", "R = 12 / 2 = 6 Ω."],
+    ),
   ],
   "PHY 103|Magnetism": [
-    q("Magnetism", "The SI unit of magnetic flux density is the", "tesla", ["weber", "henry", "volt"], ["Flux density is measured in tesla.", "1 T = 1 N/(A m)."]),
+    q(
+      "Magnetism",
+      "The SI unit of magnetic flux density is the",
+      "tesla",
+      ["weber", "henry", "volt"],
+      ["Flux density is measured in tesla.", "1 T = 1 N/(A m)."],
+    ),
   ],
   "PHY 103|Waves and optics": [
-    q("Waves and optics", "The speed of a wave is frequency multiplied by", "wavelength", ["amplitude", "period only", "mass"], ["v = fλ.", "Wavelength is the length of one complete wave."]),
-    q("Waves and optics", "A wave of frequency 4 Hz and wavelength 3 m has speed", "12 m/s", ["7 m/s", "1.3 m/s", "4 m/s"], ["v = fλ.", "v = 4 × 3 = 12 m/s."]),
+    q(
+      "Waves and optics",
+      "The speed of a wave is frequency multiplied by",
+      "wavelength",
+      ["amplitude", "period only", "mass"],
+      ["v = fλ.", "Wavelength is the length of one complete wave."],
+    ),
+    q(
+      "Waves and optics",
+      "A wave of frequency 4 Hz and wavelength 3 m has speed",
+      "12 m/s",
+      ["7 m/s", "1.3 m/s", "4 m/s"],
+      ["v = fλ.", "v = 4 × 3 = 12 m/s."],
+    ),
   ],
   "STAT|Descriptive statistics": [
-    q("Descriptive statistics", "The mean of 4, 6, 8 and 10 is", "7", ["6", "8", "28"], ["Add the values and divide by how many there are.", "(4 + 6 + 8 + 10) / 4 = 7."]),
-    q("Descriptive statistics", "The median of 3, 9, 4, 7 and 5 is", "5", ["3", "9", "7"], ["Arrange the scores: 3, 4, 5, 7, 9.", "The middle value is 5."]),
+    q(
+      "Descriptive statistics",
+      "The mean of 4, 6, 8 and 10 is",
+      "7",
+      ["6", "8", "28"],
+      ["Add the values and divide by how many there are.", "(4 + 6 + 8 + 10) / 4 = 7."],
+    ),
+    q(
+      "Descriptive statistics",
+      "The median of 3, 9, 4, 7 and 5 is",
+      "5",
+      ["3", "9", "7"],
+      ["Arrange the scores: 3, 4, 5, 7, 9.", "The middle value is 5."],
+    ),
   ],
   "STAT|Probability": [
-    q("Probability", "A fair die is rolled once. The probability of a number greater than 4 is", "1/3", ["1/6", "1/2", "2/3"], ["The favourable outcomes are 5 and 6.", "2/6 = 1/3."]),
+    q(
+      "Probability",
+      "A fair die is rolled once. The probability of a number greater than 4 is",
+      "1/3",
+      ["1/6", "1/2", "2/3"],
+      ["The favourable outcomes are 5 and 6.", "2/6 = 1/3."],
+    ),
   ],
   "STAT|Random variables": [
-    q("Random variables", "A random variable assigns", "a number to each outcome", ["a probability greater than 1", "only names, never numbers", "the sample size"], ["A random variable is a numerical outcome.", "Each outcome gets a number."]),
+    q(
+      "Random variables",
+      "A random variable assigns",
+      "a number to each outcome",
+      ["a probability greater than 1", "only names, never numbers", "the sample size"],
+      ["A random variable is a numerical outcome.", "Each outcome gets a number."],
+    ),
   ],
   "STAT|Binomial and Poisson": [
-    q("Binomial and Poisson", "A binomial experiment requires", "a fixed number of independent trials with two outcomes", ["a changing number of trials", "more than two outcomes on every trial", "dependent trials only"], ["Each trial is success or failure.", "The number of trials is fixed and the trials are independent."]),
+    q(
+      "Binomial and Poisson",
+      "A binomial experiment requires",
+      "a fixed number of independent trials with two outcomes",
+      [
+        "a changing number of trials",
+        "more than two outcomes on every trial",
+        "dependent trials only",
+      ],
+      [
+        "Each trial is success or failure.",
+        "The number of trials is fixed and the trials are independent.",
+      ],
+    ),
   ],
   "STAT|Normal distribution": [
-    q("Normal distribution", "In a normal distribution, the mean, median and mode are", "equal", ["always different", "in the ratio 1 : 2 : 3", "undefined"], ["A normal curve is symmetric about the centre.", "The three averages coincide."]),
+    q(
+      "Normal distribution",
+      "In a normal distribution, the mean, median and mode are",
+      "equal",
+      ["always different", "in the ratio 1 : 2 : 3", "undefined"],
+      ["A normal curve is symmetric about the centre.", "The three averages coincide."],
+    ),
   ],
   "STAT|Correlation and regression": [
-    q("Correlation and regression", "A correlation coefficient of −0.9 indicates", "a strong negative linear relationship", ["no relationship", "a strong positive relationship", "a weak positive relationship"], ["The sign shows the direction.", "A value close to −1 is a strong negative relationship."]),
+    q(
+      "Correlation and regression",
+      "A correlation coefficient of −0.9 indicates",
+      "a strong negative linear relationship",
+      ["no relationship", "a strong positive relationship", "a weak positive relationship"],
+      ["The sign shows the direction.", "A value close to −1 is a strong negative relationship."],
+    ),
   ],
   "CHM 101|Atomic structure": [
-    q("Atomic structure", "The number of protons in the nucleus of an atom is its", "atomic number", ["mass number", "neutron number", "valency"], ["Atomic number counts protons.", "It identifies the element."]),
+    q(
+      "Atomic structure",
+      "The number of protons in the nucleus of an atom is its",
+      "atomic number",
+      ["mass number", "neutron number", "valency"],
+      ["Atomic number counts protons.", "It identifies the element."],
+    ),
   ],
   "CHM 101|Periodic table": [
-    q("Periodic table", "Elements in the same group of the periodic table have the same", "number of valence electrons", ["mass number", "number of neutrons", "number of shells only"], ["Group number tracks the valence electrons for the main groups.", "That is why they react in similar ways."]),
+    q(
+      "Periodic table",
+      "Elements in the same group of the periodic table have the same",
+      "number of valence electrons",
+      ["mass number", "number of neutrons", "number of shells only"],
+      [
+        "Group number tracks the valence electrons for the main groups.",
+        "That is why they react in similar ways.",
+      ],
+    ),
   ],
   "CHM 101|Stoichiometry": [
-    q("Stoichiometry", "The number of moles in 44 g of CO₂ (molar mass 44 g/mol) is", "1 mol", ["44 mol", "2 mol", "0.5 mol"], ["n = mass / molar mass.", "44 / 44 = 1 mol."]),
+    q(
+      "Stoichiometry",
+      "The number of moles in 44 g of CO₂ (molar mass 44 g/mol) is",
+      "1 mol",
+      ["44 mol", "2 mol", "0.5 mol"],
+      ["n = mass / molar mass.", "44 / 44 = 1 mol."],
+    ),
   ],
   "CHM 101|Gases": [
-    q("Gases", "At constant temperature, if the volume of a fixed mass of gas is halved, the pressure", "doubles", ["is halved", "stays the same", "becomes zero"], ["Boyle's law: pressure and volume are inversely proportional.", "Halving the volume doubles the pressure."]),
+    q(
+      "Gases",
+      "At constant temperature, if the volume of a fixed mass of gas is halved, the pressure",
+      "doubles",
+      ["is halved", "stays the same", "becomes zero"],
+      [
+        "Boyle's law: pressure and volume are inversely proportional.",
+        "Halving the volume doubles the pressure.",
+      ],
+    ),
   ],
   "CHM 101|Acids, bases and pH": [
-    q("Acids, bases and pH", "A solution with pH 3 is", "acidic", ["neutral", "basic", "neither acidic nor basic"], ["pH below 7 is acidic.", "pH 3 is acidic."]),
+    q(
+      "Acids, bases and pH",
+      "A solution with pH 3 is",
+      "acidic",
+      ["neutral", "basic", "neither acidic nor basic"],
+      ["pH below 7 is acidic.", "pH 3 is acidic."],
+    ),
   ],
   "BIO 101|Cell structure and organization": [
-    q("Cell structure and organization", "Which structure controls what enters and leaves a cell?", "the cell membrane", ["the nucleus only", "the cell wall only", "a ribosome"], ["The membrane is selectively permeable.", "It controls movement into and out of the cell."]),
+    q(
+      "Cell structure and organization",
+      "Which structure controls what enters and leaves a cell?",
+      "the cell membrane",
+      ["the nucleus only", "the cell wall only", "a ribosome"],
+      ["The membrane is selectively permeable.", "It controls movement into and out of the cell."],
+    ),
   ],
   "BIO 101|Genetics": [
-    q("Genetics", "In a monohybrid cross of two heterozygotes (Aa × Aa), the expected genotype ratio is", "1 : 2 : 1", ["3 : 1", "1 : 1", "9 : 3 : 3 : 1"], ["The Punnett square gives AA, Aa, Aa and aa.", "That is 1 : 2 : 1."]),
+    q(
+      "Genetics",
+      "In a monohybrid cross of two heterozygotes (Aa × Aa), the expected genotype ratio is",
+      "1 : 2 : 1",
+      ["3 : 1", "1 : 1", "9 : 3 : 3 : 1"],
+      ["The Punnett square gives AA, Aa, Aa and aa.", "That is 1 : 2 : 1."],
+    ),
   ],
   "BIO 101|Ecology": [
-    q("Ecology", "A group of the same species living in one area is a", "population", ["community", "ecosystem", "biosphere"], ["A population is one species.", "A community includes several species."]),
+    q(
+      "Ecology",
+      "A group of the same species living in one area is a",
+      "population",
+      ["community", "ecosystem", "biosphere"],
+      ["A population is one species.", "A community includes several species."],
+    ),
   ],
   "BIO 101|Reproduction": [
-    q("Reproduction", "Spermatogonia first increase their number by", "mitosis", ["meiosis only", "binary fission", "budding"], ["The notes say spermatogonia divide by mitosis.", "Meiosis follows when sperm are formed."]),
+    q(
+      "Reproduction",
+      "Spermatogonia first increase their number by",
+      "mitosis",
+      ["meiosis only", "binary fission", "budding"],
+      ["The notes say spermatogonia divide by mitosis.", "Meiosis follows when sperm are formed."],
+    ),
   ],
 };
 
@@ -726,10 +1010,45 @@ export function normalisePrompt(prompt) {
 }
 
 const SIMILAR_STOP = new Set([
-  "the", "and", "what", "with", "for", "from", "that", "this", "equals", "equal",
-  "into", "over", "then", "its", "has", "have", "are", "was", "when", "which",
-  "than", "their", "them", "your", "about", "how", "many", "does", "each", "per",
-  "only", "after", "before", "there", "these", "those", "will", "would", "can",
+  "the",
+  "and",
+  "what",
+  "with",
+  "for",
+  "from",
+  "that",
+  "this",
+  "equals",
+  "equal",
+  "into",
+  "over",
+  "then",
+  "its",
+  "has",
+  "have",
+  "are",
+  "was",
+  "when",
+  "which",
+  "than",
+  "their",
+  "them",
+  "your",
+  "about",
+  "how",
+  "many",
+  "does",
+  "each",
+  "per",
+  "only",
+  "after",
+  "before",
+  "there",
+  "these",
+  "those",
+  "will",
+  "would",
+  "can",
 ]);
 
 export function similarPrompt(a, b) {
@@ -769,82 +1088,258 @@ function intBetween(rand, min, max) {
 
 const MORE = {
   "PHY 101|Kinematics": [
-    q("Kinematics", "A body starts from rest and accelerates at 3 m/s² for 4 s. The distance travelled is", "24 m", ["12 m", "7 m", "48 m"], ["s = ut + ½at² and u = 0.", "s = ½ × 3 × 16 = 24 m."]),
+    q(
+      "Kinematics",
+      "A body starts from rest and accelerates at 3 m/s² for 4 s. The distance travelled is",
+      "24 m",
+      ["12 m", "7 m", "48 m"],
+      ["s = ut + ½at² and u = 0.", "s = ½ × 3 × 16 = 24 m."],
+    ),
   ],
   "PHY 101|Fundamental Laws of Mechanics": [
-    q("Fundamental Laws of Mechanics", "Newton's third law says that action and reaction forces are", "equal in size and opposite in direction", ["equal and in the same direction", "always unequal", "acting on the same body"], ["The forces are on two different bodies.", "They are equal and opposite."]),
+    q(
+      "Fundamental Laws of Mechanics",
+      "Newton's third law says that action and reaction forces are",
+      "equal in size and opposite in direction",
+      ["equal and in the same direction", "always unequal", "acting on the same body"],
+      ["The forces are on two different bodies.", "They are equal and opposite."],
+    ),
   ],
   "PHY 101|Work and Energy": [
-    q("Work and Energy", "Power is best described as", "the rate of doing work", ["the force times mass", "stored energy only", "distance divided by time"], ["P = W / t.", "A higher power does the same work in less time."]),
+    q(
+      "Work and Energy",
+      "Power is best described as",
+      "the rate of doing work",
+      ["the force times mass", "stored energy only", "distance divided by time"],
+      ["P = W / t.", "A higher power does the same work in less time."],
+    ),
   ],
   "PHY 101|Conservation laws": [
-    q("Conservation laws", "With no external force, the total momentum of a system", "stays constant", ["always increases", "always becomes zero", "equals the total mass"], ["This is conservation of momentum.", "Internal forces cancel in pairs."]),
+    q(
+      "Conservation laws",
+      "With no external force, the total momentum of a system",
+      "stays constant",
+      ["always increases", "always becomes zero", "equals the total mass"],
+      ["This is conservation of momentum.", "Internal forces cancel in pairs."],
+    ),
   ],
   "PHY 101|Circular motion and gravitation": [
-    q("Circular motion and gravitation", "Acceleration directed towards the centre of a circular path is called", "centripetal acceleration", ["tangential weight", "terminal velocity", "linear momentum"], ["The direction of the acceleration is inward.", "It is centripetal acceleration."]),
+    q(
+      "Circular motion and gravitation",
+      "Acceleration directed towards the centre of a circular path is called",
+      "centripetal acceleration",
+      ["tangential weight", "terminal velocity", "linear momentum"],
+      ["The direction of the acceleration is inward.", "It is centripetal acceleration."],
+    ),
   ],
   "PHY 103|Electric charge and fields": [
-    q("Electric charge and fields", "The SI unit of electric charge is the", "coulomb", ["ampere", "volt", "ohm"], ["Current is charge per second.", "Charge itself is measured in coulombs."]),
+    q(
+      "Electric charge and fields",
+      "The SI unit of electric charge is the",
+      "coulomb",
+      ["ampere", "volt", "ohm"],
+      ["Current is charge per second.", "Charge itself is measured in coulombs."],
+    ),
   ],
   "PHY 103|Electric potential": [
-    q("Electric potential", "One volt is equal to one", "joule per coulomb", ["newton per coulomb", "ampere per ohm", "coulomb per second"], ["V = W / Q.", "1 V = 1 J/C."]),
+    q(
+      "Electric potential",
+      "One volt is equal to one",
+      "joule per coulomb",
+      ["newton per coulomb", "ampere per ohm", "coulomb per second"],
+      ["V = W / Q.", "1 V = 1 J/C."],
+    ),
   ],
   "PHY 103|Capacitors": [
-    q("Capacitors", "Inserting a dielectric between capacitor plates usually", "increases the capacitance", ["reduces the charge to zero", "removes the potential difference permanently", "changes the plates into resistors"], ["A dielectric lets the capacitor store more charge at the same voltage.", "Capacitance increases."]),
+    q(
+      "Capacitors",
+      "Inserting a dielectric between capacitor plates usually",
+      "increases the capacitance",
+      [
+        "reduces the charge to zero",
+        "removes the potential difference permanently",
+        "changes the plates into resistors",
+      ],
+      [
+        "A dielectric lets the capacitor store more charge at the same voltage.",
+        "Capacitance increases.",
+      ],
+    ),
   ],
   "PHY 103|Current and resistance": [
-    q("Current and resistance", "A current of 3 A flows for 4 s. The charge transferred is", "12 C", ["7 C", "0.75 C", "1 C"], ["Q = It.", "Q = 3 × 4 = 12 C."]),
+    q(
+      "Current and resistance",
+      "A current of 3 A flows for 4 s. The charge transferred is",
+      "12 C",
+      ["7 C", "0.75 C", "1 C"],
+      ["Q = It.", "Q = 3 × 4 = 12 C."],
+    ),
   ],
   "PHY 103|Magnetism": [
-    q("Magnetism", "A magnetic field can exert a force on", "a moving charge", ["a stationary neutral atom only", "a mass at rest with no charge", "light in a vacuum only"], ["The magnetic force on a charge is qvB sin θ.", "A stationary charge feels no magnetic force."]),
+    q(
+      "Magnetism",
+      "A magnetic field can exert a force on",
+      "a moving charge",
+      ["a stationary neutral atom only", "a mass at rest with no charge", "light in a vacuum only"],
+      [
+        "The magnetic force on a charge is qvB sin θ.",
+        "A stationary charge feels no magnetic force.",
+      ],
+    ),
   ],
   "PHY 103|Waves and optics": [
-    q("Waves and optics", "The time taken for one complete wave to pass a point is the", "period", ["amplitude", "wavelength", "speed"], ["Period and frequency are reciprocals.", "T = 1/f."]),
+    q(
+      "Waves and optics",
+      "The time taken for one complete wave to pass a point is the",
+      "period",
+      ["amplitude", "wavelength", "speed"],
+      ["Period and frequency are reciprocals.", "T = 1/f."],
+    ),
   ],
   "STAT|Descriptive statistics": [
-    q("Descriptive statistics", "The range of the scores 2, 9 and 5 is", "7", ["5", "9", "16"], ["Range = highest − lowest.", "9 − 2 = 7."]),
+    q(
+      "Descriptive statistics",
+      "The range of the scores 2, 9 and 5 is",
+      "7",
+      ["5", "9", "16"],
+      ["Range = highest − lowest.", "9 − 2 = 7."],
+    ),
   ],
   "STAT|Probability": [
-    q("Probability", "The probability of an impossible event is", "0", ["1", "1/2", "2"], ["Probability lies from 0 to 1.", "An impossible event has probability 0."]),
+    q(
+      "Probability",
+      "The probability of an impossible event is",
+      "0",
+      ["1", "1/2", "2"],
+      ["Probability lies from 0 to 1.", "An impossible event has probability 0."],
+    ),
   ],
   "STAT|Random variables": [
-    q("Random variables", "If a random variable is certain to be 6, its expected value is", "6", ["0", "1", "36"], ["A constant has expectation equal to that constant.", "E(6) = 6."]),
+    q(
+      "Random variables",
+      "If a random variable is certain to be 6, its expected value is",
+      "6",
+      ["0", "1", "36"],
+      ["A constant has expectation equal to that constant.", "E(6) = 6."],
+    ),
   ],
   "STAT|Binomial and Poisson": [
-    q("Binomial and Poisson", "For 8 independent trials with success probability 1/2, the binomial variance is", "2", ["4", "8", "1"], ["Variance = np(1 − p).", "8 × 1/2 × 1/2 = 2."]),
+    q(
+      "Binomial and Poisson",
+      "For 8 independent trials with success probability 1/2, the binomial variance is",
+      "2",
+      ["4", "8", "1"],
+      ["Variance = np(1 − p).", "8 × 1/2 × 1/2 = 2."],
+    ),
   ],
   "STAT|Normal distribution": [
-    q("Normal distribution", "About 95% of observations in a normal distribution lie within", "2 standard deviations of the mean", ["1 standard deviation of the mean", "4 standard deviations of the mean", "the interquartile range only"], ["The empirical rule gives about 95% within 2 standard deviations.", "About 68% lie within 1 standard deviation."]),
+    q(
+      "Normal distribution",
+      "About 95% of observations in a normal distribution lie within",
+      "2 standard deviations of the mean",
+      [
+        "1 standard deviation of the mean",
+        "4 standard deviations of the mean",
+        "the interquartile range only",
+      ],
+      [
+        "The empirical rule gives about 95% within 2 standard deviations.",
+        "About 68% lie within 1 standard deviation.",
+      ],
+    ),
   ],
   "STAT|Correlation and regression": [
-    q("Correlation and regression", "A correlation coefficient of 0 means", "no linear relationship", ["a perfect positive line", "a perfect negative line", "a causal relationship"], ["r = 0 means the linear association is absent.", "It does not by itself prove anything about a curve."]),
+    q(
+      "Correlation and regression",
+      "A correlation coefficient of 0 means",
+      "no linear relationship",
+      ["a perfect positive line", "a perfect negative line", "a causal relationship"],
+      [
+        "r = 0 means the linear association is absent.",
+        "It does not by itself prove anything about a curve.",
+      ],
+    ),
   ],
   "CHM 101|Atomic structure": [
-    q("Atomic structure", "Isotopes of an element have the same", "atomic number", ["mass number", "number of neutrons", "number of nucleons"], ["Isotopes are the same element.", "They share a proton number and differ in neutrons."]),
+    q(
+      "Atomic structure",
+      "Isotopes of an element have the same",
+      "atomic number",
+      ["mass number", "number of neutrons", "number of nucleons"],
+      ["Isotopes are the same element.", "They share a proton number and differ in neutrons."],
+    ),
   ],
   "CHM 101|Periodic table": [
-    q("Periodic table", "The modern periodic table arranges the elements in order of", "atomic number", ["atomic mass only", "date of discovery", "density"], ["Moseley's work uses nuclear charge.", "The order is increasing atomic number."]),
+    q(
+      "Periodic table",
+      "The modern periodic table arranges the elements in order of",
+      "atomic number",
+      ["atomic mass only", "date of discovery", "density"],
+      ["Moseley's work uses nuclear charge.", "The order is increasing atomic number."],
+    ),
   ],
   "CHM 101|Stoichiometry": [
-    q("Stoichiometry", "One mole of any substance contains", "Avogadro's number of particles", ["18 grams only", "one atom only", "22.4 molecules only"], ["Avogadro's number is about 6.02 × 10²³.", "That quantity is one mole of particles."]),
+    q(
+      "Stoichiometry",
+      "One mole of any substance contains",
+      "Avogadro's number of particles",
+      ["18 grams only", "one atom only", "22.4 molecules only"],
+      ["Avogadro's number is about 6.02 × 10²³.", "That quantity is one mole of particles."],
+    ),
   ],
   "CHM 101|Gases": [
-    q("Gases", "In the ideal-gas calculations used at this level, 0°C is the same as", "273 K", ["0 K", "100 K", "373 K"], ["Kelvin = Celsius + 273.", "0°C = 273 K."]),
+    q(
+      "Gases",
+      "In the ideal-gas calculations used at this level, 0°C is the same as",
+      "273 K",
+      ["0 K", "100 K", "373 K"],
+      ["Kelvin = Celsius + 273.", "0°C = 273 K."],
+    ),
   ],
   "CHM 101|Acids, bases and pH": [
-    q("Acids, bases and pH", "A neutral aqueous solution at room temperature has pH", "7", ["0", "1", "14"], ["pH 7 is neutral.", "Below 7 is acidic and above 7 is alkaline."]),
+    q(
+      "Acids, bases and pH",
+      "A neutral aqueous solution at room temperature has pH",
+      "7",
+      ["0", "1", "14"],
+      ["pH 7 is neutral.", "Below 7 is acidic and above 7 is alkaline."],
+    ),
   ],
   "BIO 101|Cell structure and organization": [
-    q("Cell structure and organization", "Ribosomes are the site of", "protein synthesis", ["photosynthesis", "lipid storage only", "cell division"], ["Ribosomes read mRNA.", "They assemble amino acids into proteins."]),
+    q(
+      "Cell structure and organization",
+      "Ribosomes are the site of",
+      "protein synthesis",
+      ["photosynthesis", "lipid storage only", "cell division"],
+      ["Ribosomes read mRNA.", "They assemble amino acids into proteins."],
+    ),
   ],
   "BIO 101|Genetics": [
-    q("Genetics", "In DNA, adenine pairs with", "thymine", ["cytosine", "guanine", "uracil"], ["A pairs with T and G pairs with C.", "Uracil replaces thymine in RNA."]),
+    q(
+      "Genetics",
+      "In DNA, adenine pairs with",
+      "thymine",
+      ["cytosine", "guanine", "uracil"],
+      ["A pairs with T and G pairs with C.", "Uracil replaces thymine in RNA."],
+    ),
   ],
   "BIO 101|Ecology": [
-    q("Ecology", "The role an organism plays in its habitat is its", "niche", ["population", "biome", "species"], ["A habitat is where it lives.", "A niche is how it lives there."]),
+    q(
+      "Ecology",
+      "The role an organism plays in its habitat is its",
+      "niche",
+      ["population", "biome", "species"],
+      ["A habitat is where it lives.", "A niche is how it lives there."],
+    ),
   ],
   "BIO 101|Reproduction": [
-    q("Reproduction", "Meiosis produces daughter cells that are", "haploid", ["identical body cells", "always diploid clones", "unable to form gametes"], ["Meiosis halves the chromosome number.", "The daughter cells are haploid."]),
+    q(
+      "Reproduction",
+      "Meiosis produces daughter cells that are",
+      "haploid",
+      ["identical body cells", "always diploid clones", "unable to form gametes"],
+      ["Meiosis halves the chromosome number.", "The daughter cells are haploid."],
+    ),
   ],
 };
 
@@ -880,7 +1375,11 @@ function generatedFor(course, topic, rand) {
         topic,
         `If z1 = ${a} + ${b}i and z2 = ${formatComplex(c, d)}, what is z1 × z2?`,
         formatComplex(real, imag),
-        [formatComplex(a * c, b * d), formatComplex(a + c, b + d), formatComplex(real, a * d - b * c)],
+        [
+          formatComplex(a * c, b * d),
+          formatComplex(a + c, b + d),
+          formatComplex(real, a * d - b * c),
+        ],
         [
           `(${a} + ${b}i)(${formatComplex(c, d)}) = ${a * c} + (${a}*${d})i + (${b}*${c})i + (${b}*${d})i².`,
           "Replace i² with −1 and collect real and imaginary parts.",
@@ -903,11 +1402,7 @@ function generatedFor(course, topic, rand) {
       topic,
       `If z1 = ${a} + ${b}i and z2 = ${formatComplex(c, d)}, what is z1 + z2?`,
       formatComplex(real, imag),
-      [
-        formatComplex(a - c, b - d),
-        formatComplex(real, b - d),
-        formatComplex(a * c, b * d),
-      ],
+      [formatComplex(a - c, b - d), formatComplex(real, b - d), formatComplex(a * c, b * d)],
       [
         `Add the real parts: ${a} + ${c} = ${real}.`,
         `Add the imaginary parts: ${b} + (${d}) = ${imag}.`,
@@ -939,7 +1434,10 @@ function generatedFor(course, topic, rand) {
         `The sum of the roots of x² − ${Math.abs(sum) || 3}x + ${Math.abs(product) || 2} = 0 is`,
         String(Math.abs(sum) || 3),
         numericWrongs(Math.abs(sum) || 3, [Math.abs(product) || 2, -(Math.abs(sum) || 3), 0]),
-        ["For x² − (sum)x + (product) = 0, the roots add to the coefficient of x.", `The sum of the roots is ${Math.abs(sum) || 3}.`],
+        [
+          "For x² − (sum)x + (product) = 0, the roots add to the coefficient of x.",
+          `The sum of the roots is ${Math.abs(sum) || 3}.`,
+        ],
       );
     }
     const b = -sum;
@@ -985,10 +1483,7 @@ function generatedFor(course, topic, rand) {
       `An arithmetic series has first term ${a} and common difference ${d}. The sum of the first ${n} terms is`,
       String(sum),
       numericWrongs(sum, [sum + d, a + (n - 1) * d, n * a]),
-      [
-        "Sₙ = n/2 × [2a + (n − 1)d].",
-        `Sₙ = ${n}/2 × [2(${a}) + ${n - 1}(${d})] = ${sum}.`,
-      ],
+      ["Sₙ = n/2 × [2a + (n − 1)d].", `Sₙ = ${n}/2 × [2(${a}) + ${n - 1}(${d})] = ${sum}.`],
     );
   }
   if (course === "MTH 101" && topic === "Sets") {
@@ -1015,7 +1510,10 @@ function generatedFor(course, topic, rand) {
         `If |A ∪ B| = ${union} in a class of ${universe}, how many students are outside both sets?`,
         String(neither),
         numericWrongs(neither, [universe - a, universe - b, union]),
-        ["Students outside both sets = class size − |A ∪ B|.", `${universe} − ${union} = ${neither}.`],
+        [
+          "Students outside both sets = class size − |A ∪ B|.",
+          `${universe} − ${union} = ${neither}.`,
+        ],
       );
     }
     return q(
@@ -1023,10 +1521,7 @@ function generatedFor(course, topic, rand) {
       `In a class of ${universe}, ${a} students take algebra and ${b} take sets. If ${both} take both, how many take at least one of the two?`,
       String(union),
       numericWrongs(union, [a + b, a - both, universe - union]),
-      [
-        "|A ∪ B| = |A| + |B| − |A ∩ B|.",
-        `${a} + ${b} − ${both} = ${union}.`,
-      ],
+      ["|A ∪ B| = |A| + |B| − |A ∩ B|.", `${a} + ${b} − ${both} = ${union}.`],
     );
   }
   if (course === "MTH 101" && topic === "Number systems") {
@@ -1060,10 +1555,7 @@ function generatedFor(course, topic, rand) {
       `Three consecutive integers add up to ${sum}. The middle integer is`,
       String(n + 1),
       numericWrongs(n + 1, [n, n + 2, n + 3]),
-      [
-        "Let the integers be m − 1, m and m + 1.",
-        `Their sum is 3m = ${sum}, so m = ${n + 1}.`,
-      ],
+      ["Let the integers be m − 1, m and m + 1.", `Their sum is 3m = ${sum}, so m = ${n + 1}.`],
     );
   }
   if (course === "PHY 101" && topic === "Kinematics") {
@@ -1125,7 +1617,10 @@ function generatedFor(course, topic, rand) {
       `If f(x) = ${slope}x ${intercept < 0 ? "− " + -intercept : "+ " + intercept}, what is f(${x})?`,
       String(value),
       numericWrongs(value, [slope * x, value + slope, intercept]),
-      [`f(${x}) = ${slope}(${x}) ${intercept < 0 ? "− " + -intercept : "+ " + intercept}.`, `${slope * x} ${intercept < 0 ? "− " + -intercept : "+ " + intercept} = ${value}.`],
+      [
+        `f(${x}) = ${slope}(${x}) ${intercept < 0 ? "− " + -intercept : "+ " + intercept}.`,
+        `${slope * x} ${intercept < 0 ? "− " + -intercept : "+ " + intercept} = ${value}.`,
+      ],
     );
   }
   if (course === "MTH 103" && topic === "Limits and continuity") {
@@ -1136,7 +1631,11 @@ function generatedFor(course, topic, rand) {
       `lim (x → ${a}) of (x² − ${a * a}) / (x − ${a}) equals`,
       String(limit),
       numericWrongs(limit, [a, a * a, 0]),
-      [`x² − ${a * a} = (x − ${a})(x + ${a}).`, `For x ≠ ${a} the quotient is x + ${a}.`, `The limit is ${a} + ${a} = ${limit}.`],
+      [
+        `x² − ${a * a} = (x − ${a})(x + ${a}).`,
+        `For x ≠ ${a} the quotient is x + ${a}.`,
+        `The limit is ${a} + ${a} = ${limit}.`,
+      ],
     );
   }
   if (course === "MTH 103" && topic === "Differentiation") {
@@ -1170,7 +1669,10 @@ function generatedFor(course, topic, rand) {
       ["tan 45°", "1", ["0", "√3", "1/2"]],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
-    return q(topic, `${row[0]} equals`, row[1], row[2], ["Use the standard-angle values.", `${row[0]} = ${row[1]}.`]);
+    return q(topic, `${row[0]} equals`, row[1], row[2], [
+      "Use the standard-angle values.",
+      `${row[0]} = ${row[1]}.`,
+    ]);
   }
   if (course === "MTH 103" && topic === "Coordinate geometry") {
     const x1 = intBetween(rand, 0, 8);
@@ -1184,7 +1686,10 @@ function generatedFor(course, topic, rand) {
       `The midpoint of (${x1}, ${y1}) and (${x2}, ${y2}) is`,
       `(${mx}, ${my})`,
       [`(${x1 + x2}, ${y1 + y2})`, `(${mx}, ${y1})`, `(${x2}, ${my})`],
-      ["Midpoint = ((x1 + x2) / 2, (y1 + y2) / 2).", `((${x1} + ${x2}) / 2, (${y1} + ${y2}) / 2) = (${mx}, ${my}).`],
+      [
+        "Midpoint = ((x1 + x2) / 2, (y1 + y2) / 2).",
+        `((${x1} + ${x2}) / 2, (${y1} + ${y2}) / 2) = (${mx}, ${my}).`,
+      ],
     );
   }
   if (course === "PHY 101" && topic === "Units and Dimension") {
@@ -1207,7 +1712,10 @@ function generatedFor(course, topic, rand) {
       `The work done by a ${force} N force through ${distance} m, in its own direction, is`,
       `${work} J`,
       withUnit(work, "J", [force + distance, force, distance]),
-      ["W = Fd when force and displacement are in the same direction.", `W = ${force} × ${distance} = ${work} J.`],
+      [
+        "W = Fd when force and displacement are in the same direction.",
+        `W = ${force} × ${distance} = ${work} J.`,
+      ],
     );
   }
   if (course === "PHY 101" && topic === "Conservation laws") {
@@ -1224,81 +1732,254 @@ function generatedFor(course, topic, rand) {
   }
   if (course === "PHY 101" && topic === "Measurement in Physics") {
     const rows = [
-      ["In mechanics, length, mass and time are treated as", "fundamental quantities", ["derived quantities", "dimensionless constants", "vector components"], ["They are not defined from other mechanical quantities.", "Force and energy are derived from them."]],
-      ["How many base units does the SI system have?", "7", ["3", "5", "10"], ["SI has seven base units.", "They include the metre, kilogram, second, ampere, kelvin, mole and candela."]],
-      ["The SI base unit of mass is the", "kilogram", ["gram", "newton", "pound"], ["The gram is a submultiple, not the base unit.", "Mass is measured in kilograms."]],
+      [
+        "In mechanics, length, mass and time are treated as",
+        "fundamental quantities",
+        ["derived quantities", "dimensionless constants", "vector components"],
+        [
+          "They are not defined from other mechanical quantities.",
+          "Force and energy are derived from them.",
+        ],
+      ],
+      [
+        "How many base units does the SI system have?",
+        "7",
+        ["3", "5", "10"],
+        [
+          "SI has seven base units.",
+          "They include the metre, kilogram, second, ampere, kelvin, mole and candela.",
+        ],
+      ],
+      [
+        "The SI base unit of mass is the",
+        "kilogram",
+        ["gram", "newton", "pound"],
+        ["The gram is a submultiple, not the base unit.", "Mass is measured in kilograms."],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "PHY 101" && topic === "Space and Time") {
     const rows = [
-      ["A unit vector has magnitude", "1", ["0", "10", "equal to the vector it came from"], ["A unit vector only shows direction.", "Its magnitude is exactly 1."]],
-      ["The dot product of two perpendicular vectors is", "0", ["1", "their cross product", "the product of their magnitudes"], ["Dot product = AB cos θ.", "cos 90° = 0, so the product is 0."]],
-      ["Displacement is best described as", "the change in position", ["the distance along the path", "a scalar with no direction", "speed divided by time"], ["Displacement is a vector from the start position to the end.", "Distance travelled can be longer than the displacement."]],
+      [
+        "A unit vector has magnitude",
+        "1",
+        ["0", "10", "equal to the vector it came from"],
+        ["A unit vector only shows direction.", "Its magnitude is exactly 1."],
+      ],
+      [
+        "The dot product of two perpendicular vectors is",
+        "0",
+        ["1", "their cross product", "the product of their magnitudes"],
+        ["Dot product = AB cos θ.", "cos 90° = 0, so the product is 0."],
+      ],
+      [
+        "Displacement is best described as",
+        "the change in position",
+        ["the distance along the path", "a scalar with no direction", "speed divided by time"],
+        [
+          "Displacement is a vector from the start position to the end.",
+          "Distance travelled can be longer than the displacement.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "PHY 101" && topic === "Statics and Dynamics") {
     const rows = [
-      ["A body is in equilibrium when the net force on it is", "zero", ["equal to its mass", "equal to its weight only", "increasing"], ["Net force is the vector sum of all forces.", "Zero net force means no acceleration."]],
-      ["Friction on a sliding body acts", "opposite the motion", ["in the direction of motion", "perpendicular to the surface", "straight down"], ["Friction opposes sliding.", "It is parallel to the surface."]],
-      ["Near the Earth, the weight of a body of mass m is", "mg", ["m/g", "m + g", "g/m"], ["Weight is the gravitational force.", "W = mg."]],
+      [
+        "A body is in equilibrium when the net force on it is",
+        "zero",
+        ["equal to its mass", "equal to its weight only", "increasing"],
+        ["Net force is the vector sum of all forces.", "Zero net force means no acceleration."],
+      ],
+      [
+        "Friction on a sliding body acts",
+        "opposite the motion",
+        ["in the direction of motion", "perpendicular to the surface", "straight down"],
+        ["Friction opposes sliding.", "It is parallel to the surface."],
+      ],
+      [
+        "Near the Earth, the weight of a body of mass m is",
+        "mg",
+        ["m/g", "m + g", "g/m"],
+        ["Weight is the gravitational force.", "W = mg."],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "PHY 103" && topic === "Elasticity") {
     const rows = [
-      ["Stress is defined as", "force per unit area", ["extension per original length", "force times area", "energy per unit volume only"], ["Stress = F / A.", "Strain is the extension divided by the original length."]],
-      ["Young modulus is the ratio", "tensile stress / tensile strain", ["shear stress / shear strain", "force times extension", "mass / volume"], ["Young modulus describes elasticity in length.", "It is stress divided by strain."]],
-      ["Beyond the elastic limit, a stretched material", "does not regain its original length", ["always obeys Hooke's law", "has zero stress", "cannot break"], ["The elastic limit is the end of recoverable stretch.", "The yield point comes after that."]],
+      [
+        "Stress is defined as",
+        "force per unit area",
+        ["extension per original length", "force times area", "energy per unit volume only"],
+        ["Stress = F / A.", "Strain is the extension divided by the original length."],
+      ],
+      [
+        "Young modulus is the ratio",
+        "tensile stress / tensile strain",
+        ["shear stress / shear strain", "force times extension", "mass / volume"],
+        ["Young modulus describes elasticity in length.", "It is stress divided by strain."],
+      ],
+      [
+        "Beyond the elastic limit, a stretched material",
+        "does not regain its original length",
+        ["always obeys Hooke's law", "has zero stress", "cannot break"],
+        [
+          "The elastic limit is the end of recoverable stretch.",
+          "The yield point comes after that.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "PHY 103" && topic === "Hydrostatics") {
     const rows = [
-      ["Density is", "mass divided by volume", ["volume divided by mass", "weight divided by area", "pressure times height"], ["ρ = m / V.", "A denser material has more mass in the same volume."]],
-      ["Pressure in a liquid at a greater depth is", "higher", ["lower", "zero", "independent of depth"], ["P = ρgh.", "A deeper point supports a taller column of liquid."]],
-      ["Water rising in a narrow glass tube is an example of", "capillarity", ["diffusion", "viscosity only", "Archimedes' principle"], ["Capillarity comes from surface tension, adhesion and cohesion.", "The liquid climbs a narrow tube."]],
+      [
+        "Density is",
+        "mass divided by volume",
+        ["volume divided by mass", "weight divided by area", "pressure times height"],
+        ["ρ = m / V.", "A denser material has more mass in the same volume."],
+      ],
+      [
+        "Pressure in a liquid at a greater depth is",
+        "higher",
+        ["lower", "zero", "independent of depth"],
+        ["P = ρgh.", "A deeper point supports a taller column of liquid."],
+      ],
+      [
+        "Water rising in a narrow glass tube is an example of",
+        "capillarity",
+        ["diffusion", "viscosity only", "Archimedes' principle"],
+        [
+          "Capillarity comes from surface tension, adhesion and cohesion.",
+          "The liquid climbs a narrow tube.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "PHY 103" && topic === "Temperature and heat") {
     const rows = [
-      ["When temperature changes but the state does not, the heat absorbed is", "mcΔT", ["mL only", "ΔT / c", "mc / ΔT"], ["c is the specific heat capacity.", "Q = mcΔT."]],
-      ["Linear expansion of a solid depends on", "original length and temperature rise", ["mass only", "the colour of the solid", "pressure only"], ["ΔL = αLΔT.", "A longer rod expands more for the same temperature rise."]],
-      ["Absolute zero is", "0 K", ["0°C", "100°C", "273°C"], ["The kelvin scale starts at absolute zero.", "0°C is 273 K, not absolute zero."]],
+      [
+        "When temperature changes but the state does not, the heat absorbed is",
+        "mcΔT",
+        ["mL only", "ΔT / c", "mc / ΔT"],
+        ["c is the specific heat capacity.", "Q = mcΔT."],
+      ],
+      [
+        "Linear expansion of a solid depends on",
+        "original length and temperature rise",
+        ["mass only", "the colour of the solid", "pressure only"],
+        ["ΔL = αLΔT.", "A longer rod expands more for the same temperature rise."],
+      ],
+      [
+        "Absolute zero is",
+        "0 K",
+        ["0°C", "100°C", "273°C"],
+        ["The kelvin scale starts at absolute zero.", "0°C is 273 K, not absolute zero."],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "PHY 103" && topic === "Heat transfer") {
     const rows = [
-      ["Heat moving through a metal rod, with no bulk flow of the metal, is", "conduction", ["convection", "radiation", "evaporation"], ["The particles pass energy to their neighbours.", "The rod itself does not flow."]],
-      ["Heat from the Sun reaches the Earth mainly by", "radiation", ["conduction through space", "convection through empty space", "diffusion of air only"], ["Radiation needs no material medium.", "Space between the Sun and the Earth is not a conducting rod."]],
-      ["The three modes of heat transfer in these notes are", "conduction, convection and radiation", ["reflection, refraction and diffraction", "fusion, vaporisation and sublimation", "stress, strain and modulus"], ["Conduction, convection and radiation move heat.", "The notes spell convection as convention."]],
+      [
+        "Heat moving through a metal rod, with no bulk flow of the metal, is",
+        "conduction",
+        ["convection", "radiation", "evaporation"],
+        ["The particles pass energy to their neighbours.", "The rod itself does not flow."],
+      ],
+      [
+        "Heat from the Sun reaches the Earth mainly by",
+        "radiation",
+        ["conduction through space", "convection through empty space", "diffusion of air only"],
+        [
+          "Radiation needs no material medium.",
+          "Space between the Sun and the Earth is not a conducting rod.",
+        ],
+      ],
+      [
+        "The three modes of heat transfer in these notes are",
+        "conduction, convection and radiation",
+        [
+          "reflection, refraction and diffraction",
+          "fusion, vaporisation and sublimation",
+          "stress, strain and modulus",
+        ],
+        [
+          "Conduction, convection and radiation move heat.",
+          "The notes spell convection as convention.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "PHY 103" && topic === "Laws of thermodynamics") {
     const rows = [
-      ["The zeroth law of thermodynamics is about", "thermal equilibrium", ["the speed of light", "electric charge", "nuclear binding energy"], ["If A and B are each in equilibrium with C, then A and B are in equilibrium.", "That makes temperature meaningful."]],
-      ["For an ideal gas taken through an isothermal change, ΔU is", "0", ["equal to the pressure", "always positive and large", "equal to nRT only"], ["Internal energy of an ideal gas depends on temperature.", "Temperature is constant, so ΔU = 0 and ΔQ = ΔW."]],
-      ["In an adiabatic process in these notes, ΔQ is", "0", ["equal to PV", "always equal to ΔU", "the heat rejected by a fridge"], ["No heat enters or leaves.", "The first law then gives 0 = ΔU + ΔW."]],
+      [
+        "The zeroth law of thermodynamics is about",
+        "thermal equilibrium",
+        ["the speed of light", "electric charge", "nuclear binding energy"],
+        [
+          "If A and B are each in equilibrium with C, then A and B are in equilibrium.",
+          "That makes temperature meaningful.",
+        ],
+      ],
+      [
+        "For an ideal gas taken through an isothermal change, ΔU is",
+        "0",
+        ["equal to the pressure", "always positive and large", "equal to nRT only"],
+        [
+          "Internal energy of an ideal gas depends on temperature.",
+          "Temperature is constant, so ΔU = 0 and ΔQ = ΔW.",
+        ],
+      ],
+      [
+        "In an adiabatic process in these notes, ΔQ is",
+        "0",
+        ["equal to PV", "always equal to ΔU", "the heat rejected by a fridge"],
+        ["No heat enters or leaves.", "The first law then gives 0 = ΔU + ΔW."],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "PHY 103" && topic === "Kinetic theory of gases") {
     const rows = [
-      ["Charles's law says that, at constant pressure, volume is proportional to", "absolute temperature", ["Celsius temperature only", "pressure", "the mass of the container"], ["Temperature must be in kelvin.", "V / T is constant when pressure is fixed."]],
-      ["The ideal-gas equation used at this level is", "PV = nRT", ["F = ma", "V = IR", "Q = mcΔT"], ["P, V and T are linked for a fixed amount of ideal gas.", "n is the number of moles."]],
-      ["In kinetic theory, the average kinetic energy of gas molecules increases when", "temperature increases", ["volume is doubled at the same temperature", "the container is painted black", "pressure is the only quantity mentioned"], ["Temperature measures the average molecular kinetic energy.", "A hotter gas has faster molecules."]],
+      [
+        "Charles's law says that, at constant pressure, volume is proportional to",
+        "absolute temperature",
+        ["Celsius temperature only", "pressure", "the mass of the container"],
+        ["Temperature must be in kelvin.", "V / T is constant when pressure is fixed."],
+      ],
+      [
+        "The ideal-gas equation used at this level is",
+        "PV = nRT",
+        ["F = ma", "V = IR", "Q = mcΔT"],
+        ["P, V and T are linked for a fixed amount of ideal gas.", "n is the number of moles."],
+      ],
+      [
+        "In kinetic theory, the average kinetic energy of gas molecules increases when",
+        "temperature increases",
+        [
+          "volume is doubled at the same temperature",
+          "the container is painted black",
+          "pressure is the only quantity mentioned",
+        ],
+        [
+          "Temperature measures the average molecular kinetic energy.",
+          "A hotter gas has faster molecules.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
@@ -1312,7 +1993,10 @@ function generatedFor(course, topic, rand) {
       `A bag has ${red} red beads and ${blue} blue beads. The probability of picking a red bead is`,
       `${red}/${total}`,
       [`${blue}/${total}`, `${red}/${blue}`, `${total}/${red}`],
-      ["Probability = favourable outcomes / total outcomes.", `${red} red beads out of ${total} gives ${red}/${total}.`],
+      [
+        "Probability = favourable outcomes / total outcomes.",
+        `${red} red beads out of ${total} gives ${red}/${total}.`,
+      ],
     );
   }
   if (course === "STAT" && topic === "Random variables") {
@@ -1325,7 +2009,10 @@ function generatedFor(course, topic, rand) {
       `A variable is equally likely to be ${a} or ${b}. Its expected value is`,
       String(expected),
       numericWrongs(expected, [a + b, a, b]),
-      ["E(X) = Σ xP(x).", `Each outcome has probability 1/2, so E(X) = (${a} + ${b}) / 2 = ${expected}.`],
+      [
+        "E(X) = Σ xP(x).",
+        `Each outcome has probability 1/2, so E(X) = (${a} + ${b}) / 2 = ${expected}.`,
+      ],
     );
   }
   if (course === "STAT" && topic === "Binomial and Poisson") {
@@ -1381,17 +2068,27 @@ function generatedFor(course, topic, rand) {
       `An element in group ${group} of the periodic table has how many valence electrons?`,
       String(group),
       numericWrongs(group, [group + 8, 8, group + 1]),
-      ["Groups 1 and 2 have that many valence electrons.", `Group ${group} has ${group} valence electron${group === 1 ? "" : "s"}.`],
+      [
+        "Groups 1 and 2 have that many valence electrons.",
+        `Group ${group} has ${group} valence electron${group === 1 ? "" : "s"}.`,
+      ],
     );
   }
   if (course === "CHM 101" && topic === "Chemical bonding") {
     const rows = [
       ["NaCl is best described as", "ionic", ["covalent", "metallic", "van der Waals"]],
       ["The bond in a chlorine molecule, Cl₂, is", "covalent", ["ionic", "metallic", "hydrogen"]],
-      ["A bond formed by sharing a pair of electrons is", "covalent", ["ionic", "metallic", "hydrogen"]],
+      [
+        "A bond formed by sharing a pair of electrons is",
+        "covalent",
+        ["ionic", "metallic", "hydrogen"],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
-    return q(topic, row[0], row[1], row[2], ["Match the bond type to how the electrons are held.", `The answer is ${row[1]}.`]);
+    return q(topic, row[0], row[1], row[2], [
+      "Match the bond type to how the electrons are held.",
+      `The answer is ${row[1]}.`,
+    ]);
   }
   if (course === "CHM 101" && topic === "Gases") {
     const p1 = intBetween(rand, 2, 5);
@@ -1416,41 +2113,144 @@ function generatedFor(course, topic, rand) {
       `The pH of a ${zeros} M HCl solution is`,
       String(power),
       numericWrongs(power, [power + 1, 7, 14 - power]),
-      ["HCl is a strong acid, so [H⁺] equals the concentration.", `pH = −log(${zeros}) = ${power}.`],
+      [
+        "HCl is a strong acid, so [H⁺] equals the concentration.",
+        `pH = −log(${zeros}) = ${power}.`,
+      ],
     );
   }
   if (course === "CHM 101" && topic === "Chemical kinetics") {
     const rows = [
-      ["A catalyst changes the rate of a reaction and is", "not used up", ["always written as a product", "the solvent only", "a form of radioactivity"], ["A catalyst provides another path.", "It is still present at the end."]],
-      ["The rate of a chemical reaction measures", "how fast reactants are used or products form", ["the enthalpy of the reaction", "the equilibrium constant only", "the mass of the flask"], ["Kinetics is about speed, not about how far the reaction can go.", "Rate can be followed from concentration against time."]],
-      ["Molecularity counts", "the particles that collide in the rate-determining step", ["the enthalpy change", "the pH of the mixture", "only the coefficients of the overall equation"], ["Molecularity is a count of reacting particles in that step.", "It is not always the same as the order."]],
+      [
+        "A catalyst changes the rate of a reaction and is",
+        "not used up",
+        ["always written as a product", "the solvent only", "a form of radioactivity"],
+        ["A catalyst provides another path.", "It is still present at the end."],
+      ],
+      [
+        "The rate of a chemical reaction measures",
+        "how fast reactants are used or products form",
+        ["the enthalpy of the reaction", "the equilibrium constant only", "the mass of the flask"],
+        [
+          "Kinetics is about speed, not about how far the reaction can go.",
+          "Rate can be followed from concentration against time.",
+        ],
+      ],
+      [
+        "Molecularity counts",
+        "the particles that collide in the rate-determining step",
+        [
+          "the enthalpy change",
+          "the pH of the mixture",
+          "only the coefficients of the overall equation",
+        ],
+        [
+          "Molecularity is a count of reacting particles in that step.",
+          "It is not always the same as the order.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "CHM 101" && topic === "Atoms, molecules and ions") {
     const rows = [
-      ["An ion is", "a charged atom or group of atoms", ["a neutral molecule only", "a proton and nothing else", "a mixture"], ["Atoms become ions by losing or gaining electrons.", "A positive ion is a cation and a negative ion is an anion."]],
-      ["Isotopes of one element have the same", "atomic number but different mass numbers", ["mass number but different atomic numbers", "number of neutrons only and different proton numbers", "chemical symbol but must be different elements"], ["The proton number fixes the element.", "Neutrons can differ."]],
-      ["A chemical formula shows", "which atoms are present and in what ratio", ["only the melting point", "the rate of the reaction", "the colour of the compound"], ["H2O means two hydrogen atoms and one oxygen atom.", "The formula is not a balanced equation by itself."]],
+      [
+        "An ion is",
+        "a charged atom or group of atoms",
+        ["a neutral molecule only", "a proton and nothing else", "a mixture"],
+        [
+          "Atoms become ions by losing or gaining electrons.",
+          "A positive ion is a cation and a negative ion is an anion.",
+        ],
+      ],
+      [
+        "Isotopes of one element have the same",
+        "atomic number but different mass numbers",
+        [
+          "mass number but different atomic numbers",
+          "number of neutrons only and different proton numbers",
+          "chemical symbol but must be different elements",
+        ],
+        ["The proton number fixes the element.", "Neutrons can differ."],
+      ],
+      [
+        "A chemical formula shows",
+        "which atoms are present and in what ratio",
+        ["only the melting point", "the rate of the reaction", "the colour of the compound"],
+        [
+          "H2O means two hydrogen atoms and one oxygen atom.",
+          "The formula is not a balanced equation by itself.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "CHM 101" && topic === "Radioactivity") {
     const rows = [
-      ["The half-life of a radioisotope is the time for", "half of the nuclei to decay", ["all of the nuclei to decay", "the mass number to double", "one alpha particle to be created from nothing"], ["After one half-life, half of the original sample remains.", "After two half-lives, a quarter remains."]],
-      ["A beta particle is", "an electron", ["a helium nucleus", "a photon", "a proton"], ["Beta emission comes from the nucleus.", "Gamma radiation is a photon, not a beta particle."]],
-      ["Gamma radiation is", "electromagnetic radiation", ["a helium nucleus", "a slow neutron only", "a molecule of the element"], ["Gamma rays have no charge and no rest mass.", "They are more penetrating than alpha particles."]],
+      [
+        "The half-life of a radioisotope is the time for",
+        "half of the nuclei to decay",
+        [
+          "all of the nuclei to decay",
+          "the mass number to double",
+          "one alpha particle to be created from nothing",
+        ],
+        [
+          "After one half-life, half of the original sample remains.",
+          "After two half-lives, a quarter remains.",
+        ],
+      ],
+      [
+        "A beta particle is",
+        "an electron",
+        ["a helium nucleus", "a photon", "a proton"],
+        [
+          "Beta emission comes from the nucleus.",
+          "Gamma radiation is a photon, not a beta particle.",
+        ],
+      ],
+      [
+        "Gamma radiation is",
+        "electromagnetic radiation",
+        ["a helium nucleus", "a slow neutron only", "a molecule of the element"],
+        [
+          "Gamma rays have no charge and no rest mass.",
+          "They are more penetrating than alpha particles.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "CHM 101" && topic === "Thermochemistry") {
     const rows = [
-      ["An exothermic reaction", "releases heat to the surroundings", ["absorbs heat from the surroundings", "has no enthalpy change", "must be a nuclear reaction"], ["The surroundings warm up.", "ΔH for an exothermic change is negative."]],
-      ["An endothermic reaction", "absorbs heat from the surroundings", ["releases heat", "has ΔH less than zero", "cannot be written as a chemical equation"], ["The surroundings cool down.", "ΔH is positive."]],
-      ["A Born–Haber cycle is used to find", "the lattice enthalpy of an ionic compound", ["the pH of a buffer", "the order of a reaction", "the half-life of a radioisotope"], ["It is an enthalpy cycle.", "Hess's law lets the lattice step be calculated from the other steps."]],
+      [
+        "An exothermic reaction",
+        "releases heat to the surroundings",
+        [
+          "absorbs heat from the surroundings",
+          "has no enthalpy change",
+          "must be a nuclear reaction",
+        ],
+        ["The surroundings warm up.", "ΔH for an exothermic change is negative."],
+      ],
+      [
+        "An endothermic reaction",
+        "absorbs heat from the surroundings",
+        ["releases heat", "has ΔH less than zero", "cannot be written as a chemical equation"],
+        ["The surroundings cool down.", "ΔH is positive."],
+      ],
+      [
+        "A Born–Haber cycle is used to find",
+        "the lattice enthalpy of an ionic compound",
+        ["the pH of a buffer", "the order of a reaction", "the half-life of a radioisotope"],
+        [
+          "It is an enthalpy cycle.",
+          "Hess's law lets the lattice step be calculated from the other steps.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
@@ -1476,7 +2276,10 @@ function generatedFor(course, topic, rand) {
       `In a monohybrid cross of two heterozygotes, about how many of ${total} offspring show the dominant phenotype?`,
       String(dominant),
       numericWrongs(dominant, [total / 2, total, groups]),
-      ["The expected phenotype ratio is 3 dominant : 1 recessive.", `${total} × 3/4 = ${dominant}.`],
+      [
+        "The expected phenotype ratio is 3 dominant : 1 recessive.",
+        `${total} × 3/4 = ${dominant}.`,
+      ],
     );
   }
   if (course === "BIO 101" && topic === "Classification of living things") {
@@ -1503,31 +2306,99 @@ function generatedFor(course, topic, rand) {
       ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
-    return q(topic, row[0], row[1], row[2], ["Use the kingdom features, not a single shared trait.", `The kingdom is ${row[1]}.`]);
+    return q(topic, row[0], row[1], row[2], [
+      "Use the kingdom features, not a single shared trait.",
+      `The kingdom is ${row[1]}.`,
+    ]);
   }
   if (course === "BIO 101" && topic === "Cell division") {
     const rows = [
-      ["Mitosis of a body cell produces daughter cells that are", "genetically identical to the parent cell", ["haploid gametes", "always different species", "unable to grow"], ["Mitosis is equational division.", "It is used for growth, repair and replacement."]],
-      ["Meiosis produces", "haploid cells", ["two identical body cells", "a new species in one step", "cells with twice the parent chromosome number"], ["The chromosome number is halved.", "The products can become gametes."]],
-      ["Binary fission is the division used by", "prokaryotes", ["flowering plants only", "human body cells", "viruses with a nucleus"], ["One cell becomes two identical cells.", "Bacteria have no mitosis spindle of the eukaryotic kind."]],
+      [
+        "Mitosis of a body cell produces daughter cells that are",
+        "genetically identical to the parent cell",
+        ["haploid gametes", "always different species", "unable to grow"],
+        ["Mitosis is equational division.", "It is used for growth, repair and replacement."],
+      ],
+      [
+        "Meiosis produces",
+        "haploid cells",
+        [
+          "two identical body cells",
+          "a new species in one step",
+          "cells with twice the parent chromosome number",
+        ],
+        ["The chromosome number is halved.", "The products can become gametes."],
+      ],
+      [
+        "Binary fission is the division used by",
+        "prokaryotes",
+        ["flowering plants only", "human body cells", "viruses with a nucleus"],
+        [
+          "One cell becomes two identical cells.",
+          "Bacteria have no mitosis spindle of the eukaryotic kind.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "BIO 101" && topic === "Tissues") {
     const rows = [
-      ["Blood is classified as", "a fluid connective tissue", ["epithelial tissue", "nervous tissue", "skeletal muscle"], ["Connective tissue includes proper, fluid and supporting types.", "Blood and lymph are the fluid type."]],
-      ["Skeletal muscle is", "voluntary and striated", ["involuntary and smooth", "a connective tissue", "used only to transmit nerve impulses"], ["Skeletal muscle is under conscious control.", "Smooth muscle is involuntary."]],
-      ["Epithelial tissue typically", "lines surfaces and covers organs", ["contracts to move bones", "stores calcium as bone", "carries action potentials as its main job"], ["Epithelia sit on a basement membrane.", "Nervous tissue carries signals and muscle contracts."]],
+      [
+        "Blood is classified as",
+        "a fluid connective tissue",
+        ["epithelial tissue", "nervous tissue", "skeletal muscle"],
+        [
+          "Connective tissue includes proper, fluid and supporting types.",
+          "Blood and lymph are the fluid type.",
+        ],
+      ],
+      [
+        "Skeletal muscle is",
+        "voluntary and striated",
+        ["involuntary and smooth", "a connective tissue", "used only to transmit nerve impulses"],
+        ["Skeletal muscle is under conscious control.", "Smooth muscle is involuntary."],
+      ],
+      [
+        "Epithelial tissue typically",
+        "lines surfaces and covers organs",
+        [
+          "contracts to move bones",
+          "stores calcium as bone",
+          "carries action potentials as its main job",
+        ],
+        [
+          "Epithelia sit on a basement membrane.",
+          "Nervous tissue carries signals and muscle contracts.",
+        ],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
   }
   if (course === "BIO 101" && topic === "Reproduction") {
     const rows = [
-      ["Oogonia increase in number by", "mitosis", ["meiosis only", "binary fission of the ovary", "budding"], ["The notes describe mitotic division of oogonia in the foetal ovary.", "Meiosis comes later, when gametes are formed."]],
-      ["Meiosis in animals takes place in", "the sex cells", ["every body cell", "red blood cells only", "epithelial tissue only"], ["Body cells divide by mitosis.", "Sex cells are the site of meiosis."]],
-      ["A human gamete is", "haploid", ["diploid", "a somatic cell", "produced by binary fission"], ["Gametes carry one set of chromosomes.", "Fertilisation restores the diploid number."]],
+      [
+        "Oogonia increase in number by",
+        "mitosis",
+        ["meiosis only", "binary fission of the ovary", "budding"],
+        [
+          "The notes describe mitotic division of oogonia in the foetal ovary.",
+          "Meiosis comes later, when gametes are formed.",
+        ],
+      ],
+      [
+        "Meiosis in animals takes place in",
+        "the sex cells",
+        ["every body cell", "red blood cells only", "epithelial tissue only"],
+        ["Body cells divide by mitosis.", "Sex cells are the site of meiosis."],
+      ],
+      [
+        "A human gamete is",
+        "haploid",
+        ["diploid", "a somatic cell", "produced by binary fission"],
+        ["Gametes carry one set of chromosomes.", "Fertilisation restores the diploid number."],
+      ],
     ];
     const row = rows[Math.floor(rand() * rows.length)];
     return q(topic, row[0], row[1], row[2], row[3]);
@@ -1559,14 +2430,7 @@ function clone(item) {
   };
 }
 
-export function pickLocalQuestions({
-  course,
-  topics,
-  count,
-  avoid,
-  batch = 0,
-  salt = "",
-}) {
+export function pickLocalQuestions({ course, topics, count, avoid, batch = 0, salt = "" }) {
   const blocked = [...(avoid || [])];
   const picked = [];
   const pqs = pqPool(course, topics).filter((item) => isFresh(item.prompt, blocked));
@@ -1577,9 +2441,7 @@ export function pickLocalQuestions({
     blocked.push(item.prompt);
   }
 
-  const curated = curatedPool(course, topics).filter((item) =>
-    isFresh(item.prompt, blocked),
-  );
+  const curated = curatedPool(course, topics).filter((item) => isFresh(item.prompt, blocked));
   let guard = 0;
   while (picked.length < count && guard < 40) {
     guard++;
@@ -1612,28 +2474,115 @@ export function pickLocalQuestions({
 const DOUBT =
   /\b(wait|re-?calc\w*|option index|answer index|we listed|none match|none of the options|most plausible|correction)\b|\bactually\b/i;
 
-function resultNumber(claim) {
-  const parts = String(claim).split("=");
-  const tail = parts[parts.length - 1];
-  const nums = [...tail.matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
-  if (parts.length > 1 && nums.length) return nums[0];
-  return nums[0] || null;
+function normalizeAnswer(value) {
+  return String(value)
+    .toLowerCase()
+    .replace(/√/g, "sqrt")
+    .replace(/sqrt\(([^)]+)\)/g, "sqrt$1")
+    .replace(/±/g, "+-")
+    .replace(/×/g, "*")
+    .replace(/[−–]/g, "-")
+    .replace(/\s+/g, "");
 }
 
-function sameNumber(left, right) {
-  const a = Number(left);
-  const b = Number(right);
-  return Number.isFinite(a) && Number.isFinite(b) && a === b;
+function bareNumber(value) {
+  let text = String(value).trim();
+  if (/[±√]|sqrt|\+\/-/.test(text)) return null;
+  text = text.replace(/\s*[a-z][a-z0-9/.^]*$/i, "");
+  if (!/^-?\d+(?:\.\d+)?$/.test(text)) return null;
+  const number = Number(text);
+  return Number.isFinite(number) ? number : null;
 }
 
-function claimMatches(claim, option) {
-  const result = resultNumber(claim);
-  if (result != null) {
-    const optionNums = [...String(option).matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
-    return optionNums.some((value) => sameNumber(value, result));
+function sameAnswer(left, right) {
+  const a = normalizeAnswer(left);
+  const b = normalizeAnswer(right);
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const leftNumber = bareNumber(left);
+  const rightNumber = bareNumber(right);
+  return leftNumber != null && rightNumber != null && leftNumber === rightNumber;
+}
+
+function mentionsResult(text, result) {
+  if (sameAnswer(text, result)) return true;
+  const normText = normalizeAnswer(text);
+  const normResult = normalizeAnswer(result);
+  if (normResult.length >= 3 && normText.includes(normResult)) return true;
+  const number = bareNumber(result);
+  if (number == null) return false;
+  return new RegExp(`(?<![\\d.])${String(number).replace(".", "\\.")}(?![\\d.])`).test(
+    String(text),
+  );
+}
+
+function looksLikeAnswer(value) {
+  const text = String(value).trim();
+  if (!text || text.length > 48) return false;
+  if (/^(the|a|an|not|because|when|this|that|which|where)\b/i.test(text)) return false;
+  return /\d|√|sqrt|±/.test(text);
+}
+
+function claimValue(claim) {
+  const trimmed = String(claim).trim();
+  const leading = trimmed.match(/^(.+?)(?:,|\s+so\b|\s+which\b|$)/i);
+  return (leading?.[1] || trimmed).trim();
+}
+
+function isFinalResult(value) {
+  const text = String(value).trim();
+  if (!looksLikeAnswer(text)) return false;
+  if (/[±√]|sqrt/.test(text)) return true;
+  return bareNumber(text) != null;
+}
+
+function workedValues(text) {
+  const body = String(text).replace(
+    /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is|choose option|the most plausible answer is)\s+(?!not\b)(?![^.]*?=)[^.]*(?:\.|$)/gi,
+    " ",
+  );
+  const found = [];
+  const pattern =
+    /=\s*((?:(?!\.\s|\.$)[^\n]){1,80})|\b(?:is|equals)\s+((?:(?!\.\s|\.$)[^\n]){1,40})/gi;
+  for (const match of body.matchAll(pattern)) {
+    const raw = match[1] || match[2] || "";
+    const rhs = raw
+      .split("=")
+      .pop()
+      .trim()
+      .replace(/[,;].*$/, "")
+      .trim();
+    if (isFinalResult(rhs)) found.push(rhs);
   }
-  const text = claim.toLowerCase().replace(/[^a-z0-9+^/\s.-]+/g, " ").replace(/\s+/g, " ").trim();
-  return text.length > 2 && String(option).toLowerCase().includes(text.slice(0, 40));
+  return found.length ? [found[found.length - 1]] : [];
+}
+
+function ensureOption(options, result, preset) {
+  const hit = options.findIndex((option) => sameAnswer(option, result));
+  if (hit >= 0) return { options, answer: hit };
+  const next = options.slice();
+  const slot = Number.isInteger(preset) && preset >= 0 && preset < next.length ? preset : 0;
+  next[slot] = String(result).trim();
+  return { options: next, answer: slot };
+}
+
+function cleanSteps(steps, result) {
+  const kept = [];
+  for (const step of steps) {
+    const sentences = step
+      .split(/(?<=[.?!])\s+/)
+      .map((sentence) => sentence.trim())
+      .filter(Boolean);
+    const safe = sentences.filter((sentence) => {
+      if (DOUBT.test(sentence)) return false;
+      const claims = claimsIn(sentence);
+      return claims.every((claim) => sameAnswer(claim, result));
+    });
+    if (safe.length) kept.push(safe.join(" "));
+  }
+  if (!kept.length) kept.push(`The correct answer is ${result}.`);
+  if (!mentionsResult(kept[kept.length - 1], result)) kept.push(`The correct answer is ${result}.`);
+  return kept;
 }
 
 function claimsIn(text) {
@@ -1649,55 +2598,11 @@ function claimsIn(text) {
   return claims;
 }
 
-function optionForNumber(options, number) {
-  const hits = [];
-  options.forEach((option, index) => {
-    const values = [...String(option).matchAll(/\d+(?:\.\d+)?/g)].map((match) => match[0]);
-    if (values.some((value) => sameNumber(value, number))) hits.push(index);
-  });
-  return hits.length === 1 ? hits[0] : -1;
-}
-
-function lastSolvedOption(options, text) {
-  const matches = [...String(text).matchAll(/=\s*(-?\d+(?:\.\d+)?)/g)];
-  for (let i = matches.length - 1; i >= 0; i--) {
-    const index = optionForNumber(options, matches[i][1]);
-    if (index >= 0) return index;
-  }
-  return -1;
-}
-function optionForClaim(options, claim) {
-  const hits = [];
-  options.forEach((option, index) => {
-    if (claimMatches(claim, option)) hits.push(index);
-  });
-  return hits.length === 1 ? hits[0] : -1;
-}
-
-function cleanSteps(steps, option) {
-  const kept = [];
-  for (const step of steps) {
-    const sentences = step.split(/(?<=[.?!])\s+/).map((sentence) => sentence.trim()).filter(Boolean);
-    const safe = sentences.filter((sentence) => {
-      if (DOUBT.test(sentence)) return false;
-      return claimsIn(sentence).every((claim) => claimMatches(claim, option));
-    });
-    if (safe.length) kept.push(safe.join(" "));
-  }
-  if (!kept.length) kept.push(`The correct answer is ${option}.`);
-  const last = kept[kept.length - 1];
-  const value = String(option);
-  const named = /^\d+(?:\.\d+)?$/.test(value)
-    ? new RegExp(`(?<![\\d.])${value.replace(/\./g, "\\.")}(?![\\d.])`).test(last)
-    : last.toLowerCase().includes(value.toLowerCase());
-  if (!named) kept.push(`The correct answer is ${option}.`);
-  return kept;
-}
-
 /**
- * The explanation is the source of truth. The option saved is the one
- * the working names, not the index the model chose first.
- * Returns null when the working names nothing, or names two different options.
+ * The explanation is solved first. Whatever result that working reaches
+ * is placed in the options and marked correct. A different option is
+ * never written onto the end of the explanation.
+ * Returns null only when the working names two different results.
  */
 export function answerFromExplanation(question) {
   const options = Array.isArray(question?.options)
@@ -1710,24 +2615,24 @@ export function answerFromExplanation(question) {
     ? question.steps.map((step) => String(step).trim()).filter(Boolean)
     : [];
   if (!steps.length) return null;
-  const indexes = [];
-  for (const claim of claimsIn(steps.join("\n"))) {
-    const index = optionForClaim(options, claim);
-    if (index < 0) {
-      if (resultNumber(claim) != null) return null;
-      continue;
-    }
-    indexes.push(index);
-  }
-  const solved = lastSolvedOption(options, steps.join("\n"));
-  if (solved >= 0 && indexes.some((index) => index !== solved)) return null;
-  if (!indexes.length) {
-    if (solved < 0) return null;
-    indexes.push(solved);
-  }
-  if (!indexes.length || new Set(indexes).size !== 1) return null;
-  const answer = indexes[0];
-  return { answer, steps: cleanSteps(steps, options[answer]) };
+  const text = steps.join("\n");
+  const worked = workedValues(text);
+  const claims = claimsIn(text)
+    .map(claimValue)
+    .filter((claim) => isFinalResult(claim));
+  const verdict = claims[claims.length - 1];
+  const calculated = worked[0];
+  if (!calculated && verdict && claims.some((item) => !sameAnswer(item, verdict))) return null;
+  const result =
+    calculated && verdict && !sameAnswer(calculated, verdict) ? calculated : verdict || calculated;
+  if (!result) return null;
+  const placed = ensureOption(options, result, Number(question?.answer));
+  if (new Set(placed.options.map((option) => option.toLowerCase())).size !== 4) return null;
+  return {
+    answer: placed.answer,
+    options: placed.options,
+    steps: cleanSteps(steps, placed.options[placed.answer]),
+  };
 }
 
 /**
@@ -1737,17 +2642,17 @@ export function answerFromExplanation(question) {
  */
 export function alignQuestion(question) {
   const verified = answerFromExplanation(question);
-  if (verified) return { ...question, answer: verified.answer, steps: verified.steps };
-  const options = Array.isArray(question?.options)
-    ? question.options.map((option) => String(option).trim())
-    : [];
+  if (verified)
+    return {
+      ...question,
+      answer: verified.answer,
+      options: verified.options,
+      steps: verified.steps,
+    };
   const steps = Array.isArray(question?.steps)
     ? question.steps.map((step) => String(step).trim()).filter(Boolean)
     : [];
-  const text = steps.join("\n");
-  if (claimsIn(text).length) return null;
-  const solved = lastSolvedOption(options, text);
-  if (solved >= 0 && solved !== question?.answer) return null;
+  if (claimsIn(steps.join("\n")).length || workedValues(steps.join("\n")).length) return null;
   return question;
 }
 
