@@ -73,10 +73,16 @@ export function ResultsPanel({
                 <article key={item.question.prompt} className="oracle-review-item">
                   <p className="oracle-review-index">Missed {index + 1}</p>
                   <h4>{item.question.prompt}</h4>
-                  <p className="oracle-correct-answer">
-                    Correct answer: {String.fromCharCode(65 + item.question.answer)}.{" "}
-                    {item.question.options[item.question.answer]}
-                  </p>
+                  <div className="oracle-review-picks">
+                    <p className="oracle-correct-answer">
+                      Correct answer: {String.fromCharCode(65 + item.question.answer)}.{" "}
+                      {item.question.options[item.question.answer]}
+                    </p>
+                    <p className="oracle-your-answer">
+                      Your answer: {String.fromCharCode(65 + item.selected)}.{" "}
+                      {item.question.options[item.selected]}
+                    </p>
+                  </div>
                   <ol>
                     {item.question.steps.map((step) => (
                       <li key={step}>{step}</li>

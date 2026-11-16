@@ -2511,7 +2511,7 @@ function mentionsResult(text, result) {
   if (normResult.length >= 3 && normText.includes(normResult)) return true;
   const number = bareNumber(result);
   if (number == null) return false;
-  return new RegExp(`(?<![\\d.])${String(number).replace(".", "\\.")}(?![\\d.])`).test(
+  return new RegExp(`(?<![\\d.])${String(number).replace(".", "\\.")}(?!\\.?\\d)`).test(
     String(text),
   );
 }
@@ -2532,7 +2532,7 @@ function claimValue(claim) {
 function isFinalResult(value) {
   const text = String(value).trim();
   if (!looksLikeAnswer(text)) return false;
-  if (/[±√]|sqrt/.test(text)) return true;
+  if (/[±√]|sqrt|\d\s*i\b/i.test(text)) return true;
   return bareNumber(text) != null;
 }
 
@@ -2543,7 +2543,7 @@ function workedValues(text) {
   );
   const found = [];
   const pattern =
-    /=\s*((?:(?!\.\s|\.$)[^\n]){1,80})|\b(?:is|equals)\s+((?:(?!\.\s|\.$)[^\n]){1,40})/gi;
+    /=\s*((?:(?!\.\s|\.$)[^\n]){1,80})|\b(?:is|equals|get|gives|giving)\s+((?:(?!\.\s|\.$)[^\n]){1,48})/gi;
   for (const match of body.matchAll(pattern)) {
     const raw = match[1] || match[2] || "";
     const rhs = raw
@@ -2566,22 +2566,23 @@ function ensureOption(options, result, preset) {
   return { options: next, answer: slot };
 }
 
+function isVerdict(sentence) {
+  return /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is|choose option|the most plausible answer is)\s+/i.test(
+    sentence,
+  );
+}
+
 function cleanSteps(steps, result) {
   const kept = [];
   for (const step of steps) {
     const sentences = step
       .split(/(?<=[.?!])\s+/)
       .map((sentence) => sentence.trim())
-      .filter(Boolean);
-    const safe = sentences.filter((sentence) => {
-      if (DOUBT.test(sentence)) return false;
-      const claims = claimsIn(sentence);
-      return claims.every((claim) => sameAnswer(claim, result));
-    });
-    if (safe.length) kept.push(safe.join(" "));
+      .filter((sentence) => sentence && !DOUBT.test(sentence) && !isVerdict(sentence));
+    if (sentences.length) kept.push(sentences.join(" "));
   }
-  if (!kept.length) kept.push(`The correct answer is ${result}.`);
-  if (!mentionsResult(kept[kept.length - 1], result)) kept.push(`The correct answer is ${result}.`);
+  if (!kept.length || !mentionsResult(kept.join(" "), result))
+    kept.push(`The correct answer is ${result}.`);
   return kept;
 }
 

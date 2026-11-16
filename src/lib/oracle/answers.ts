@@ -48,7 +48,7 @@ export function lockAnswerToExplanation(question: OracleQuestion): OracleQuestio
   );
   const found: string[] = [];
   const pattern =
-    /=\s*((?:(?!\.\s|\.$)[^\n]){1,80})|\b(?:is|equals)\s+((?:(?!\.\s|\.$)[^\n]){1,40})/gi;
+    /=\s*((?:(?!\.\s|\.$)[^\n]){1,80})|\b(?:is|equals|get|gives|giving)\s+((?:(?!\.\s|\.$)[^\n]){1,48})/gi;
   for (const match of body.matchAll(pattern)) {
     const raw = match[1] || match[2] || "";
     const rhs =
@@ -58,7 +58,8 @@ export function lockAnswerToExplanation(question: OracleQuestion): OracleQuestio
         ?.trim()
         .replace(/[,;].*$/, "")
         .trim() || "";
-    if (looksLikeAnswer(rhs)) found.push(rhs);
+    if (looksLikeAnswer(rhs) && (/[±√]|sqrt|\d\s*i\b/i.test(rhs) || bareNumber(rhs) != null))
+      found.push(rhs);
   }
   const lead =
     /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is)\s+(?!not\b)/gi;
@@ -80,19 +81,17 @@ export function lockAnswerToExplanation(question: OracleQuestion): OracleQuestio
     answer = slot;
   }
   const marked = options[answer];
-  const cleaned = steps
+  const verdict =
+    /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is|choose option)\s+/i;
+  const kept = steps
     .map((step) =>
       step
         .split(/(?<=[.?!])\s+/)
-        .filter((sentence) => {
-          const hit = sentence.match(
-            /(?:the correct(?:\s+[a-z0-9/^]+){0,6}\s+is|the result is|so the answer is)\s+(?!not\b)([^.]+)/i,
-          );
-          return !hit || sameAnswer(hit[1], marked);
-        })
-        .join(" ")
-        .trim(),
+        .map((sentence) => sentence.trim())
+        .filter((sentence) => sentence && !verdict.test(sentence))
+        .join(" "),
     )
     .filter(Boolean);
-  return { ...question, options, answer, steps: cleaned.length ? cleaned : steps };
+  const shown = kept.length ? kept : [`The correct answer is ${marked}.`];
+  return { ...question, options, answer, steps: shown };
 }

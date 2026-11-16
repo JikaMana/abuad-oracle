@@ -1421,15 +1421,28 @@ select.oracle-select {
   font-weight: 700;
   line-height: 1.45;
 }
-.oracle-review-item .oracle-correct-answer {
+.oracle-review-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.8rem;
+}
+.oracle-review-item .oracle-correct-answer,
+.oracle-your-answer {
   display: inline-block;
-  margin: 0 0 0.8rem;
+  margin: 0;
   padding: 0.35rem 0.65rem;
   border-radius: 999px;
-  background: #e7f5ec;
-  color: #24663c;
   font-size: 0.82rem;
   font-weight: 700;
+}
+.oracle-review-item .oracle-correct-answer {
+  background: #e7f5ec;
+  color: #24663c;
+}
+.oracle-your-answer {
+  background: #fdeeea;
+  color: #9c3626;
 }
 .oracle-review-item ol {
   display: grid;
