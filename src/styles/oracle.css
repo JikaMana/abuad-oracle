@@ -1180,6 +1180,8 @@ select.oracle-select {
   border: 1px solid var(--ink-line);
   border-radius: var(--r-lg);
   box-shadow: var(--sh-2);
+  background: #fff;
+  color: var(--ink);
 }
 .or-progress {
   background: var(--sand);
@@ -1278,8 +1280,24 @@ select.oracle-select {
   color: var(--clay-deep);
   font-size: clamp(2.6rem, 6vw, 3.6rem);
 }
-.oracle-results-grid {
-  gap: 2.5rem;
+.oracle-results h2,
+.oracle-results h3,
+.oracle-results h4,
+.oracle-results p,
+.oracle-results li,
+.oracle-results span,
+.oracle-results b {
+  color: var(--ink);
+}
+.oracle-results .text-clay,
+.oracle-results .eyebrow {
+  color: var(--clay-deep);
+}
+.oracle-results .oracle-correct-answer {
+  color: #2a6e43;
+}
+.oracle-results .text-ink\/60 {
+  color: rgba(8, 20, 35, 0.6);
 }
 .oracle-result-topic {
   font-size: 0.92rem;
