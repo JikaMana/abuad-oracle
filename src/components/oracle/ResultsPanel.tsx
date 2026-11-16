@@ -23,55 +23,80 @@ export function ResultsPanel({
   });
   const ranked = [...topics.entries()].map(([name, row]) => ({
     name,
+    correct: row.correct,
+    total: row.total,
     score: Math.round((row.correct / row.total) * 100),
   }));
   const weak = ranked.filter((item) => item.score < 70).map((item) => item.name);
   const missed = answers.filter((item) => !item.correct);
 
   return (
-    <section className="oracle-results" aria-live="polite">
-      <p className="eyebrow text-clay">Your report</p>
-      <h2 className="font-display text-4xl font-bold text-ink">{score}%</h2>
-      <p>
-        {correct} of {answers.length} answers correct
-      </p>
+    <section id="oracle-results" className="oracle-results" aria-live="polite">
+      <header className="oracle-results-head">
+        <div>
+          <p className="eyebrow">Your report</p>
+          <p className="oracle-results-line">
+            {correct} of {answers.length} answers correct
+          </p>
+        </div>
+        <p className="oracle-results-score">
+          {score}
+          <span>%</span>
+        </p>
+      </header>
+
       <div className="oracle-results-grid">
-        <section>
-          <h3 className="font-display font-bold text-ink">Topic strengths</h3>
+        <section className="oracle-results-topics">
+          <h3>Topic strengths</h3>
           <div className="oracle-result-topics">
             {ranked.map((item) => (
-              <p key={item.name}>
+              <div
+                key={item.name}
+                className={`oracle-result-topic${item.score < 70 ? " is-weak" : " is-strong"}`}
+              >
                 <span>{item.name}</span>
-                <b>{item.score}%</b>
-              </p>
+                <b>
+                  {item.correct}/{item.total}
+                </b>
+                <strong>{item.score}%</strong>
+                <i style={{ ["--score" as string]: `${item.score}%` }} />
+              </div>
             ))}
           </div>
         </section>
-        <section>
-          <h3 className="font-display font-bold text-ink">Review</h3>
+
+        <section className="oracle-results-review">
+          <h3>Review</h3>
           {missed.length ? (
-            missed.map((item) => (
-              <article key={item.question.prompt} className="oracle-review-item">
-                <h4>{item.question.prompt}</h4>
-                <p className="oracle-correct-answer">
-                  Correct answer: {String.fromCharCode(65 + item.question.answer)}. {item.question.options[item.question.answer]}
-                </p>
-                <ol>
-                  {item.question.steps.map((step) => (
-                    <li key={step}>{step}</li>
-                  ))}
-                </ol>
-              </article>
-            ))
+            <div className="oracle-review-list">
+              {missed.map((item, index) => (
+                <article key={item.question.prompt} className="oracle-review-item">
+                  <p className="oracle-review-index">Missed {index + 1}</p>
+                  <h4>{item.question.prompt}</h4>
+                  <p className="oracle-correct-answer">
+                    Correct answer: {String.fromCharCode(65 + item.question.answer)}.{" "}
+                    {item.question.options[item.question.answer]}
+                  </p>
+                  <ol>
+                    {item.question.steps.map((step) => (
+                      <li key={step}>{step}</li>
+                    ))}
+                  </ol>
+                </article>
+              ))}
+            </div>
           ) : (
             <p className="oracle-all-correct">All correct. Nothing to review this time.</p>
           )}
         </section>
       </div>
-      <p className="text-sm text-ink/60 mt-4" role="status">
-        {note}
-      </p>
-      <div className="mt-4 flex flex-wrap gap-3">
+
+      {note ? (
+        <p className="oracle-results-note" role="status">
+          {note}
+        </p>
+      ) : null}
+      <div className="oracle-results-actions">
         {weak.length ? (
           <button type="button" className="btn btn-clay px-6 py-3.5" onClick={() => onWeak(weak)}>
             Practise weak topics

@@ -75,7 +75,9 @@ function memoryUser(uid) {
 }
 
 function parseServiceAccount(raw) {
-  let text = String(raw || "").trim().replace(/^\uFEFF/, "");
+  let text = String(raw || "")
+    .trim()
+    .replace(/^\uFEFF/, "");
   if (!text) {
     const error = new Error("FIREBASE_SERVICE_ACCOUNT is empty.");
     error.config = true;
@@ -140,7 +142,9 @@ export async function firebaseServices() {
         } catch (error) {
           console.error(
             "Firebase admin init failed",
-            String(error?.message || "").replace(/-----BEGIN[\s\S]*-----END PRIVATE KEY-----/g, "[key]").slice(0, 180),
+            String(error?.message || "")
+              .replace(/-----BEGIN[\s\S]*-----END PRIVATE KEY-----/g, "[key]")
+              .slice(0, 180),
           );
           const wrapped = new Error("Firebase rejected the service account.");
           wrapped.config = true;
@@ -178,10 +182,7 @@ export async function authenticatedUser(req, required = true) {
   } catch (error) {
     const code = String(error?.code || "");
     const message = String(error?.message || "");
-    if (
-      !code.startsWith("auth/") ||
-      /credential|access token|initializeApp/i.test(message)
-    ) {
+    if (!code.startsWith("auth/") || /credential|access token|initializeApp/i.test(message)) {
       error.config = true;
     }
     throw error;
@@ -295,19 +296,22 @@ export async function recordPaidUsage(user, course, questionCount) {
   }
   const { db, FieldValue } = await firebaseBundle();
   const day = lagosDay();
-  await db.collection("oracleUsers").doc(user.uid).set(
-    {
-      email: user.email || null,
-      usage: {
-        paidQuestionsTotal: FieldValue.increment(questionCount),
-        paidQuestionsByDay: { [day]: FieldValue.increment(questionCount) },
-        paidQuestionsByCourse: { [course]: FieldValue.increment(questionCount) },
-        lastPaidPracticeAt: FieldValue.serverTimestamp(),
+  await db
+    .collection("oracleUsers")
+    .doc(user.uid)
+    .set(
+      {
+        email: user.email || null,
+        usage: {
+          paidQuestionsTotal: FieldValue.increment(questionCount),
+          paidQuestionsByDay: { [day]: FieldValue.increment(questionCount) },
+          paidQuestionsByCourse: { [course]: FieldValue.increment(questionCount) },
+          lastPaidPracticeAt: FieldValue.serverTimestamp(),
+        },
+        updatedAt: FieldValue.serverTimestamp(),
       },
-      updatedAt: FieldValue.serverTimestamp(),
-    },
-    { merge: true },
-  );
+      { merge: true },
+    );
 }
 
 export async function readSeen(uid) {
@@ -324,7 +328,10 @@ export async function readSeen(uid) {
 export async function writeSeen(uid, prompts) {
   const next = [];
   for (const prompt of prompts || []) {
-    const text = String(prompt || "").replace(/\s+/g, " ").trim().slice(0, 140);
+    const text = String(prompt || "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 140);
     if (text && !next.includes(text)) next.push(text);
   }
   if (!next.length || !uid) return;
@@ -351,7 +358,7 @@ export async function readProfile(uid) {
     return {
       premiumUntil: user.premiumUntil,
       usage: user.usage,
-      tests: user.tests.filter((test) => test.status === "completed").slice(0, 20),
+      tests: user.tests.filter((test) => test.status === "completed").slice(0, 100),
     };
   }
   const { db } = await firebaseServices();
@@ -362,7 +369,7 @@ export async function readProfile(uid) {
     .doc(uid)
     .collection("tests")
     .orderBy("completedAt", "desc")
-    .limit(20)
+    .limit(100)
     .get();
   return {
     premiumUntil: premiumUntil?.toDate?.().toISOString() || null,

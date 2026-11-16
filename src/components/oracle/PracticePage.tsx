@@ -34,6 +34,7 @@ function testDateLabel(test: SavedTest) {
 export function PracticePage() {
   const practice = usePractice();
   const [accountOpen, setAccountOpen] = useState(false);
+  const [showAllTests, setShowAllTests] = useState(false);
   const [welcome, setWelcome] = useState<number | null>(null);
   const welcomeRef = useRef<HTMLDialogElement>(null);
 
@@ -386,7 +387,7 @@ export function PracticePage() {
             </div>
             <div className="oracle-recent-tests">
               {practice.history.length ? (
-                practice.history.slice(0, 6).map((test) => (
+                (showAllTests ? practice.history : practice.history.slice(0, 5)).map((test) => (
                   <article
                     key={test.id || `${test.course}-${test.date}`}
                     className="oracle-recent-item"
@@ -406,6 +407,15 @@ export function PracticePage() {
                 </p>
               )}
             </div>
+            {practice.history.length > 5 ? (
+              <button
+                type="button"
+                className="oracle-recent-more"
+                onClick={() => setShowAllTests((open) => !open)}
+              >
+                {showAllTests ? "Show recent" : `View all ${practice.history.length} tests`}
+              </button>
+            ) : null}
           </div>
         </section>
       </main>
