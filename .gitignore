@@ -4,4 +4,6 @@ node_modules/
 .env.*
 !.env.example
 
-# tree -I "node_modules|.git" > structure.txt
+# tree -I "node_modules|.git" > structure.txt.vercel
+dist
+.netlify

@@ -157,6 +157,9 @@ export default defineConfig(({ command, isPreview }) => ({
     strictPort: true,
   },
   resolve: { tsconfigPaths: true },
+  nitro: {
+    traceDeps: ["@google-cloud/firestore", "firebase-admin", "@grpc/grpc-js", "google-gax"],
+  },
   plugins: [
     pgliteBootstrapPlugin(),
     // Before tanstackStart so /auth/popup never falls through to the SPA.
@@ -170,11 +173,7 @@ export default defineConfig(({ command, isPreview }) => ({
     ...(command === "build" || isPreview
       ? [
           nitro({
-            // Netlify sets NETLIFY during its build. The preview host stays on Vercel.
             preset: process.env.NETLIFY ? "netlify" : "vercel",
-            // Auto-registers server/middleware/* (the PWA install page +
-            // manifest + head-tag middleware). Nitro v3 defaults serverDir to
-            // false, so removing this silently unwires /?install=1 on deploys.
             serverDir: "./server",
           }),
         ]
