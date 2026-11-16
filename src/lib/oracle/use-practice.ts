@@ -328,6 +328,19 @@ export function usePractice() {
         if (item.correct) row.correct += 1;
         topicMap.set(item.question.topic, row);
       });
+      const courseMap = new Map<string, { correct: number; total: number }>();
+      graded.forEach((item) => {
+        const name = item.question.course || course.label;
+        const row = courseMap.get(name) || { correct: 0, total: 0 };
+        row.total += 1;
+        if (item.correct) row.correct += 1;
+        courseMap.set(name, row);
+      });
+      const courses = [...courseMap.entries()].map(([name, row]) => ({
+        name,
+        total: row.total,
+        score: Math.round((row.correct / row.total) * 100),
+      }));
       const entry: SavedTest = {
         id: testId.current,
         course: course.label,
@@ -349,6 +362,7 @@ export function usePractice() {
           total: entry.total,
           correct: entry.correct,
           topicResults: entry.topicResults,
+          courses,
           answers: graded.map((item) => ({
             topic: item.question.topic,
             prompt: item.question.prompt,

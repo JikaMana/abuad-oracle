@@ -17,6 +17,14 @@ export function promoUntilDate() {
   return process.env.ORACLE_FREE_UNTIL || PROMO_UNTIL;
 }
 
+export function memoryPremiumUids(now = Date.now()) {
+  const ids = [];
+  for (const [uid, user] of memory) {
+    if (user.premiumUntil && new Date(user.premiumUntil).getTime() > now) ids.push(uid);
+  }
+  return ids;
+}
+
 export function promoActive(now = Date.now()) {
   const end = new Date(`${promoUntilDate()}T23:59:59+01:00`).getTime();
   return Number.isFinite(end) && now <= end;
@@ -439,6 +447,7 @@ function saveActivityMemory(user, input) {
           course: input.course,
           total: input.total,
           correct: input.correct,
+          courses: input.courses,
         },
       ),
     )
@@ -588,6 +597,7 @@ async function saveActivityFirebase(user, input) {
         course,
         total,
         correct,
+        courses: input.courses,
       });
     } catch (error) {
       console.error("Could not add the score to the leaderboard", error?.message);

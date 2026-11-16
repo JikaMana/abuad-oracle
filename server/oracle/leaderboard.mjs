@@ -1,10 +1,14 @@
 // @ts-nocheck
 import { createHmac } from "node:crypto";
-import { firebaseConfigured, firebaseServices } from "./account.mjs";
+import {
+  firebaseConfigured,
+  firebaseServices,
+  memoryPremiumUids,
+  promoActive,
+} from "./account.mjs";
 
 const DAY = 86400000;
 const LAGOS = 3600000;
-const DAILY_CAP = 3;
 const memoryScores = [];
 
 export function publicName(raw, email) {
@@ -15,7 +19,10 @@ export function publicName(raw, email) {
     .trim()
     .slice(0, 28);
   if (cleaned) return cleaned;
-  const local = String(email || "").split("@")[0].replace(/[._+-]+/g, " ").trim();
+  const local = String(email || "")
+    .split("@")[0]
+    .replace(/[._+-]+/g, " ")
+    .trim();
   return local ? local.slice(0, 28) : "Student";
 }
 
@@ -63,45 +70,66 @@ function average(rows) {
   return rows.reduce((sum, row) => sum + row.score, 0) / rows.length;
 }
 
-function countedTests(rows) {
-  const byDay = new Map();
-  const sorted = rows.slice().sort((a, b) => a.completedMs - b.completedMs);
-  const kept = [];
-  for (const row of sorted) {
-    const day = startOfLagosDay(row.completedMs);
-    const used = byDay.get(day) || 0;
-    if (used >= DAILY_CAP) continue;
-    byDay.set(day, used + 1);
-    kept.push(row);
-  }
-  return kept;
+function courseAttempts(row) {
+  if (Array.isArray(row.courses) && row.courses.length) return row.courses;
+  return [{ name: row.course || "Course", score: row.score, total: row.total ?? 10 }];
 }
 
-export function rankWindow(rows, from, to) {
+function countsForRank(row) {
+  return !Number.isFinite(row.total) || row.total >= 10;
+}
+
+/** A gain counts in full. A drop counts at half size. One number per course, then the mean. */
+function netImprovement(tests) {
+  const byCourse = new Map();
+  const ordered = tests.slice().sort((a, b) => a.completedMs - b.completedMs);
+  for (const test of ordered) {
+    for (const part of courseAttempts(test)) {
+      if (Number.isFinite(part.total) && part.total < 5) continue;
+      if (!byCourse.has(part.name)) byCourse.set(part.name, []);
+      byCourse.get(part.name).push(part.score);
+    }
+  }
+  const improvements = [];
+  for (const scores of byCourse.values()) {
+    if (scores.length < 2) continue;
+    let net = 0;
+    for (let i = 1; i < scores.length; i++) {
+      const delta = scores[i] - scores[i - 1];
+      net += delta >= 0 ? delta : delta / 2;
+    }
+    improvements.push(net);
+  }
+  if (!improvements.length) return 0;
+  return improvements.reduce((sum, value) => sum + value, 0) / improvements.length;
+}
+
+export function rankWindow(rows, from, to, paying = null) {
   const grouped = new Map();
   for (const row of rows) {
     if (row.completedMs < from || row.completedMs >= to) continue;
+    if (paying && !paying.has(row.uid)) continue;
+    if (!countsForRank(row)) continue;
     if (!grouped.has(row.uid)) grouped.set(row.uid, []);
     grouped.get(row.uid).push(row);
   }
   const students = [];
   for (const [uid, tests] of grouped) {
-    const counted = countedTests(tests);
-    if (!counted.length) continue;
-    const avg = average(counted);
-    const half = Math.floor(counted.length / 2);
-    const improvement =
-      half >= 2 ? Math.round(average(counted.slice(half)) - average(counted.slice(0, half))) : 0;
-    const days = new Set(counted.map((row) => startOfLagosDay(row.completedMs))).size;
-    const latest = counted[counted.length - 1];
+    const avg = average(tests);
+    const improvement = netImprovement(tests);
+    const days = new Set(tests.map((row) => startOfLagosDay(row.completedMs))).size;
+    const latest = tests
+      .slice()
+      .sort((a, b) => a.completedMs - b.completedMs)
+      .at(-1);
     students.push({
       uid,
       name: latest.name || "Student",
       average: Math.round(avg),
-      improvement,
-      tests: counted.length,
+      improvement: Math.round(improvement),
+      tests: tests.length,
       days,
-      points: Math.round(avg * 10 + Math.max(0, improvement) * 4 + days * 15),
+      points: Math.round(avg * 10 + improvement * 4 + days * 15),
     });
   }
   students.sort((a, b) => b.points - a.points || b.average - a.average || b.tests - a.tests);
@@ -143,7 +171,11 @@ function weekBuckets(now, count) {
     buckets.push({
       from,
       to: from + 7 * DAY,
-      label: lagosStamp(from).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }),
+      label: lagosStamp(from).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        timeZone: "UTC",
+      }),
     });
   }
   return buckets;
@@ -192,7 +224,9 @@ function weeklyPrize(rows, viewerUid, now) {
   return { ...view, note };
 }
 
-export function assembleBoard(rows, viewerUid, now = Date.now()) {
+export function assembleBoard(rows, viewerUid, now = Date.now(), paying = null) {
+  const source = rows.filter((row) => !paying || paying.has(row.uid));
+  const counted = source.filter(countsForRank);
   const dayStart = startOfLagosDay(now);
   const weekStart = startOfLagosWeek(now);
   const monthStart = startOfLagosMonth(now);
@@ -201,22 +235,35 @@ export function assembleBoard(rows, viewerUid, now = Date.now()) {
       label: "Today",
       from: dayStart,
       to: dayStart + DAY,
-      rows: rankWindow(rows, dayStart, dayStart + DAY),
-      chart: bucketSeries(rows, dayBuckets(now, 7)),
+      rows: rankWindow(counted, dayStart, dayStart + DAY),
+      chart: bucketSeries(counted, dayBuckets(now, 7)),
     },
     weekly: {
       label: "This week",
       from: weekStart,
       to: weekStart + 7 * DAY,
-      rows: rankWindow(rows, weekStart, weekStart + 7 * DAY),
-      chart: bucketSeries(rows, weekBuckets(now, 8)),
+      rows: rankWindow(counted, weekStart, weekStart + 7 * DAY),
+      chart: bucketSeries(counted, weekBuckets(now, 8)),
     },
     monthly: {
       label: "This month",
       from: monthStart,
-      to: Date.UTC(lagosStamp(monthStart).getUTCFullYear(), lagosStamp(monthStart).getUTCMonth() + 1, 1) - LAGOS,
-      rows: rankWindow(rows, monthStart, Date.UTC(lagosStamp(monthStart).getUTCFullYear(), lagosStamp(monthStart).getUTCMonth() + 1, 1) - LAGOS),
-      chart: bucketSeries(rows, monthBuckets(now, 6)),
+      to:
+        Date.UTC(
+          lagosStamp(monthStart).getUTCFullYear(),
+          lagosStamp(monthStart).getUTCMonth() + 1,
+          1,
+        ) - LAGOS,
+      rows: rankWindow(
+        counted,
+        monthStart,
+        Date.UTC(
+          lagosStamp(monthStart).getUTCFullYear(),
+          lagosStamp(monthStart).getUTCMonth() + 1,
+          1,
+        ) - LAGOS,
+      ),
+      chart: bucketSeries(counted, monthBuckets(now, 6)),
     },
   };
   const present = (list) =>
@@ -233,7 +280,7 @@ export function assembleBoard(rows, viewerUid, now = Date.now()) {
   return {
     updatedAt: new Date(now).toISOString(),
     ranking:
-      "Average score, improvement across the period, and days practised. At most 3 tests a day count. Times are Lagos.",
+      "Points = average × 10 + net improvement × 4 + days × 15. Only tests of 10 or more questions count. Only paying students are ranked. Times are WAT.",
     periods: {
       daily: { ...periods.daily, rows: present(periods.daily.rows) },
       weekly: { ...periods.weekly, rows: present(periods.weekly.rows) },
@@ -243,15 +290,16 @@ export function assembleBoard(rows, viewerUid, now = Date.now()) {
       weekly: {
         title: "Weekly prize",
         reward: "",
-        ...weeklyPrize(rows, viewerUid, now),
+        ...weeklyPrize(counted, viewerUid, now),
       },
       monthly: {
         title: "Monthly prize",
         reward: "Next month free",
         ...prizeView(periods.monthly.rows[0], monthId(now), viewerUid),
-        note: periods.monthly.rows[0] && viewerUid === periods.monthly.rows[0].uid
-          ? "Message the admin with this code to confirm you won."
-          : "This code stays locked because you are not the winner.",
+        note:
+          periods.monthly.rows[0] && viewerUid === periods.monthly.rows[0].uid
+            ? "Message the admin with this code to confirm you won."
+            : "This code stays locked because you are not the winner.",
       },
     },
     whatsapp: "2348165689362",
@@ -263,12 +311,25 @@ function normaliseStored(data, id) {
   const score = Number(data.score);
   if (!data.uid || !Number.isFinite(completedMs) || completedMs <= 0) return null;
   if (!Number.isFinite(score)) return null;
+  const total = Number(data.total);
+  const courses = Array.isArray(data.courses)
+    ? data.courses
+        .map((part) => ({
+          name: String(part.name || part.course || "").trim(),
+          score: Math.max(0, Math.min(100, Math.round(Number(part.score)))),
+          total: Number(part.total),
+        }))
+        .filter((part) => part.name && Number.isFinite(part.score))
+    : [];
   return {
     id,
     uid: String(data.uid),
     name: publicName(data.name, data.email),
     score: Math.max(0, Math.min(100, Math.round(score))),
     completedMs,
+    total: Number.isFinite(total) ? total : null,
+    course: String(data.course || courses[0]?.name || ""),
+    courses,
   };
 }
 
@@ -284,7 +345,11 @@ async function readFirebaseScores() {
     rows.push(row);
   }
   try {
-    const legacy = await db.collectionGroup("tests").where("status", "==", "completed").limit(300).get();
+    const legacy = await db
+      .collectionGroup("tests")
+      .where("status", "==", "completed")
+      .limit(300)
+      .get();
     for (const doc of legacy.docs) {
       const uid = doc.ref.parent?.parent?.id;
       const id = `${uid}_${doc.id}`;
@@ -309,15 +374,32 @@ async function readFirebaseScores() {
   return rows;
 }
 
+function courseParts(input, score) {
+  if (Array.isArray(input.courses) && input.courses.length) {
+    return input.courses
+      .map((part) => ({
+        name: String(part.name || part.course || "").trim(),
+        score: Math.max(0, Math.min(100, Math.round(Number(part.score)))),
+        total: Number(part.total) || 0,
+      }))
+      .filter((part) => part.name && Number.isFinite(part.score));
+  }
+  const name = String(input.course || "Course").trim() || "Course";
+  return [{ name, score, total: Number(input.total) || 0 }];
+}
+
 export async function recordScore(user, input) {
   const score = Math.round((input.correct / input.total) * 100);
+  const courses = courseParts(input, score);
   const row = {
     id: `${user.uid}_${input.id}`,
     uid: user.uid,
     name: publicName(input.name, user.email || user.name),
     score,
     completedMs: Date.now(),
-    course: input.course || "",
+    course: input.course || courses[0]?.name || "",
+    total: Number(input.total) || 0,
+    courses,
   };
   if (!firebaseConfigured() || String(user.uid).startsWith("local_")) {
     const index = memoryScores.findIndex((item) => item.id === row.id);
@@ -332,11 +414,31 @@ export async function recordScore(user, input) {
       name: row.name,
       score: row.score,
       course: row.course,
+      total: row.total,
+      courses: row.courses,
       completedMs: row.completedMs,
     });
   } catch (error) {
     console.error("Could not publish leaderboard score", error?.message);
   }
+}
+
+async function payingStudents(now) {
+  if (promoActive(now)) return null;
+  const paying = new Set(memoryPremiumUids(now));
+  if (!firebaseConfigured()) return paying;
+  try {
+    const { db } = await firebaseServices();
+    const { Timestamp } = await import("firebase-admin/firestore");
+    const snap = await db
+      .collection("oracleUsers")
+      .where("premiumUntil", ">", Timestamp.fromMillis(now))
+      .get();
+    for (const doc of snap.docs) paying.add(doc.id);
+  } catch (error) {
+    console.error("Paying students could not be read", error?.message);
+  }
+  return paying;
 }
 
 export async function leaderboardFor(viewerUid) {
@@ -353,5 +455,6 @@ export async function leaderboardFor(viewerUid) {
       console.error("Leaderboard scores could not be read", error?.message);
     }
   }
-  return assembleBoard(rows, viewerUid || null);
+  const now = Date.now();
+  return assembleBoard(rows, viewerUid || null, now, await payingStudents(now));
 }
