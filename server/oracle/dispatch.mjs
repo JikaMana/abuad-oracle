@@ -17,6 +17,12 @@ function cleanString(value, max) {
   return typeof value === "string" ? value.slice(0, max) : "";
 }
 
+export function cleanTestId(value) {
+  if (typeof value === "number" && Number.isSafeInteger(value)) return String(value);
+  if (typeof value !== "string") return "";
+  return value.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 80);
+}
+
 function normaliseHistory(input) {
   const course = cleanString(input.course, 40);
   const topics = Array.isArray(input.topics)
@@ -28,8 +34,7 @@ function normaliseHistory(input) {
   const total = Number(input.total);
   const correct = Number(input.correct);
   const action = typeof input.action === "string" ? input.action : "complete";
-  const testId =
-    typeof input.id === "number" && Number.isSafeInteger(input.id) ? String(input.id) : "";
+  const testId = cleanTestId(input.id);
   const topicResults = Array.isArray(input.topicResults)
     ? input.topicResults
         .filter((topic) => topic && typeof topic.name === "string")
@@ -89,7 +94,10 @@ async function history(req, user) {
       topic: cleanString(answer.topic, 80),
       prompt: cleanString(answer.prompt, 2000),
       options: Array.isArray(answer.options)
-        ? answer.options.filter((option) => typeof option === "string").slice(0, 4).map((option) => option.slice(0, 500))
+        ? answer.options
+            .filter((option) => typeof option === "string")
+            .slice(0, 4)
+            .map((option) => option.slice(0, 500))
         : [],
       selected: Math.max(0, Math.min(Number(answer.selected) || 0, 3)),
       correctAnswer: Math.max(0, Math.min(Number(answer.correctAnswer) || 0, 3)),
@@ -202,8 +210,7 @@ export async function dispatchOracle(name, req) {
           return json(503, {
             code: "config",
             error:
-              error.publicMessage ||
-              "Account verification is not set up correctly on the server.",
+              error.publicMessage || "Account verification is not set up correctly on the server.",
           });
         }
         return json(401, {

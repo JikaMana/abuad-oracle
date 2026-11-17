@@ -42,12 +42,8 @@
   font-size: 0.75rem;
 }
 
-.oracle-nav-upgrade {
-  flex: 0 0 auto;
-  gap: 0.45rem;
-  padding: 0.58rem 0.8rem;
-  font-size: 0.72rem;
-  white-space: nowrap;
+.oracle-nav-upgrade-short {
+  display: none;
 }
 .oracle-nav-upgrade svg {
   width: 15px;
@@ -64,10 +60,6 @@
     500 0.62rem "JetBrains Mono",
     monospace;
 }
-.oracle-nav-upgrade-short {
-  display: none;
-}
-
 .oracle-account-trigger {
   display: inline-flex;
   min-height: 42px;
@@ -868,31 +860,6 @@
   }
 }
 
-@media (max-width: 640px) {
-  .nav-shell,
-  .nav-shell.is-stuck,
-  .nav-shell.fixed {
-    top: 0;
-    left: 0;
-    width: 100%;
-    transform: none;
-    border-radius: 0;
-    /* ... */
-  }
-  .oracle-nav-upgrade-full {
-    display: none;
-  }
-  .oracle-nav-upgrade-short {
-    display: inline;
-  }
-  .oracle-page main {
-    padding-top: 64px;
-  }
-  .oracle-intro {
-    padding-top: 0;
-  }
-}
-
 /* Oracle visual refinement */
 .nav-shell,
 .nav-shell.is-stuck {
@@ -1363,9 +1330,24 @@ select.oracle-select {
 }
 .oracle-results-grid {
   display: grid;
-  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
   margin-top: 1.4rem;
+  min-width: 0;
+}
+@media (min-width: 901px) {
+  .oracle-results-grid {
+    grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  }
+}
+.oracle-results,
+.oracle-results-review,
+.oracle-review-item,
+.oracle-review-item h4,
+.oracle-review-item p,
+.oracle-review-item li {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .oracle-results-topics h3,
 .oracle-results-review h3 {
@@ -1599,22 +1581,61 @@ select.oracle-select {
   }
 }
 @media (max-width: 640px) {
+  .nav-shell,
+  .nav-shell.is-stuck,
+  .nav-shell.fixed {
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: none;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+  }
   .nav-shell nav {
     display: none;
   }
   .nav-shell > div {
-    padding: 0 16px;
-  }
-  .nav-shell.fixed {
-    top: 8px;
-    width: calc(100% - 20px);
-    border-radius: 14px;
+    height: 56px;
+    min-width: 0;
+    gap: 8px;
+    padding: 0 12px;
   }
   .site-brand {
+    min-width: 0;
+    flex: 1 1 auto;
     font-size: 12px;
   }
   .oracle-nav-upgrade {
-    padding: 0.55rem 0.7rem;
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.72rem;
+  }
+  .oracle-nav-upgrade-full {
+    display: none;
+  }
+  .oracle-nav-upgrade-short {
+    display: inline;
+  }
+  .oracle-account-trigger {
+    min-width: 40px;
+    padding: 0.45rem;
+  }
+  .oracle-account-trigger span {
+    display: none;
+  }
+  .oracle-page main {
+    padding-top: 64px;
+  }
+  .oracle-intro {
+    padding-top: 0;
+  }
+  .oracle-test-panel,
+  .oracle-results,
+  .oracle-step-solution {
+    scroll-margin-top: 72px;
   }
   .oracle-upgrade-inner {
     grid-template-columns: 1fr;
