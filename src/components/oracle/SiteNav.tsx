@@ -15,7 +15,11 @@ export function SiteNav({
   onUpgrade: () => void;
 }) {
   const { user, confirmed } = useOracleAuth();
-  const label = user ? user.displayName || user.email || "Profile" : confirmed ? "Sign in" : "Account";
+  const label = user
+    ? user.displayName || user.email || "Profile"
+    : confirmed
+      ? "Sign in"
+      : "Account";
   const hideCommerce = paid && !promo;
 
   return (
@@ -26,7 +30,10 @@ export function SiteNav({
             BURHAN <b>TUTORS</b>
           </span>
         </Link>
-        <nav className="flex items-center gap-5 text-[13px] text-white/70" aria-label="Main navigation">
+        <nav
+          className="flex items-center gap-5 text-[13px] text-white/70"
+          aria-label="Main navigation"
+        >
           <Link to="/" className="hover:text-white">
             Academy
           </Link>
@@ -41,10 +48,18 @@ export function SiteNav({
         </nav>
         {hideCommerce ? null : (
           <button type="button" className="btn btn-clay oracle-nav-upgrade" onClick={onUpgrade}>
-            {promo ? "Free through 20 Nov" : "Go Premium"}
+            <span className="oracle-nav-upgrade-full">
+              {promo ? "Free through 20 Nov" : "Go Premium"}
+            </span>
+            <span className="oracle-nav-upgrade-short">{promo ? "Free" : "Premium"}</span>
           </button>
         )}
-        <button type="button" className="oracle-account-trigger" onClick={onAccount} aria-haspopup="dialog">
+        <button
+          type="button"
+          className="oracle-account-trigger"
+          onClick={onAccount}
+          aria-haspopup="dialog"
+        >
           <UserRound className="w-4 h-4" aria-hidden="true" />
           <span>{label}</span>
         </button>

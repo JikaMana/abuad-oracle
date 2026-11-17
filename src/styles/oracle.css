@@ -64,6 +64,10 @@
     500 0.62rem "JetBrains Mono",
     monospace;
 }
+.oracle-nav-upgrade-short {
+  display: none;
+}
+
 .oracle-account-trigger {
   display: inline-flex;
   min-height: 42px;
@@ -861,6 +865,31 @@
   }
   .oracle-starter-link {
     white-space: normal;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-shell,
+  .nav-shell.is-stuck,
+  .nav-shell.fixed {
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: none;
+    border-radius: 0;
+    /* ... */
+  }
+  .oracle-nav-upgrade-full {
+    display: none;
+  }
+  .oracle-nav-upgrade-short {
+    display: inline;
+  }
+  .oracle-page main {
+    padding-top: 64px;
+  }
+  .oracle-intro {
+    padding-top: 0;
   }
 }
 
