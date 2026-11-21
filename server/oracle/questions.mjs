@@ -1,9 +1,12 @@
 // @ts-nocheck
 /** Question assembly: past-question items, verified practice items, and de-duplication. */
 
+import { PAPER_QUESTIONS } from "./papers.mjs";
+
 export const PROMO_UNTIL = "2026-11-20";
 
 export const PAST_QUESTIONS = {
+  ...PAPER_QUESTIONS,
   "MTH 101": [
     {
       id: "mth101-z-sum",
@@ -2432,8 +2435,17 @@ function clone(item) {
 
 export function pickLocalQuestions({ course, topics, count, avoid, batch = 0, salt = "" }) {
   const blocked = [...(avoid || [])];
-  const picked = [];
   const pqs = pqPool(course, topics).filter((item) => isFresh(item.prompt, blocked));
+  if (PAPER_QUESTIONS[course] && pqs.length) {
+    const paper = [];
+    for (let i = 0; i < pqs.length && paper.length < count; i++) {
+      const item = pqs[(batch * count + i) % pqs.length];
+      if (paper.some((row) => row.prompt === item.prompt)) continue;
+      paper.push(clone(item));
+    }
+    return paper.slice(0, count);
+  }
+  const picked = [];
   const wantPq = pqs.length > 0 && (count >= 2 || batch % 2 === 0) ? 1 : 0;
   if (wantPq) {
     const item = pqs[batch % pqs.length];

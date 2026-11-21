@@ -156,6 +156,39 @@ Do not claim a newly invented question is a verbatim past question.`,
 
 Do not claim a newly invented question is a verbatim past question.`,
   },
+  "GST 111": {
+    label: "GST 111",
+    name: "Communication in English",
+    grounded: true,
+    topics: ["Full paper"],
+    source: `ABUAD GST 111 Communication in English, taken as one paper. Do not split the course into topics.
+
+Cover reading (SQ3R, scanning, retention), listening barriers, speech sounds (voiced and voiceless pairs), grammar (coordinating conjunctions, reciprocal pronouns, primary auxiliaries, relative clauses), library ideas (Dewey Decimal, Library of Congress, Gutenberg's printing press), and the comprehension themes in the past papers (African cinema as a one-way street, lack of capital and equipment).
+
+Questions may be drawn from any part of the subject in one sitting. Do not claim a newly invented question is a verbatim past question.`,
+  },
+  "AFE 101": {
+    label: "AFE 101",
+    name: "Contemporary Health Issues",
+    grounded: true,
+    topics: ["Full paper"],
+    source: `ABUAD AFE 101 Contemporary Health Issues / Health Awareness, taken as one paper. Do not split the course into topics.
+
+Use the past-paper scope: WHO definition of health, wellness, health education, infectious and non-infectious disease, illness versus disease, pathogens, treatment and cure, intellectual, emotional, spiritual and occupational wellness, locus of control, smoking, and drugs (hallucinogens, the 80/20 is not this course).
+
+Questions may be drawn from any part of the subject in one sitting. Do not claim a newly invented question is a verbatim past question.`,
+  },
+  "AFE 103": {
+    label: "AFE 103",
+    name: "Leadership",
+    grounded: true,
+    topics: ["Full paper"],
+    source: `ABUAD AFE 103 Leadership, taken as one paper. Do not split the course into topics.
+
+Use the past-paper scope: autocratic and democratic leadership, definitions of leadership (Jacobs and Jacques, Hollander, Northouse), charismatic, traditional, situational, appointed, functional and principle-centred leaders, oral communication and presentations, and the 80/20 principle.
+
+Questions may be drawn from any part of the subject in one sitting. Do not claim a newly invented question is a verbatim past question.`,
+  },
 };
 
 export const FREE_DAILY = 10;

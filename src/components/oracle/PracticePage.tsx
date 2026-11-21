@@ -50,6 +50,13 @@ export function PracticePage() {
   }, []);
 
   useEffect(() => {
+    if (practice.phase !== "results") return;
+    document
+      .getElementById("oracle-results")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [practice.phase]);
+
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const reference = params.get("reference") || params.get("trxref");
     if (
@@ -242,45 +249,57 @@ export function PracticePage() {
                       ))}
                     </select>
                   </div>
-                  <fieldset className="or-step">
-                    <legend className="or-step-title">
-                      <b>2</b>Choose topics
-                    </legend>
-                    <div className="or-step-tools">
-                      <button
-                        type="button"
-                        className="oracle-text-button"
-                        onClick={() => practice.setSelectedTopics(practice.course?.topics || [])}
-                      >
-                        Select all
-                      </button>
-                      <button
-                        type="button"
-                        className="oracle-text-button"
-                        onClick={() => practice.setSelectedTopics([])}
-                      >
-                        Clear
-                      </button>
+                  {practice.course && practice.course.topics.length <= 1 ? (
+                    <div className="or-step">
+                      <p className="or-step-title">
+                        <b>2</b>Whole paper
+                      </p>
+                      <p className="or-hint">
+                        {practice.course.label} is taken as one subject. Questions can come from any
+                        part of the paper.
+                      </p>
                     </div>
-                    <div className="oracle-topic-options">
-                      {(practice.course?.topics || []).map((topic) => (
-                        <label key={topic} className="oracle-topic-choice">
-                          <input
-                            type="checkbox"
-                            checked={practice.selectedTopics.includes(topic)}
-                            onChange={(event) =>
-                              practice.setSelectedTopics((current) =>
-                                event.target.checked
-                                  ? [...current, topic]
-                                  : current.filter((item) => item !== topic),
-                              )
-                            }
-                          />
-                          <span>{topic}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </fieldset>
+                  ) : (
+                    <fieldset className="or-step">
+                      <legend className="or-step-title">
+                        <b>2</b>Choose topics
+                      </legend>
+                      <div className="or-step-tools">
+                        <button
+                          type="button"
+                          className="oracle-text-button"
+                          onClick={() => practice.setSelectedTopics(practice.course?.topics || [])}
+                        >
+                          Select all
+                        </button>
+                        <button
+                          type="button"
+                          className="oracle-text-button"
+                          onClick={() => practice.setSelectedTopics([])}
+                        >
+                          Clear
+                        </button>
+                      </div>
+                      <div className="oracle-topic-options">
+                        {(practice.course?.topics || []).map((topic) => (
+                          <label key={topic} className="oracle-topic-choice">
+                            <input
+                              type="checkbox"
+                              checked={practice.selectedTopics.includes(topic)}
+                              onChange={(event) =>
+                                practice.setSelectedTopics((current) =>
+                                  event.target.checked
+                                    ? [...current, topic]
+                                    : current.filter((item) => item !== topic),
+                                )
+                              }
+                            />
+                            <span>{topic}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  )}
                   <div className="or-step">
                     <label className="or-step-title" htmlFor="question-count">
                       <b>3</b>Number of questions
